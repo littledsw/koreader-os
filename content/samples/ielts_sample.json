@@ -1,0 +1,183 @@
+[
+  {
+    "id": "ielts:ambiguous",
+    "word": "ambiguous",
+    "ipa": "/æmˈbɪɡjuəs/",
+    "pos": ["adj."],
+    "def_zh": "模棱两可的；含糊不清的",
+    "def_en": "having more than one possible meaning, so it is not clear which one is intended",
+    "roots": [
+      {"form": "ambi-", "gloss_zh": "两边", "note": "拉丁前缀，同 ambivalent、ambidextrous"},
+      {"form": "-ag-", "gloss_zh": "赶、驱动", "note": "拉丁 agere，同 agent、agenda、act"},
+      {"form": "-ous", "gloss_zh": "形容词后缀", "note": ""}
+    ],
+    "root_story": "拉丁语 ambigere 由 ambi-（两边）和 agere（赶、驱动）组成，原义是「把……往两边赶」。想象牧人挥鞭赶羊，羊群一半往左、一半往右，队伍就散了。一个说法被同时推向两个方向，听的人自然抓不住落点——这就是「模棱两可」。同族的 ambition 更直白：古罗马政客四处奔走（ambire）拉票，后来才引申出「野心」。",
+    "family": [
+      {"word": "ambivalent", "gloss_zh": "（对同一事）矛盾心理的"},
+      {"word": "ambidextrous", "gloss_zh": "左右手都灵巧的"},
+      {"word": "ambition", "gloss_zh": "野心；抱负"},
+      {"word": "agent", "gloss_zh": "代理人；作用剂"},
+      {"word": "agenda", "gloss_zh": "议程"}
+    ],
+    "synonyms": ["vague", "equivocal", "unclear"],
+    "antonyms": ["explicit", "unambiguous", "clear"],
+    "examples": [
+      {
+        "en": "The contract's wording is deliberately ambiguous, leaving room for both sides to interpret it in their favour.",
+        "zh": "合同措辞故意含糊，给双方都留了解释空间。"
+      },
+      {
+        "en": "His answer was ambiguous: neither a yes nor a no.",
+        "zh": "他的回答模棱两可，既不是同意也不是拒绝。"
+      }
+    ],
+    "collocations": ["deliberately ambiguous", "an ambiguous statement", "remain ambiguous"],
+    "ielts_topics": ["法律", "商业", "社会"],
+    "level": "core"
+  },
+  {
+    "id": "ielts:sustainable",
+    "word": "sustainable",
+    "ipa": "/səˈsteɪnəbl/",
+    "pos": ["adj."],
+    "def_zh": "可持续的；能维持下去的",
+    "def_en": "able to continue over a long period without using up resources or causing harm",
+    "roots": [
+      {"form": "sus-", "gloss_zh": "在下面（sub- 的变体）", "note": "同 suspend、suspect"},
+      {"form": "-tain-", "gloss_zh": "握住、托住", "note": "拉丁 tenere，同 tenant、contain"},
+      {"form": "-able", "gloss_zh": "能……的", "note": ""}
+    ],
+    "root_story": "拉丁 sustinere 字面是「从下面托住」——一只手在底下撑着，东西才不倒。tenere 是「握住」，于是有了 tenant（握着房子的人，房客）、contain（一起握住，容纳）、maintain（用手握住，维持）。当一件事能一直被托住、不塌，它就是「可持续的」。今天讲可持续发展，本质还是这个动作：别让底下的手松开。",
+    "family": [
+      {"word": "sustain", "gloss_zh": "维持；支撑"},
+      {"word": "tenant", "gloss_zh": "房客；租户"},
+      {"word": "contain", "gloss_zh": "容纳；包含"},
+      {"word": "maintain", "gloss_zh": "维持；保养"},
+      {"word": "retain", "gloss_zh": "保留"},
+      {"word": "detain", "gloss_zh": "扣留；耽搁"},
+      {"word": "tenacious", "gloss_zh": "顽强的；紧握不放的"}
+    ],
+    "synonyms": ["viable", "maintainable", "enduring"],
+    "antonyms": ["unsustainable"],
+    "examples": [
+      {
+        "en": "Cities need sustainable transport systems, not more roads for private cars.",
+        "zh": "城市需要可持续的交通系统，而不是更多私家车道。"
+      },
+      {
+        "en": "The factory's water use is no longer sustainable in a drought-prone region.",
+        "zh": "在多旱地区，这家工厂的用水方式已不可持续。"
+      }
+    ],
+    "collocations": ["sustainable development", "environmentally sustainable", "sustainable growth"],
+    "ielts_topics": ["环境", "社会"],
+    "level": "core"
+  },
+  {
+    "id": "ielts:deteriorate",
+    "word": "deteriorate",
+    "ipa": "/dɪˈtɪəriəreɪt/",
+    "pos": ["v."],
+    "def_zh": "恶化；变坏；退化",
+    "def_en": "to become worse in quality or condition",
+    "roots": [
+      {"form": "de-", "gloss_zh": "向下", "note": "同 decline、descend"},
+      {"form": "-terior-", "gloss_zh": "更……的（比较级词干）", "note": "拉丁比较级，同 inferior、superior"},
+      {"form": "-ate", "gloss_zh": "动词后缀", "note": ""}
+    ],
+    "root_story": "罗马人比较两样东西，用 -ior 结尾：superior 更高、inferior 更低、interior 更里、exterior 更外。deterior 就是「更下一等」，加上 -ate 变成「一路往下比」，也就是「恶化」。这个词的骨架其实是一个比较级：不是「坏了」，而是「越来越坏」，所以它天然带过程感。",
+    "family": [
+      {"word": "inferior", "gloss_zh": "较差的；下级的"},
+      {"word": "superior", "gloss_zh": "较好的；上级的"},
+      {"word": "interior", "gloss_zh": "内部的"},
+      {"word": "exterior", "gloss_zh": "外部的"},
+      {"word": "ulterior", "gloss_zh": "较远的；别有用心的"}
+    ],
+    "synonyms": ["worsen", "decline", "degenerate"],
+    "antonyms": ["improve", "ameliorate"],
+    "examples": [
+      {
+        "en": "Air quality has deteriorated sharply since the factory opened.",
+        "zh": "工厂开工以来空气质量急剧恶化。"
+      },
+      {
+        "en": "Her health deteriorated to the point where she could no longer work.",
+        "zh": "她的健康恶化到无法工作的地步。"
+      }
+    ],
+    "collocations": ["deteriorate rapidly", "deteriorating conditions"],
+    "ielts_topics": ["健康", "环境"],
+    "level": "core"
+  },
+  {
+    "id": "ielts:benevolent",
+    "word": "benevolent",
+    "ipa": "/bəˈnevələnt/",
+    "pos": ["adj."],
+    "def_zh": "仁慈的；善意的；慈善的",
+    "def_en": "kind, generous and helpful towards other people",
+    "roots": [
+      {"form": "bene-", "gloss_zh": "好", "note": "拉丁副词 bene，同 benefit、benign"},
+      {"form": "-vol-", "gloss_zh": "意愿", "note": "拉丁 velle「愿意」，同 voluntary、volition"},
+      {"form": "-ent", "gloss_zh": "形容词后缀", "note": ""}
+    ],
+    "root_story": "拉丁 bene velle 就是「祝好、怀着好意」。vol- 是「愿意」：volition 意志、voluntary 自愿、volunteer 志愿者，都是「我愿意」。把 bene（好）放在前面，好意就有了方向；反过来 malevolent 就是把「坏」放在同一个位置上。英语用一对反义词，把「善意」钉在了词根上。",
+    "family": [
+      {"word": "malevolent", "gloss_zh": "恶意的"},
+      {"word": "volition", "gloss_zh": "意志；自愿选择"},
+      {"word": "voluntary", "gloss_zh": "自愿的"},
+      {"word": "volunteer", "gloss_zh": "志愿者"}
+    ],
+    "synonyms": ["kind", "charitable", "generous"],
+    "antonyms": ["malevolent", "cruel"],
+    "examples": [
+      {
+        "en": "The library was funded by a benevolent local businessman.",
+        "zh": "这座图书馆由一位好心的本地商人出资兴建。"
+      },
+      {
+        "en": "He gave the students a benevolent smile.",
+        "zh": "他朝学生们露出善意的微笑。"
+      }
+    ],
+    "collocations": ["benevolent fund", "benevolent smile"],
+    "ielts_topics": ["社会", "文化"],
+    "level": "extended"
+  },
+  {
+    "id": "ielts:consensus",
+    "word": "consensus",
+    "ipa": "/kənˈsensəs/",
+    "pos": ["n."],
+    "def_zh": "共识；一致意见",
+    "def_en": "an opinion that everyone in a group agrees with",
+    "roots": [
+      {"form": "con-", "gloss_zh": "共同、一起", "note": "同 consent、connect"},
+      {"form": "-sens-", "gloss_zh": "感觉、认为", "note": "拉丁 sentire，同 sense、sentiment"},
+      {"form": "-us", "gloss_zh": "拉丁名词词尾", "note": ""}
+    ],
+    "root_story": "拉丁 consensus 原义是「共同感觉」——不是投票投出来的，而是大家「感觉到一块儿去了」。sentire 是「感觉、认为」，所以 consent 是「共同同意」，dissent 是「感觉不同」（反对），resent 是「反复感觉」（怨恨），sentiment 是「感情」。一个「同感」，就是共识。",
+    "family": [
+      {"word": "consent", "gloss_zh": "同意"},
+      {"word": "dissent", "gloss_zh": "异议；不同意"},
+      {"word": "resent", "gloss_zh": "怨恨"},
+      {"word": "sentiment", "gloss_zh": "情感；观点"},
+      {"word": "sense", "gloss_zh": "感觉；意义"}
+    ],
+    "synonyms": ["agreement", "accord", "unanimity"],
+    "antonyms": ["disagreement", "dissent"],
+    "examples": [
+      {
+        "en": "There is a growing consensus among scientists that the climate is changing faster than predicted.",
+        "zh": "科学家们日益达成共识：气候变化比预期更快。"
+      },
+      {
+        "en": "The committee reached a consensus after three hours of discussion.",
+        "zh": "委员会讨论三小时后达成共识。"
+      }
+    ],
+    "collocations": ["reach a consensus", "broad consensus", "consensus on"],
+    "ielts_topics": ["社会", "科技", "环境"],
+    "level": "core"
+  }
+]

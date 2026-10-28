@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="fonts/package/lxgwwenkai-regular.css">
+<link rel="stylesheet" href="fonts/package/lxgwwenkai-bold.css">
+<style>
+  :root{
+    --paper:#F4F1E8; --ink:#23231F; --sub:#6F6C63; --faint:#A9A69B;
+    --rule:#D6D2C4; --wash:#E8E3D5; --hl:#F0E2B4;
+    --red:#B14A3B; --green:#4F6B4A; --amber:#9A6A2F; --blue:#3E5C74;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#8a8a86;font-family:Arial,"LXGW WenKai",sans-serif;}
+  .screen{width:1080px;height:1430px;background:var(--paper);color:var(--ink);
+    padding:64px 84px;position:relative;overflow:hidden;margin-bottom:24px;}
+  .kai{font-family:"LXGW WenKai",Arial,serif;}
+  .rule{height:1px;background:var(--rule);}
+  .rule-strong{height:2px;background:var(--ink);}
+  .status{font-size:22px;color:var(--sub);letter-spacing:.06em;}
+
+  /* 来源标记 */
+  .src{font-size:17px;color:var(--faint);letter-spacing:.06em;white-space:nowrap;}
+  .src:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
+              background:var(--faint);margin-right:7px;vertical-align:2px;}
+  .src.wx{color:var(--green);}
+  .src.wx:before{background:var(--green);}
+  .tag{font-size:15px;padding:2px 7px;border:1px solid var(--rule);color:var(--sub);margin-left:10px;vertical-align:3px;}
+  .tag.wx{border-color:var(--green);color:var(--green);}
+
+  .boot{display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .mark{width:132px;height:132px;border:1px solid var(--ink);border-radius:50%;
+        display:flex;align-items:center;justify-content:center;margin-bottom:46px;}
+  .mark i{display:block;width:2px;height:54px;background:var(--ink);position:relative;}
+  .mark i:before,.mark i:after{content:"";position:absolute;left:-16px;width:34px;height:1px;background:var(--ink);}
+  .mark i:before{top:10px;} .mark i:after{bottom:10px;}
+  .wordmark{font-family:"LXGW WenKai",serif;font-size:66px;letter-spacing:.42em;text-indent:.42em;}
+  .tagline{margin-top:18px;font-size:20px;color:var(--faint);letter-spacing:.34em;}
+  .boot-foot{position:absolute;left:84px;right:84px;bottom:70px;text-align:center;font-size:18px;color:var(--faint);letter-spacing:.16em;}
+  .boot-bar{position:absolute;left:0;bottom:0;height:3px;background:var(--red);}
+
+  .topbar{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;}
+  .brand{font-family:"LXGW WenKai",serif;font-size:38px;letter-spacing:.12em;}
+  .hero{display:flex;gap:40px;margin-top:44px;}
+  .cover{width:186px;height:262px;border:1px solid var(--ink);display:flex;flex:none;
+         align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .cover:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--red);}
+  .cover.wx:before{background:var(--green);}
+  .cover span{font-family:"LXGW WenKai",serif;font-size:25px;line-height:1.55;letter-spacing:.08em;text-align:center;}
+  .hero-info{flex:1;padding-top:6px;}
+  .kicker{font-size:20px;color:var(--red);letter-spacing:.22em;}
+  .hero-info h1{font-family:"LXGW WenKai",serif;font-size:38px;font-weight:400;margin:14px 0 8px;}
+  .author{font-size:22px;color:var(--sub);}
+  .progress{height:4px;background:var(--wash);margin:26px 0 12px;}
+  .progress i{display:block;height:4px;background:var(--red);}
+  .progress.wx i{background:var(--green);}
+  .meta{font-size:20px;color:var(--sub);}
+  .section-label{margin:52px 0 4px;font-size:20px;color:var(--sub);letter-spacing:.24em;}
+  .list{list-style:none;}
+  .list li{display:flex;align-items:baseline;padding:24px 0;border-bottom:1px solid var(--rule);}
+  .list .idx{width:52px;font-size:18px;color:var(--faint);}
+  .list .t{font-family:"LXGW WenKai",serif;font-size:29px;}
+  .list .sp{flex:1;}
+  .list .a{font-size:20px;color:var(--sub);margin-right:24px;}
+  .list .p{font-size:20px;color:var(--sub);width:64px;text-align:right;}
+  .tabs{display:flex;gap:36px;align-items:baseline;margin:34px 0 4px;border-bottom:1px solid var(--rule);}
+  .tabs span{font-family:"LXGW WenKai",serif;font-size:25px;color:var(--faint);padding-bottom:14px;letter-spacing:.06em;}
+  .tabs span.on{color:var(--ink);border-bottom:2px solid var(--red);}
+  .tabs .count{margin-left:auto;font-size:19px;color:var(--faint);letter-spacing:.04em;}
+  .row{display:flex;align-items:center;gap:22px;padding:13px 0;border-bottom:1px solid var(--rule);}
+  .mini{width:64px;height:90px;border:1px solid var(--ink);flex:none;position:relative;overflow:hidden;background:#EDE9DC;}
+  .mini:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--red);}
+  .mini.wx:before{background:var(--green);}
+  .mini span{position:absolute;left:8px;top:8px;writing-mode:vertical-rl;font-family:"LXGW WenKai",serif;
+             font-size:11px;line-height:1.35;letter-spacing:.04em;}
+  .row .info{flex:1;}
+  .row .n{font-family:"LXGW WenKai",serif;font-size:26px;}
+  .row .m{font-size:17px;color:var(--faint);margin-top:5px;letter-spacing:.02em;}
+  .row .p{font-size:20px;color:var(--sub);width:62px;text-align:right;}
+  .shelf-stat{margin-top:22px;font-size:19px;color:var(--faint);letter-spacing:.08em;}
+  .tabbar{position:absolute;left:84px;right:84px;bottom:46px;display:flex;justify-content:space-between;
+          padding-top:26px;border-top:1px solid var(--rule);font-family:"LXGW WenKai",serif;font-size:24px;color:var(--faint);}
+  .tabbar .on{color:var(--ink);border-bottom:2px solid var(--red);padding-bottom:8px;}
+
+  .reading{padding:52px 128px 40px;}
+  .read-top{display:flex;justify-content:space-between;align-items:center;font-size:20px;color:var(--sub);letter-spacing:.04em;margin-bottom:14px;}
+  .read-top .rh{display:flex;align-items:center;gap:12px;}
+  .reading .body{margin-top:46px;font-family:"LXGW WenKai",serif;font-size:27px;line-height:1.92;text-align:justify;}
+  .reading .body p{text-indent:2em;margin-bottom:14px;}
+  .reading mark{background:var(--hl);color:inherit;}
+  .read-foot{position:absolute;left:128px;right:128px;bottom:44px;display:flex;justify-content:space-between;
+             align-items:baseline;font-size:19px;color:var(--sub);letter-spacing:.04em;}
+  .sidebar-progress{position:absolute;right:26px;top:52px;bottom:44px;width:2px;background:var(--wash);}
+  .sidebar-progress i{display:block;width:2px;background:var(--red);height:42%;}
+
+  .sel-sheet{position:absolute;left:0;right:0;bottom:0;height:252px;background:var(--paper);border-top:2px solid var(--ink);padding:32px 84px;}
+  .sel-quote{font-family:"LXGW WenKai",serif;font-size:21px;line-height:1.8;color:var(--sub);}
+  .sel-actions{display:flex;gap:0;margin-top:26px;border:1px solid var(--ink);}
+  .sel-actions span{flex:1;text-align:center;padding:20px 0;font-family:"LXGW WenKai",serif;font-size:24px;border-right:1px solid var(--rule);}
+  .sel-actions span:last-child{border-right:0;}
+  .sel-actions span.on{background:var(--ink);color:var(--paper);}
+  .sel-actions span.quiet{color:var(--sub);}
+  .sel-tip{margin-top:16px;font-size:18px;color:var(--green);letter-spacing:.02em;}
+  .selbar{position:absolute;left:50%;transform:translateX(-50%);top:392px;display:flex;
+          border:1px solid var(--ink);background:var(--paper);}
+  .selbar div{padding:16px 30px;font-family:"LXGW WenKai",serif;font-size:23px;border-right:1px solid var(--rule);}
+  .selbar div:last-child{border-right:0;}
+  .selbar div.on{background:var(--ink);color:var(--paper);}
+  .sel-hint{position:absolute;left:50%;transform:translateX(-50%);top:352px;font-size:17px;color:var(--faint);letter-spacing:.14em;}
+  .note-hint{position:absolute;left:128px;right:128px;bottom:88px;text-align:center;font-size:18px;color:var(--green);letter-spacing:.04em;}
+
+  .dim{opacity:.22;}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--ink);
+         padding:38px 84px 44px;height:520px;}
+  .sheet-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;}
+  .sheet-head .t{font-family:"LXGW WenKai",serif;font-size:28px;}
+  .sheet-head .s{font-size:19px;color:var(--sub);}
+  .note-box{border:1px solid var(--rule);height:232px;padding:22px;font-family:"LXGW WenKai",serif;font-size:24px;line-height:1.85;}
+  .caret{display:inline-block;width:2px;height:26px;background:var(--red);vertical-align:-4px;}
+  .sheet-foot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
+  .sheet-foot .tip{font-size:18px;color:var(--green);}
+  .btns{display:flex;gap:16px;}
+  .btn{padding:13px 38px;border:1px solid var(--ink);font-family:"LXGW WenKai",serif;font-size:24px;}
+  .btn.primary{background:var(--ink);color:var(--paper);}
+  .btn.ghost{border-color:var(--rule);color:var(--sub);}
+
+  .toc-panel{position:absolute;right:0;top:0;bottom:0;width:680px;background:var(--paper);border-left:2px solid var(--ink);
+             padding:56px 54px;}
+  .toc-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:18px;border-bottom:1px solid var(--rule);}
+  .toc-head .t{font-family:"LXGW WenKai",serif;font-size:30px;letter-spacing:.1em;}
+  .toc-head .s{font-size:18px;color:var(--sub);}
+  .toc-list{list-style:none;margin-top:6px;}
+  .toc-list li{display:flex;gap:14px;padding:16px 0;font-family:"LXGW WenKai",serif;font-size:23px;color:var(--sub);}
+  .toc-list li.on{color:var(--ink);}
+  .toc-list li.on:before{content:"";width:4px;background:var(--red);}
+  .toc-list li .pg{margin-left:auto;font-size:17px;color:var(--faint);}
+
+  .wordtop{display:flex;justify-content:space-between;font-size:20px;color:var(--sub);letter-spacing:.18em;}
+  .word{font-family:Arial,sans-serif;font-size:76px;font-weight:700;margin:30px 0 4px;}
+  .ipa{font-size:25px;color:var(--sub);}
+  .pos{font-size:21px;color:var(--sub);margin-left:12px;}
+  .def{font-family:"LXGW WenKai",serif;font-size:30px;margin:18px 0 22px;}
+  .roots{display:flex;gap:16px;padding:22px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:22px;}
+  .roots b{font-family:Arial,sans-serif;}
+  .roots span{color:var(--sub);}
+  .story{font-family:"LXGW WenKai",serif;font-size:22px;line-height:1.9;margin:20px 0 14px;text-align:justify;}
+  .family{font-size:20px;color:var(--sub);line-height:1.85;}
+  .family em{font-style:normal;color:var(--ink);}
+  .syn{margin-top:20px;font-size:21px;line-height:2.05;}
+  .syn .lab{display:inline-block;width:78px;color:var(--faint);font-size:18px;}
+  .coll{margin-top:6px;font-size:21px;line-height:2.05;}
+  .coll .lab{display:inline-block;width:78px;color:var(--faint);font-size:18px;}
+  .ex{margin-top:14px;font-size:21px;line-height:1.7;}
+  .ex .zh{font-family:"LXGW WenKai",serif;color:var(--sub);font-size:20px;}
+  .actions{position:absolute;left:84px;right:84px;bottom:44px;display:flex;gap:18px;}
+  .actions div{flex:1;height:88px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;
+               font-family:"LXGW WenKai",serif;font-size:26px;letter-spacing:.1em;}
+  .actions div.dim{border-color:var(--rule);color:var(--sub);}
+  .actions div.good{background:var(--ink);color:var(--paper);}
+  .streak{position:absolute;left:84px;bottom:152px;font-size:19px;color:var(--sub);}
+  .streak b{font-family:Arial,sans-serif;color:var(--red);}
+
+  .atlas-top{display:flex;justify-content:space-between;font-size:20px;color:var(--sub);letter-spacing:.18em;}
+  .figure{margin-top:24px;height:500px;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;position:relative;background:#EDF0E7;}
+  .figure .cap{position:absolute;left:18px;bottom:14px;font-size:17px;color:var(--sub);}
+  .atlas-name{display:flex;align-items:baseline;gap:18px;margin-top:24px;}
+  .atlas-name h1{font-family:"LXGW WenKai",serif;font-size:46px;font-weight:400;letter-spacing:.06em;}
+  .atlas-name .en{font-size:23px;color:var(--sub);}
+  .latin{font-style:italic;font-size:20px;color:var(--sub);margin-top:4px;}
+  .traits{margin-top:18px;font-size:22px;line-height:1.8;}
+  .traits div{display:flex;gap:14px;}
+  .traits i{font-style:normal;color:var(--faint);width:26px;}
+  .badge{display:inline-block;border:1px solid var(--green);color:var(--green);padding:5px 12px;font-size:19px;letter-spacing:.12em;margin-top:14px;}
+  .atlas-meta{margin-top:18px;font-size:21px;line-height:1.9;}
+  .atlas-meta .lab{display:inline-block;width:78px;color:var(--faint);font-size:18px;}
+  .credit{text-align:right;font-size:16px;color:var(--faint);margin-top:10px;letter-spacing:.04em;}
+  .related{margin-top:16px;font-size:21px;line-height:1.9;}
+  .related .lab{display:inline-block;width:78px;color:var(--faint);font-size:18px;}
+  .atlas-nav{position:absolute;left:84px;right:84px;bottom:44px;display:flex;justify-content:space-between;
+             padding-top:20px;border-top:1px solid var(--rule);font-size:20px;color:var(--sub);}
+
+  .set-row{display:flex;align-items:center;justify-content:space-between;padding:26px 0;border-bottom:1px solid var(--rule);}
+  .set-row .k{font-family:"LXGW WenKai",serif;font-size:25px;}
+  .set-row .v{font-size:21px;color:var(--sub);}
+  .set-row .v em{font-style:normal;color:var(--red);}
+  .seg{display:flex;border:1px solid var(--ink);}
+  .seg span{padding:7px 20px;font-size:19px;font-family:"LXGW WenKai",serif;}
+  .seg span.on{background:var(--ink);color:var(--paper);}
+  .slider{width:340px;height:2px;background:var(--wash);position:relative;}
+  .slider i{position:absolute;top:-9px;width:20px;height:20px;border:1px solid var(--ink);background:var(--paper);border-radius:50%;}
+  .group-label{margin:36px 0 2px;font-size:19px;color:var(--faint);letter-spacing:.22em;}
+
+  /* 云端书架 */
+  .cloud-row{display:flex;align-items:center;gap:18px;padding:26px 0;border-bottom:1px solid var(--rule);}
+  .cloud-row .ct{flex:1;}
+  .cloud-row .ct .n{font-family:"LXGW WenKai",serif;font-size:28px;}
+  .cloud-row .ct .m{font-size:18px;color:var(--faint);margin-top:4px;}
+  .cloud-row .act{border:1px solid var(--ink);padding:9px 20px;font-size:19px;font-family:"LXGW WenKai",serif;}
+  .cloud-row .act.pending{border-color:var(--rule);color:var(--sub);}
+  .cloud-row .pct{font-size:19px;color:var(--green);width:64px;text-align:right;}
+  .sync-bar{display:flex;justify-content:space-between;align-items:baseline;margin-top:34px;padding-top:22px;border-top:1px solid var(--rule);font-size:19px;color:var(--sub);}
+
+  /* 弹窗 */
+  .mask{position:absolute;inset:0;background:rgba(244,241,232,.82);}
+  .modal{position:absolute;left:84px;right:84px;top:50%;transform:translateY(-50%);border:1px solid var(--ink);background:var(--paper);padding:44px 48px;}
+  .modal h2{font-family:"LXGW WenKai",serif;font-size:30px;font-weight:400;margin-bottom:8px;}
+  .modal .sub{font-size:19px;color:var(--sub);}
+  .bar{height:6px;background:var(--wash);margin:32px 0 14px;}
+  .bar i{display:block;height:6px;background:var(--red);}
+  .modal .step{font-size:19px;color:var(--sub);display:flex;justify-content:space-between;}
+  .modal .foot{display:flex;justify-content:flex-end;gap:16px;margin-top:34px;}
+
+  /* 词典卡 */
+  .dict{position:absolute;left:84px;right:84px;bottom:120px;background:var(--paper);border:1px solid var(--ink);padding:28px 32px;}
+  .dict .w{font-family:"LXGW WenKai",serif;font-size:34px;}
+  .dict .py{font-size:20px;color:var(--sub);margin-left:14px;}
+  .dict .d{font-family:"LXGW WenKai",serif;font-size:22px;margin:14px 0 18px;color:#33332E;}
+  .dict .row{display:flex;gap:14px;}
+  .dict .row span{border:1px solid var(--ink);padding:8px 22px;font-size:20px;font-family:"LXGW WenKai",serif;}
+  .dict .row span.pri{background:var(--ink);color:var(--paper);}
+  .today-nums{display:flex;margin-top:34px;border:1px solid var(--rule);}
+  .today-nums div{flex:1;text-align:center;padding:30px 0;border-right:1px solid var(--rule);}
+  .today-nums div:last-child{border-right:0;}
+  .today-nums b{display:block;font-family:Arial,sans-serif;font-size:52px;font-weight:700;}
+  .today-nums span{font-size:18px;color:var(--sub);}
+  .goal{margin-top:34px;}
+  .goal-line{display:flex;justify-content:space-between;font-size:21px;color:var(--sub);}
+  .bar{height:6px;background:var(--wash);margin-top:14px;}
+  .bar i{display:block;height:6px;background:var(--red);}
+  .bar.sm{height:4px;margin-top:10px;width:100%;}
+  .bar.sm i{height:4px;background:var(--ink);}
+  .goal-foot{font-size:18px;color:var(--faint);margin-top:12px;}
+  .big-btn{margin-top:40px;background:var(--ink);color:var(--paper);text-align:center;padding:26px;font-family:"LXGW WenKai",serif;font-size:26px;letter-spacing:.06em;}
+  .ghost-btn{margin-top:16px;border:1px solid var(--ink);text-align:center;padding:22px;font-family:"LXGW WenKai",serif;font-size:24px;}
+  .book{display:flex;align-items:center;gap:26px;padding:24px 0;border-bottom:1px solid var(--rule);}
+  .bk{width:78px;height:108px;border:1px solid var(--ink);flex:none;position:relative;overflow:hidden;background:#EDE9DC;}
+  .bk:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--green);}
+  .bk span{position:absolute;left:10px;top:10px;writing-mode:vertical-rl;font-family:"LXGW WenKai",serif;font-size:12px;}
+  .bk-info{flex:1;}
+  .bk-t{font-family:"LXGW WenKai",serif;font-size:26px;}
+  .bk-s{font-size:17px;color:var(--sub);margin-top:6px;}
+  .bk-p{font-size:21px;color:var(--sub);}
+  .hl-word{font-family:Arial,sans-serif;font-size:44px;font-weight:700;margin-top:30px;}
+  .hl-hint{font-size:19px;color:var(--sub);margin-top:6px;}
+  .compose2{margin-top:24px;border:1px solid var(--rule);height:170px;padding:24px;font-size:23px;line-height:1.7;}
+  .caret{display:inline-block;width:2px;height:26px;background:var(--red);vertical-align:-4px;}
+  .fix{border:1px solid var(--rule);padding:22px 24px;margin-top:12px;}
+  .fix-hd{display:flex;justify-content:space-between;align-items:baseline;font-size:20px;margin-bottom:14px;}
+  .fix-hd .ok{color:var(--green);}
+  .fix-hd .band{border:1px solid var(--ink);padding:3px 12px;font-size:18px;}
+  .fix-item{font-size:19px;line-height:1.7;color:#3b3b36;margin-top:10px;}
+  .fix-item .type{display:inline-block;width:58px;color:var(--faint);font-size:17px;}
+  .fix-item b{font-weight:700;}
+  .fix-sug{margin-top:14px;font-size:19px;color:var(--green);line-height:1.6;}
+  .queue .q{display:flex;align-items:center;gap:22px;padding:26px 0;border-bottom:1px solid var(--rule);}
+  .q-n{font-family:Arial,sans-serif;font-size:38px;font-weight:700;width:60px;}
+  .q-t{font-family:"LXGW WenKai",serif;font-size:24px;}
+  .q-s{font-size:17px;color:var(--sub);margin-top:4px;}
+  .q-go{margin-left:auto;border:1px solid var(--ink);padding:8px 20px;font-size:19px;font-family:"LXGW WenKai",serif;}
+  .chart{display:flex;align-items:flex-end;gap:16px;height:150px;margin-top:20px;border-bottom:1px solid var(--rule);padding-bottom:0;}
+  .chart.tall{height:220px;}
+  .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
+  .col i{width:100%;background:var(--wash);display:block;}
+  .col.on i{background:var(--red);}
+  .col span{font-size:16px;color:var(--faint);margin:8px 0 -26px;}
+  .dist{display:flex;align-items:center;gap:16px;margin-top:18px;font-size:20px;}
+  .dist span{width:110px;color:var(--sub);}
+  .dist .bar{flex:1;margin-top:0;}
+  .dist b{width:52px;text-align:right;font-family:Arial,sans-serif;}
+  .sbar{display:flex;align-items:center;gap:14px;margin-top:30px;border:1px solid var(--ink);padding:18px 22px;border-bottom-width:1px;}
+  .sbar .q{font-family:Arial,sans-serif;font-size:26px;border-right:2px solid var(--red);padding-right:3px;}
+  .sbar .scope{margin-left:auto;font-size:18px;color:var(--sub);border-left:1px solid var(--rule);padding-left:16px;}
+  .res-group{margin-top:34px;font-size:19px;color:var(--faint);letter-spacing:.2em;}
+  .res{padding:18px 0;border-bottom:1px solid var(--rule);font-size:23px;}
+  .res b{font-weight:400;background:var(--hl);}
+  .res .res-s{font-size:18px;color:var(--sub);margin-top:6px;}
+  .tag-mini{border:1px solid var(--rule);color:var(--sub);font-size:14px;padding:2px 8px;margin-left:10px;vertical-align:3px;}
+  .tag-mini.wx{border-color:var(--green);color:var(--green);}
+  .scope-hint{margin-top:28px;font-size:17px;color:var(--faint);}
+  .offline{margin-top:30px;border:1px solid var(--amber);padding:26px 28px;}
+  .off-t{font-family:"LXGW WenKai",serif;font-size:25px;color:var(--amber);}
+  .off-d{font-size:18px;color:var(--sub);margin-top:10px;line-height:1.7;}
+  .off-btns{display:flex;gap:14px;margin-top:18px;}
+  .off-btns .ghost{border-color:var(--rule);color:var(--sub);}
+  .dim-row{opacity:.45;}
+  .act.disabled{border-color:var(--rule);color:var(--faint);}
+  .pending-bar{position:absolute;left:0;right:0;bottom:96px;background:#F0E7D6;border-top:1px solid var(--amber);border-bottom:1px solid var(--amber);
+               padding:16px 128px;font-size:19px;color:var(--amber);display:flex;align-items:center;gap:10px;}
+  .pending-bar .dot-a{width:8px;height:8px;border-radius:50%;background:var(--amber);}
+  .pending-bar .pb-act{margin-left:auto;border:1px solid var(--amber);padding:6px 16px;font-size:18px;}
+  .search-panel{position:absolute;inset:0;background:var(--paper);padding:56px 84px;}
+  .pn-count{margin-top:24px;font-size:18px;color:var(--faint);}
+  .hit{padding:22px 0;border-bottom:1px solid var(--rule);}
+  .hit-c{font-family:"LXGW WenKai",serif;font-size:19px;color:var(--sub);}
+  .hit-s{font-size:21px;line-height:1.6;margin-top:6px;}
+  .hit-s mark{background:var(--hl);color:inherit;}
+  .gray{filter:grayscale(1);}
+  .stat4{display:flex;gap:18px;margin-top:34px;}
+  .stat4 div{flex:1;border:1px solid var(--rule);padding:22px 0;text-align:center;}
+  .stat4 b{display:block;font-family:Arial,sans-serif;font-size:38px;font-weight:700;}
+  .stat4 span{font-size:18px;color:var(--sub);}
+  .search{margin-top:26px;border:1px solid var(--rule);padding:20px 24px;font-size:21px;color:var(--faint);}
+  .wl{display:flex;align-items:baseline;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--rule);}
+  .wl .w{font-family:Arial,sans-serif;font-size:28px;font-weight:700;}
+  .wl .m{font-size:18px;color:var(--sub);}
+  .export{margin-top:30px;border:1px solid var(--ink);padding:22px;text-align:center;font-size:22px;font-family:"LXGW WenKai",serif;}
+  .chips{display:flex;gap:14px;margin-top:26px;}
+  .chips span{border:1px solid var(--rule);padding:9px 20px;font-size:19px;color:var(--sub);}
+  .chips span.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .entry{padding:26px 0;border-bottom:1px solid var(--rule);}
+  .entry .hd{display:flex;align-items:baseline;gap:12px;}
+  .entry .hd .w{font-family:Arial,sans-serif;font-size:30px;font-weight:700;}
+  .entry .hd .w b{font-weight:700;background:var(--hl);}
+  .entry .hd .pos{font-size:19px;color:var(--sub);}
+  .entry .hd .dot{display:none;}
+  .entry .src{font-family:"LXGW WenKai",serif;font-size:19px;color:var(--sub);margin-top:6px;}
+  .entry .quote{font-size:19px;color:#3b3b36;margin-top:8px;line-height:1.6;}
+  .entry .quote mark{background:var(--hl);color:inherit;}
+  .bigword{font-family:Arial,sans-serif;font-size:54px;font-weight:700;margin-top:30px;}
+  .bigword .ipa2{font-family:Arial,sans-serif;font-size:22px;font-weight:400;color:var(--sub);margin-left:16px;}
+  .en-def{font-size:23px;color:var(--sub);line-height:1.6;margin-top:10px;}
+  .block-label{margin-top:34px;font-size:18px;color:var(--faint);letter-spacing:.22em;}
+  .origin{border-left:3px solid var(--red);padding-left:22px;margin-top:12px;}
+  .origin .src{font-family:"LXGW WenKai",serif;font-size:20px;color:var(--sub);}
+  .origin .quote{font-size:21px;line-height:1.65;margin-top:8px;}
+  .origin .quote mark{background:var(--hl);color:inherit;}
+  .mine{font-size:21px;margin-top:12px;line-height:1.6;}
+  .tag-ok{border:1px solid var(--green);color:var(--green);font-size:15px;padding:3px 10px;margin-left:12px;}
+  .review-row{margin-top:14px;font-size:21px;color:var(--sub);display:flex;align-items:baseline;gap:14px;}
+  .review-row b{font-family:Arial,sans-serif;color:var(--ink);font-size:23px;font-weight:700;margin-right:18px;}
+  .note-text{font-family:"LXGW WenKai",serif;font-size:21px;color:#3b3b36;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<!-- 1 开机 -->
+<section id="f1" class="screen boot">
+  <svg width="156" height="156" viewBox="0 0 200 200" style="margin-bottom:38px">
+      <g fill="#23231F">
+        <rect x="58" y="56" width="15" height="86"/><rect x="80" y="74" width="15" height="68"/>
+        <rect x="102" y="90" width="15" height="52"/><rect x="124" y="74" width="15" height="68"/>
+        <rect x="146" y="56" width="15" height="86"/>
+      </g>
+      <path d="M50 142 C50 168 160 168 160 142" stroke="#23231F" stroke-width="10" fill="none" stroke-linecap="round"/>
+    </svg>
+  <div class="wordmark">拾页</div>
+  <div class="tagline">READ SLOWLY</div>
+  <div class="boot-foot">KOBO AURA H2O　·　PICK UP PAGES 1.0</div>
+  <div class="boot-bar" style="width:6%"></div>
+</section>
+
+<!-- 2 首页：两套书源混排，来源标记区分 -->
+<section id="f2" class="screen">
+  <div class="topbar"><div class="brand">书架</div><div class="status" style="display:flex;align-items:center;gap:16px">
+    <span>09:41</span>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg>
+    <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg>
+    <span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="hero">
+    <div class="cover wx"><span>枪炮、<br>病菌<br>与钢铁</span></div>
+    <div class="hero-info">
+      <div class="kicker">继续阅读</div>
+      <h1>枪炮、病菌与钢铁</h1>
+      <div class="author">贾雷德·戴蒙德</div>
+      <div class="progress wx"><i style="width:37%"></i></div>
+      <div class="meta">第 8 章　·　37%<span class="src wx" style="margin-left:18px">微信读书 · 已缓存</span></div>
+    </div>
+  </div>
+
+  <div class="tabs"><span class="on">全部</span><span>最近</span><span class="count">12 本</span></div>
+
+  <div class="row">
+    <div class="mini"><span>人类简史</span></div>
+    <div class="info"><div class="n">人类简史</div><div class="m">尤瓦尔·赫拉利　·　本地 EPUB　·　62%</div></div>
+    <div class="p">62%</div>
+  </div>
+  <div class="row">
+    <div class="mini wx"><span>被讨厌的勇气</span></div>
+    <div class="info"><div class="n">被讨厌的勇气</div><div class="m">岸见一郎　·　微信读书　·　18%</div></div>
+    <div class="p">18%</div>
+  </div>
+  <div class="row">
+    <div class="mini"><span>乡土中国</span></div>
+    <div class="info"><div class="n">乡土中国</div><div class="m">费孝通　·　本地 EPUB　·　已读完</div></div>
+    <div class="p">100%</div>
+  </div>
+  <div class="row">
+    <div class="mini wx"><span>置身事内</span></div>
+    <div class="info"><div class="n">置身事内</div><div class="m">兰小欢　·　微信读书　·　54%</div></div>
+    <div class="p">54%</div>
+  </div>
+  <div class="row">
+    <div class="mini"><span>我们仨</span></div>
+    <div class="info"><div class="n">我们仨</div><div class="m">杨绛　·　本地 EPUB　·　已读完</div></div>
+    <div class="p">100%</div>
+  </div>
+  <div class="row">
+    <div class="mini wx"><span>克拉拉与太阳</span></div>
+    <div class="info"><div class="n">克拉拉与太阳</div><div class="m">石黑一雄　·　微信读书　·　12%</div></div>
+    <div class="p">12%</div>
+  </div>
+
+  <div class="shelf-stat">本地 8 本　·　微信读书 12 本　·　生词 128 个</div>
+
+  <nav class="tabbar"><span class="on">书架</span><span>微信读书</span><span>单词</span><span>设置</span></nav>
+</section>
+
+<!-- 3 微信读书云端书架 -->
+<section id="f3" class="screen">
+  <div class="topbar"><div class="brand">微信读书</div><div class="src wx" style="display:flex;align-items:center;gap:14px">已同步 09:38 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg> <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></div></div>
+  <div class="rule-strong"></div>
+  <div class="shelf-stat" style="margin-top:26px">账号已连接　·　云端 12 本　·　本周在读 3 本</div>
+
+  <div class="cloud-row">
+    <div class="ct"><div class="n">人类简史</div><div class="m">已缓存 8.2 MB　·　读完 62%</div></div>
+    <div class="pct">62%</div><div class="act pending">已缓存</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">枪炮、病菌与钢铁</div><div class="m">已缓存 12.4 MB　·　读到第 8 章</div></div>
+    <div class="pct">37%</div><div class="act pending">已缓存</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">置身事内</div><div class="m">未缓存　·　约 9.7 MB</div></div>
+    <div class="act">下载</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">克拉拉与太阳</div><div class="m">正在导出　·　第 12 / 44 章</div></div>
+    <div class="pct">27%</div><div class="act pending">查看</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">额尔古纳河右岸</div><div class="m">未缓存　·　约 11.2 MB</div></div>
+    <div class="act">下载</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">平凡的世界</div><div class="m">已缓存 15.8 MB　·　读到第 3 章</div></div>
+    <div class="pct">28%</div><div class="act pending">已缓存</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">万历十五年</div><div class="m">已缓存 6.4 MB　·　未开始</div></div>
+    <div class="act pending">已缓存</div>
+  </div>
+
+  <div class="sync-bar"><span>服务 · 家庭服务器　在线</span><span>缓存 2.1 GB / 3.6 GB</span></div>
+
+  <nav class="tabbar"><span>书架</span><span class="on">微信读书</span><span>单词</span><span>设置</span></nav>
+</section>
+
+<!-- 4 导出进度 -->
+<section id="f4" class="screen">
+  <div class="topbar"><div class="brand">微信读书</div><div class="src wx" style="display:flex;align-items:center;gap:14px">已同步 09:38 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg> <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></div></div>
+  <div class="rule-strong"></div>
+  <div class="shelf-stat" style="margin-top:26px">账号已连接　·　云端 12 本</div>
+  <div class="cloud-row"><div class="ct"><div class="n">人类简史</div><div class="m">已缓存 8.2 MB</div></div><div class="pct">62%</div><div class="act pending">已缓存</div></div>
+  <div class="cloud-row"><div class="ct"><div class="n">枪炮、病菌与钢铁</div><div class="m">已缓存 12.4 MB</div></div><div class="pct">37%</div><div class="act pending">已缓存</div></div>
+  <div class="mask"></div>
+  <div class="modal">
+    <h2>正在导出《克拉拉与太阳》</h2>
+    <div class="sub">从微信读书取回正文，转成这台机器能排版的 EPUB</div>
+    <div class="bar"><i style="width:42%"></i></div>
+    <div class="step"><span>第 18 / 44 章</span><span>预计还需 1 分 20 秒</span></div>
+    <div class="foot"><div class="btn ghost">取消</div><div class="btn">后台继续</div></div>
+  </div>
+</section>
+
+<!-- 5 微信书阅读页 -->
+<section id="f5" class="screen reading">
+  <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="rh">09:41 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+  <div class="rule"></div>
+  <div class="sidebar-progress"><i></i></div>
+  <div class="body">
+    <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，其实对结果一无所知，不能预见自己生活方式的改变，也不知此举竟会影响后代子孙在历史上的地位。</p>
+    <p><mark>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</mark>从一方面来说，凡是热带或温带湿度适中的地区，都可长出许多可供驯化的野生植物。</p>
+    <p>我们将在下一章碰到类似的问题，如大型野生哺乳动物的驯化。动物驯化的问题较易解答，主要是动物的物种比植物少得多。</p>
+    <p>植物研究则不可能用这种方式。植物物种数量极为庞大，会开花的野生植物就多达 20 万种。</p>
+  </div>
+  <div class="read-foot"><span>09:41</span><span>128 / 312</span><span class="src wx">微信读书 · 已同步</span></div>
+</section>
+
+<!-- 6 微信书：划线 -->
+<section id="f6" class="screen reading">
+  <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="rh">09:41 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+  <div class="rule"></div>
+  <div class="sidebar-progress"><i></i></div>
+  <div class="body">
+    <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，其实对结果一无所知，不能预见自己生活方式的改变，也不知此举竟会影响后代子孙在历史上的地位。</p>
+    <p><mark>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</mark>从一方面来说，凡是热带或温带湿度适中的地区，都可长出许多可供驯化的野生植物。</p>
+    <p>我们将在下一章碰到类似的问题，如大型野生哺乳动物的驯化。动物驯化的问题较易解答，主要是动物的物种比植物少得多。</p>
+    <p>植物研究则不可能用这种方式。植物物种数量极为庞大，会开花的野生植物就多达 20 万种。</p>
+    <p>听到有这么多种会开花的野生植物，人们的第一反应可能是：地球上既然有这么多种野生植物，那么一个地方只要气候条件良好，能驯化成作物的物种就一定多得不得了。</p>
+  </div>
+
+  <div class="sel-sheet">
+    <div class="sel-quote">「有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。」　已选 47 字</div>
+    <div class="sel-actions"><span class="on">高亮</span><span>笔记</span><span>翻译</span><span>复制</span><span class="quiet">取消</span></div>
+    <div class="sel-tip">● 划线保存在本机，不回写微信读书账号</div>
+  </div>
+
+</section>
+
+<!-- 7 笔记 -->
+<section id="f7" class="screen reading">
+  <div class="dim">
+    <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="rh">09:41 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+    <div class="rule"></div>
+    <div class="body" style="margin-top:60px">
+      <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，对结果一无所知。</p>
+      <p><mark>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</mark></p>
+    </div>
+  </div>
+  <div class="sheet">
+    <div class="sheet-head"><div class="t">笔记</div><div class="s">第 8 章 · 本机已存 3 条</div></div>
+    <div class="note-box">戴蒙德的答案是“环境”，不是“人种”。这一句是全书的方法论：<br>把差异归于条件，而不是归于品质。<span class="caret"></span></div>
+    <div class="sheet-foot">
+      <div class="tip">● 本机保存，不会同步回微信读书</div>
+      <div class="btns"><div class="btn ghost">取消</div><div class="btn primary">保存</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 本地书阅读页 + 词典 -->
+<section id="f8" class="screen reading">
+  <div class="read-top"><span>第 3 章　乡土本色</span><span class="rh">09:41 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+  <div class="rule"></div>
+  <div class="sidebar-progress"><i style="height:18%"></i></div>
+  <div class="body">
+    <p>从基层上看去，中国社会是乡土性的。我说中国社会的基层是乡下人，这并不是一个贬义词，而是说他们身上有一种泥土的气息。</p>
+    <p>乡下人土气，虽然似乎带着几分藐视的意味，但这个“土”字却用得极好。<mark>土</mark>是他们的命根，靠种地谋生的人才明白泥土的可贵。</p>
+    <p>农业和游牧或工业不同，它是直接取资于土地的。游牧的人可以逐水草而居，飘忽无定；做工业的人可以择地而居，迁移无碍。</p>
+    <p>而种地的人却搬不动地，长在土里的庄稼行动不得，侍候庄稼的老农也因之像是半身插入了土里。土气是因为不流动而发生的。</p>
+    <p>直接靠农业来谋生的人是粘在土地上的。我们很可以相信，以农为生的人，世代定居是常态，迁移是变态。</p>
+  </div>
+
+  <div class="dict">
+    <div><span class="w">土</span><span class="py">tǔ　名</span></div>
+    <div class="d">土地；泥土。引申为乡土、本乡本土。<br>「土是他们的命根。」</div>
+    <div class="row"><span class="pri">加入生词本</span><span>全书搜索</span><span>复制</span></div>
+  </div>
+
+  <div class="read-foot"><span>09:41</span><span>42 / 168</span><span class="src">本地 · EPUB</span></div>
+</section>
+
+<!-- 9 目录 -->
+<section id="f9" class="screen reading">
+  <div class="dim">
+    <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="rh">09:41 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+    <div class="rule"></div>
+    <div class="body" style="margin-top:60px">
+      <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，对结果一无所知。</p>
+      <p>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</p>
+    </div>
+  </div>
+  <div class="toc-panel">
+    <div class="toc-head"><div class="t">目录</div><div class="s">44 章 · 微信读书</div></div>
+    <ul class="toc-list">
+      <li><span>前言　为什么说世界历史就像洋葱一样？</span><span class="pg">7</span></li>
+      <li><span>开场白　亚力的问题</span><span class="pg">19</span></li>
+      <li><span>第 1 章　人类社会的起跑线</span><span class="pg">31</span></li>
+      <li><span>第 7 章　杏仁的前世今生</span><span class="pg">112</span></li>
+      <li class="on"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="pg">128</span></li>
+      <li><span>第 9 章　斑马、不幸的婚姻和安娜卡列尼娜原则</span><span class="pg">141</span></li>
+      <li><span>第 10 章　辽阔的天空与偏斜的轴线</span><span class="pg">156</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 10 单词卡 -->
+<section id="f10" class="screen">
+  <div class="wordtop"><span>雅思 · 核心词 0412</span><span style="display:flex;align-items:center;gap:14px">今日 12 / 20 <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+  <div class="rule-strong" style="margin-top:16px"></div>
+  <div class="word">ambiguous</div>
+  <div><span class="ipa">/æmˈbɪɡjuəs/</span><span class="pos">adj.</span></div>
+  <div class="def" style="font-size:27px;line-height:1.6">having more than one possible meaning, so it is not clear which one is intended<br><span style="color:var(--sub)">deliberately unclear, often to avoid committing to one view</span></div>
+  <div class="roots"><div><b>ambi-</b> <span>both</span></div><div><b>ag-</b> <span>to drive</span></div><div><b>-ous</b> <span>adj.</span></div></div>
+  <div class="story" style="font-size:24px;line-height:2.05">拉丁语 ambigere 原义是「把……往两边赶」。牧人挥鞭，羊群一半往左一半往右，队伍就散了——一个说法被同时推向两个方向，听的人自然抓不住落点。</div>
+  <div class="family" style="font-size:21px;margin-top:14px">同根　<em>ambivalent　ambidextrous　ambition　agent　agenda</em></div>
+  <div class="ex" style="margin-top:20px;font-size:23px"><div>The contract's wording is deliberately ambiguous.</div><div style="font-size:21px;color:var(--sub)">Its conclusion was ambiguous: neither a promise nor a refusal.</div></div>
+  <div class="syn"><div><span class="lab">Syn.</span>vague　·　equivocal　·　unclear</div><div><span class="lab">Ant.</span>explicit　·　unambiguous　·　clear</div></div>
+  <div class="coll"><span class="lab">搭配</span>deliberately ambiguous　·　remain ambiguous　·　an ambiguous ending</div>
+  <div class="actions"><div class="dim">忘记</div><div class="dim">模糊</div><div class="good">认识</div></div>
+  <div class="streak">本组 12 / 20　·　连续 <b>12</b> 天</div>
+</section>
+
+<!-- 11 图鉴 -->
+<section id="f11" class="screen">
+  <div class="atlas-top"><span>图鉴 · 哺乳纲</span><span>09:41</span></div>
+  <div class="rule-strong" style="margin-top:16px"></div>
+
+  <div class="figure" style="background:none;overflow:hidden;height:540px;border:0">
+    <img src="assets/animals/giant-panda.png" style="width:100%;height:100%;object-fit:cover">
+  </div>
+  <div class="credit">摄 · @chrisdt　·　CC BY 4.0　·　iNaturalist</div>
+
+  <div class="atlas-name"><h1>大熊猫</h1><span class="en">Giant panda</span></div>
+  <div class="latin">Ailuropoda melanoleuca</div>
+
+  <div class="traits">
+    <div><i>·</i><span>A bear that lives almost entirely on bamboo.</span></div>
+    <div><i>·</i><span>It spends up to 14 hours a day eating.</span></div>
+    <div><i>·</i><span>Once endangered, now listed as vulnerable.</span></div>
+  </div>
+
+  <div class="badge">VU　易危</div>
+
+  <div class="atlas-meta">
+    <div><span class="lab">分布</span>四川、陕西、甘肃山区</div>
+    <div><span class="lab">冷知识</span>它有一根“伪拇指”，是腕骨特化出来的。</div>
+  </div>
+
+  <div class="related"><span class="lab">相关词</span>bamboo　·　habitat　·　endangered　·　solitary</div>
+
+  <div class="atlas-nav"><span>← 上一张</span><span>037 / 300</span><span>下一张 →</span></div>
+</section>
+
+<!-- 12 设置 -->
+<section id="f12" class="screen">
+  <div class="topbar"><div class="brand">设置</div><div class="status" style="display:flex;align-items:center;gap:16px"><span>09:41</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg><svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="group-label">排版</div>
+  <div class="set-row"><div class="k">中文字体</div><div class="v"><em>霞鹜文楷</em>　/　宋体</div></div>
+  <div class="set-row"><div class="k">英文字体</div><div class="v"><em>Arial</em>　/　Georgia</div></div>
+  <div class="set-row"><div class="k">字号</div><div class="slider"><i style="left:58%"></i></div></div>
+  <div class="set-row" style="border-bottom:0"><div class="k">行距</div><div class="slider"><i style="left:46%"></i></div></div>
+
+  <div class="group-label">微信读书</div>
+  <div class="set-row"><div class="k">服务</div><div class="v">192.168.1.20:8080　<em>在线</em></div></div>
+  <div class="set-row"><div class="k">账号</div><div class="v">已登录　·　12 本</div></div>
+  <div class="set-row"><div class="k">自动回写进度</div><div class="seg"><span class="on">开</span><span>关</span></div></div>
+  <div class="set-row" style="border-bottom:0"><div class="k">缓存</div><div class="v">2.1 GB　·　清理</div></div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span>单词</span><span class="on">设置</span></nav>
+</section>
+
+
+<!-- 13 单词本总览 -->
+<section id="f13" class="screen">
+  <div class="topbar"><div class="brand">单词本</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>09:41</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="stat4">
+    <div><b>128</b><span>生词</span></div>
+    <div><b>32</b><span>错词</span></div>
+    <div><b>410</b><span>已掌握</span></div>
+    <div><b>46</b><span>我的例句</span></div>
+  </div>
+
+  <div class="search">搜索单词、出处或笔记</div>
+
+  <div class="section-label">最近收录</div>
+  <div class="wl">
+    <div class="w">ambiguous</div>
+    <div class="m">《枪炮、病菌与钢铁》第 8 章　·　2 小时前</div>
+  </div>
+  <div class="wl">
+    <div class="w">susceptible</div>
+    <div class="m">《乡土中国》第 3 章　·　昨天</div>
+  </div>
+  <div class="wl">
+    <div class="w">erode</div>
+    <div class="m">雅思核心 3500　·　3 天前</div>
+  </div>
+
+  <div class="export">导出为 Markdown / CSV / Anki</div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 14 生词列表 -->
+<section id="f14" class="screen">
+  <div class="topbar"><div class="brand">生词本</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>128 词</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="chips"><span class="on">全部 128</span><span>来自阅读 96</span><span>来自词书 24</span><span>手动 8</span></div>
+
+  <div class="entry">
+    <div class="hd"><span class="w">ambiguous</span><span class="pos">adj.</span><span class="dot">●</span></div>
+    <div class="src">《枪炮、病菌与钢铁》第 8 章</div>
+    <div class="quote">…the contract's wording is deliberately <mark>ambiguous</mark>, leaving room for both sides…</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w">susceptible</span><span class="pos">adj.</span><span class="dot">●</span></div>
+    <div class="src">《乡土中国》第 3 章</div>
+    <div class="quote">…villages were <mark>susceptible</mark> to drought and to the whims of the market…</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w">erode</span><span class="pos">v.</span><span class="dot">●</span></div>
+    <div class="src">雅思核心 3500 · 环境</div>
+    <div class="quote">Coastal land is being <mark>eroded</mark> at an alarming rate.</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w">inevitable</span><span class="pos">adj.</span></div>
+    <div class="src">《置身事内》第 2 章</div>
+    <div class="quote">…some degree of centralisation was <mark>inevitable</mark> once the tax system collapsed…</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w">consensus</span><span class="pos">n.</span></div>
+    <div class="src">雅思核心 3500 · 社会</div>
+    <div class="quote">There is a growing <mark>consensus</mark> that the policy has failed.</div>
+  </div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 15 词条详情 -->
+<section id="f15" class="screen">
+  <div class="topbar"><div class="brand">生词本</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>生词 · 第 12 个</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="bigword">ambiguous<span class="ipa2">/æmˈbɪɡjuəs/ adj.</span></div>
+  <div class="en-def">having more than one possible meaning, so it is not clear which one is intended</div>
+
+  <div class="block-label">出处</div>
+  <div class="origin">
+    <div class="src">《枪炮、病菌与钢铁》第 8 章 · 微信读书</div>
+    <div class="quote">…the contract's wording is deliberately <mark>ambiguous</mark>, leaving room for both sides to interpret it in their favour…</div>
+  </div>
+
+  <div class="block-label">我的例句</div>
+  <div class="mine">His answer was ambiguous: neither a promise nor a refusal.<span class="tag-ok">已批改</span></div>
+
+  <div class="block-label">笔记</div>
+  <div class="note-text">戴蒙德这里的“ambiguous”不是含混，是拒绝站队。</div>
+
+  <div class="block-label">复习</div>
+  <div class="review-row"><span>下次复习</span><b>3 天后</b><span>已复习</span><b>2 次</b><span>正确率</span><b>50%</b></div>
+
+  <div class="actions"><div class="dim">移出生词本</div><div class="good">加入今日复习</div></div>
+</section>
+
+
+<!-- 16 今日 -->
+<section id="f16" class="screen">
+  <div class="topbar"><div class="brand">今日</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>09:41</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="today-nums">
+    <div><b>12</b><span>今日新词</span></div>
+    <div><b>35</b><span>待复习</span></div>
+    <div><b>12</b><span>连续天数</span></div>
+  </div>
+
+  <div class="goal">
+    <div class="goal-line"><span>今日目标 20 词</span><span>12 / 20</span></div>
+    <div class="bar"><i style="width:60%"></i></div>
+    <div class="goal-foot">再学 8 个就达标　·　已用 18 分钟</div>
+  </div>
+
+  <div class="big-btn">开始复习 · 35 词</div>
+  <div class="ghost-btn">继续学新词</div>
+
+  <div class="section-label">今天读过</div>
+  <div class="wl"><div class="w">枪炮、病菌与钢铁</div><div class="m">第 8 章 · 32 分钟</div></div>
+  <div class="wl"><div class="w">乡土中国</div><div class="m">第 3 章 · 14 分钟</div></div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 17 词书 -->
+<section id="f17" class="screen">
+  <div class="topbar"><div class="brand">词书</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>3 本</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="book">
+    <div class="bk"><span>雅思核心 3500</span></div>
+    <div class="bk-info">
+      <div class="bk-t">雅思核心 3500</div>
+      <div class="bk-s">按话题分 12 册　·　已学 412 词</div>
+      <div class="bar sm"><i style="width:12%"></i></div>
+    </div>
+    <div class="bk-p">12%</div>
+  </div>
+
+  <div class="book">
+    <div class="bk"><span>用英语讲中国</span></div>
+    <div class="bk-info">
+      <div class="bk-t">用英语讲中国</div>
+      <div class="bk-s">历史 · 名胜 · 文化 · 当代　·　120 个单元</div>
+      <div class="bar sm"><i style="width:3%"></i></div>
+    </div>
+    <div class="bk-p">3%</div>
+  </div>
+
+  <div class="book">
+    <div class="bk"><span>动物图鉴</span></div>
+    <div class="bk-info">
+      <div class="bk-t">动物图鉴 300</div>
+      <div class="bk-s">哺乳 · 鸟 · 鱼 · 爬行 · 昆虫　·　已看 37 种</div>
+      <div class="bar sm"><i style="width:12%"></i></div>
+    </div>
+    <div class="bk-p">12%</div>
+  </div>
+
+  <div class="section-label">已完成的</div>
+  <div class="wl"><div class="w">高中必修 3500</div><div class="m">3500 词 · 已完成</div></div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 18 造句 -->
+<section id="f18" class="screen">
+  <div class="topbar"><div class="brand">造句</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>雅思 · 0412</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="hl-word">ambiguous</div>
+  <div class="hl-hint">用这个词写一句，写完可以联网批改</div>
+
+  <div class="compose2">
+    His answer was ambiguous, and I could not tell whether he <span class="caret"></span>
+  </div>
+
+  <div class="block-label">批改</div>
+  <div class="fix">
+    <div class="fix-hd"><span class="ok">语法没有问题</span><span class="band">预估 6.0</span></div>
+    <div class="fix-item"><span class="type">用词</span><b>could not tell</b> 建议改成 <b>couldn't tell</b>，口语更自然</div>
+    <div class="fix-item"><span class="type">搭配</span>句尾可补 <b>agreed or not</b>，让"含糊"落到具体的事上</div>
+    <div class="fix-sug">建议句：His answer was ambiguous, and I couldn't tell whether he agreed or not.</div>
+  </div>
+
+  <div class="actions"><div class="dim">保存草稿</div><div class="good">存入我的例句</div></div>
+</section>
+
+<!-- 19 复习 -->
+<section id="f19" class="screen">
+  <div class="topbar"><div class="brand">复习</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>35 词待复习</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="queue">
+    <div class="q"><span class="q-n">12</span><div><div class="q-t">新词复习</div><div class="q-s">昨天学的，今天第一次复现</div></div><span class="q-go">开始</span></div>
+    <div class="q"><span class="q-n">15</span><div><div class="q-t">错词重练</div><div class="q-s">错过的词单独成组</div></div><span class="q-go">开始</span></div>
+    <div class="q"><span class="q-n">8</span><div><div class="q-t">长间隔</div><div class="q-s">7 天以上没见，容易忘</div></div><span class="q-go">开始</span></div>
+  </div>
+
+  <div class="section-label">本周</div>
+  <div class="chart">
+    <div class="col"><i style="height:38%"></i><span>一</span></div>
+    <div class="col"><i style="height:62%"></i><span>二</span></div>
+    <div class="col"><i style="height:45%"></i><span>三</span></div>
+    <div class="col"><i style="height:80%"></i><span>四</span></div>
+    <div class="col"><i style="height:28%"></i><span>五</span></div>
+    <div class="col on"><i style="height:60%"></i><span>六</span></div>
+    <div class="col"><i style="height:0%"></i><span>日</span></div>
+  </div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 20 统计 -->
+<section id="f20" class="screen">
+  <div class="topbar"><div class="brand">统计</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>近 30 天</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="stat4" style="margin-top:30px">
+    <div><b>412</b><span>累计词数</span></div>
+    <div><b>82%</b><span>正确率</span></div>
+    <div><b>12</b><span>连续天数</span></div>
+  </div>
+
+  <div class="section-label">每日新增</div>
+  <div class="chart tall">
+    <div class="col"><i style="height:40%"></i><span>1</span></div>
+    <div class="col"><i style="height:70%"></i><span>5</span></div>
+    <div class="col"><i style="height:52%"></i><span>9</span></div>
+    <div class="col"><i style="height:88%"></i><span>13</span></div>
+    <div class="col"><i style="height:34%"></i><span>17</span></div>
+    <div class="col"><i style="height:64%"></i><span>21</span></div>
+    <div class="col on"><i style="height:46%"></i><span>25</span></div>
+  </div>
+
+  <div class="section-label">词汇分布</div>
+  <div class="dist"><span>雅思核心</span><div class="bar sm"><i style="width:62%"></i></div><b>256</b></div>
+  <div class="dist"><span>中国专题</span><div class="bar sm"><i style="width:22%"></i></div><b>89</b></div>
+  <div class="dist"><span>动物图鉴</span><div class="bar sm"><i style="width:17%"></i></div><b>67</b></div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+
+<!-- 21 全局搜索 -->
+<section id="f21" class="screen">
+  <div class="topbar"><div class="brand">搜索</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>09:41</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="sbar">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>
+    <span class="q">ambig</span>
+    <span class="scope">全部</span>
+  </div>
+
+  <div class="chips" style="margin-top:22px"><span class="on">全部 9</span><span>书籍 2</span><span>单词 3</span><span>笔记 4</span></div>
+
+  <div class="res-group">单词</div>
+  <div class="res">
+    <div><b>ambig</b>uous<span class="tag-mini">生词</span></div>
+    <div class="res-s">adj. having more than one possible meaning　·　雅思核心 0412</div>
+  </div>
+  <div class="res">
+    <div><b>ambig</b>uous<span class="tag-mini wx">阅读中</span></div>
+    <div class="res-s">《枪炮、病菌与钢铁》第 8 章</div>
+  </div>
+
+  <div class="res-group">书籍</div>
+  <div class="res">
+    <div>《<b>枪炮</b>、病菌与钢铁》<span class="tag-mini wx">微信读书</span></div>
+    <div class="res-s">贾雷德·戴蒙德　·　37%　·　已缓存</div>
+  </div>
+
+  <div class="res-group">笔记与划线</div>
+  <div class="res">
+    <div>戴蒙德的答案是“环境”，不是“人种”</div>
+    <div class="res-s">《枪炮、病菌与钢铁》第 8 章 · 2 小时前</div>
+  </div>
+
+  <div class="scope-hint">搜索范围：本地 8 本　·　微信 12 本　·　生词 128　·　笔记 46</div>
+</section>
+
+<!-- 22 微信未连接 -->
+<section id="f22" class="screen">
+  <div class="topbar"><div class="brand">微信读书</div>
+    <div class="src" style="color:var(--amber)">未连接</div></div>
+  <div class="rule-strong"></div>
+
+  <div class="offline">
+    <div class="off-t">家庭服务器未连接</div>
+    <div class="off-d">已缓存的书照常可读；未缓存的需要联网，或把服务器打开。</div>
+    <div class="off-btns"><span style="border:1px solid var(--amber);color:var(--amber);padding:8px 22px;font-size:19px;font-family:'LXGW WenKai',serif">重试</span><span style="border:1px solid var(--rule);color:var(--sub);padding:8px 22px;font-size:19px;font-family:'LXGW WenKai',serif">检查服务</span></div>
+  </div>
+
+  <div class="cloud-row">
+    <div class="ct"><div class="n">人类简史</div><div class="m">已缓存 8.2 MB　·　可离线阅读</div></div>
+    <div class="pct">62%</div><div class="act pending">已缓存</div>
+  </div>
+  <div class="cloud-row">
+    <div class="ct"><div class="n">枪炮、病菌与钢铁</div><div class="m">已缓存 12.4 MB　·　可离线阅读</div></div>
+    <div class="pct">37%</div><div class="act pending">已缓存</div>
+  </div>
+  <div class="cloud-row dim-row">
+    <div class="ct"><div class="n">置身事内</div><div class="m">未缓存　·　需要联网</div></div>
+    <div class="act disabled">下载</div>
+  </div>
+  <div class="cloud-row dim-row">
+    <div class="ct"><div class="n">额尔古纳河右岸</div><div class="m">未缓存　·　需要联网</div></div>
+    <div class="act disabled">下载</div>
+  </div>
+
+  <div class="sync-bar"><span>离线可读 5 本　·　缓存 2.1 GB</span><span>上次同步 昨天 21:40</span></div>
+  <nav class="tabbar"><span>书架</span><span class="on">微信读书</span><span>单词</span><span>设置</span></nav>
+</section>
+
+<!-- 23 阅读待回写 -->
+<section id="f23" class="screen reading">
+  <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span><span class="rh">09:41
+    <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="11" height="5" fill="#6F6C63" stroke="none"/></svg></span></div>
+  <div class="rule"></div>
+  <div class="sidebar-progress"><i style="height:42%;background:var(--amber)"></i></div>
+
+  <div class="body">
+    <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，其实对结果一无所知，不能预见自己生活方式的改变，也不知此举竟会影响后代子孙在历史上的地位。</p>
+    <p><mark>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</mark>从一方面来说，凡是热带或温带湿度适中的地区，都可长出许多可供驯化的野生植物。</p>
+    <p>我们将在下一章碰到类似的问题，如大型野生哺乳动物的驯化。动物驯化的问题较易解答，主要是动物的物种比植物少得多。</p>
+    <p>植物研究则不可能用这种方式。植物物种数量极为庞大，会开花的野生植物就多达 20 万种。</p>
+  </div>
+
+  <div class="pending-bar">
+    <span class="dot-a"></span>进度与 2 条笔记待回写
+    <span class="pb-act">立即同步</span>
+  </div>
+  <div class="read-foot"><span>09:41</span><span>128 / 312</span><span class="src" style="color:var(--amber)">微信读书 · 待同步</span></div>
+</section>
+
+<!-- 24 单词内搜索 -->
+<section id="f24" class="screen">
+  <div class="topbar"><div class="brand">生词本</div>
+    <div class="status" style="display:flex;align-items:center;gap:16px"><span>128 词</span>
+      <svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg><span>78%</span></div></div>
+  <div class="rule-strong"></div>
+
+  <div class="sbar">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>
+    <span class="q">amb</span>
+    <span class="scope">本模块</span>
+  </div>
+
+  <div class="chips" style="margin-top:22px"><span class="on">全部 3</span><span>生词 2</span><span>我的例句 1</span><span>笔记 1</span></div>
+
+  <div class="entry">
+    <div class="hd"><span class="w"><b>amb</b>iguous</span><span class="pos">adj.</span></div>
+    <div class="src">《枪炮、病菌与钢铁》第 8 章　·　生词</div>
+    <div class="quote">…deliberately <mark>ambiguous</mark>, leaving room for both sides…</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w"><b>amb</b>ition</span><span class="pos">n.</span></div>
+    <div class="src">雅思核心 3500 · 商业　·　生词</div>
+    <div class="quote">同根词：<mark>amb</mark>i-（两边）+ ire（走）</div>
+  </div>
+  <div class="entry">
+    <div class="hd"><span class="w"><b>amb</b>ivalent</span><span class="pos">adj.</span></div>
+    <div class="src">我的例句　·　已批改</div>
+    <div class="quote">She felt <mark>amb</mark>ivalent about leaving the city.</div>
+  </div>
+
+  <nav class="tabbar"><span>书架</span><span>微信读书</span><span class="on">单词</span><span>设置</span></nav>
+</section>
+
+<!-- 25 全书搜索 -->
+<section id="f25" class="screen reading">
+  <div class="dim">
+    <div class="read-top"><span>第 8 章　是苹果的问题，还是印第安人的问题？</span></div>
+    <div class="rule"></div>
+    <div class="body" style="margin-top:60px">
+      <p>我们已见识到各地区族群如何开始驯化野生植物。古人在迈出这么重大的一步时，对结果一无所知。</p>
+      <p>有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。</p>
+    </div>
+  </div>
+  <div class="search-panel">
+    <div class="sbar" style="margin:0">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>
+      <span class="q">ambiguous</span>
+      <span class="scope">本书</span>
+    </div>
+    <div class="pn-count">《枪炮、病菌与钢铁》中找到 6 处</div>
+    <div class="hit"><div class="hit-c">第 8 章</div><div class="hit-s">…the wording is deliberately <mark>ambiguous</mark>, leaving room…</div></div>
+    <div class="hit"><div class="hit-c">第 8 章</div><div class="hit-s">…an <mark>ambiguous</mark> answer that satisfied neither side…</div></div>
+    <div class="hit"><div class="hit-c">第 11 章</div><div class="hit-s">…the evidence remains <mark>ambiguous</mark>…</div></div>
+    <div class="hit"><div class="hit-c">第 14 章</div><div class="hit-s">…<mark>ambiguous</mark> boundaries between the two…</div></div>
+  </div>
+</section>
+
+</body>
+</html>

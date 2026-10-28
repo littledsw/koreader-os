@@ -1,0 +1,17 @@
+# 登录态 / 抓包 / 书籍内容：绝不入库
+weread-bridge/state.json
+weread-bridge/.chrome-profile/
+weread-bridge/.crash/
+weread-bridge/capture/
+weread-bridge/*.epub
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 字体包（59MB，用 tools/fetch_fonts.sh 现取）
+demo/fonts/
+
+# 系统垃圾
+.DS_Store

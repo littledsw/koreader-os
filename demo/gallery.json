@@ -1,0 +1,127 @@
+[
+  {
+    "id": "f1",
+    "name": "开机",
+    "src": "out/f1.png"
+  },
+  {
+    "id": "f2",
+    "name": "书架",
+    "src": "out/f2.png"
+  },
+  {
+    "id": "f3",
+    "name": "微信读书",
+    "src": "out/f3.png"
+  },
+  {
+    "id": "f4",
+    "name": "导出中",
+    "src": "out/f4.png"
+  },
+  {
+    "id": "f5",
+    "name": "微信书阅读",
+    "src": "out/f5.png"
+  },
+  {
+    "id": "f6",
+    "name": "划线",
+    "src": "out/f6.png"
+  },
+  {
+    "id": "f7",
+    "name": "笔记",
+    "src": "out/f7.png"
+  },
+  {
+    "id": "f8",
+    "name": "本地书 + 词典",
+    "src": "out/f8.png"
+  },
+  {
+    "id": "f9",
+    "name": "目录",
+    "src": "out/f9.png"
+  },
+  {
+    "id": "f10",
+    "name": "单词卡",
+    "src": "out/f10.png"
+  },
+  {
+    "id": "f11",
+    "name": "图鉴",
+    "src": "out/f11.png"
+  },
+  {
+    "id": "f12",
+    "name": "设置",
+    "src": "out/f12.png"
+  },
+  {
+    "id": "f13",
+    "name": "单词本",
+    "src": "out/f13.png"
+  },
+  {
+    "id": "f14",
+    "name": "生词本",
+    "src": "out/f14.png"
+  },
+  {
+    "id": "f15",
+    "name": "词条详情",
+    "src": "out/f15.png"
+  },
+  {
+    "id": "f16",
+    "name": "今日",
+    "src": "out/f16.png"
+  },
+  {
+    "id": "f17",
+    "name": "词书",
+    "src": "out/f17.png"
+  },
+  {
+    "id": "f18",
+    "name": "造句",
+    "src": "out/f18.png"
+  },
+  {
+    "id": "f19",
+    "name": "复习",
+    "src": "out/f19.png"
+  },
+  {
+    "id": "f20",
+    "name": "统计",
+    "src": "out/f20.png"
+  },
+  {
+    "id": "f21",
+    "name": "全局搜索",
+    "src": "out/f21.png"
+  },
+  {
+    "id": "f22",
+    "name": "微信未连接",
+    "src": "out/f22.png"
+  },
+  {
+    "id": "f23",
+    "name": "阅读待同步",
+    "src": "out/f23.png"
+  },
+  {
+    "id": "f24",
+    "name": "生词搜索",
+    "src": "out/f24.png"
+  },
+  {
+    "id": "f25",
+    "name": "书内搜索",
+    "src": "out/f25.png"
+  }
+]

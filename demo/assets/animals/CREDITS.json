@@ -1,0 +1,23 @@
+{
+  "giant-panda": {
+    "scientific": "Ailuropoda melanoleuca",
+    "license": "cc-by",
+    "by": "chrisdt",
+    "observed_on": "2026-03-27",
+    "file": "assets/animals/giant-panda.png"
+  },
+  "chinese-pangolin": {
+    "scientific": "Manis pentadactyla",
+    "license": "cc-by",
+    "by": "weitingliu",
+    "observed_on": "2026-09-02",
+    "file": "assets/animals/chinese-pangolin.png"
+  },
+  "crested-ibis": {
+    "scientific": "Nipponia nippon",
+    "license": "cc0",
+    "by": "stevestevens",
+    "observed_on": "2025-06-21",
+    "file": "assets/animals/crested-ibis.png"
+  }
+}

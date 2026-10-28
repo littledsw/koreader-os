@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>拾页 · UI 效果图</title>
+<style>
+  :root{ --paper:#F4F1E8; --ink:#23231F; --sub:#6F6C63; --faint:#A9A69B; --rule:#D6D2C4; --red:#B14A3B; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#1c1c1a;color:#e8e5dc;font-family:-apple-system,"PingFang SC","LXGW WenKai",sans-serif;}
+  header{position:sticky;top:0;z-index:10;background:#141413;border-bottom:1px solid #2c2c29;
+         padding:18px 32px;display:flex;align-items:baseline;gap:22px;}
+  header h1{font-size:18px;font-weight:600;letter-spacing:.08em;}
+  header .meta{font-size:13px;color:#8a867c;}
+  header .spacer{flex:1;}
+  header button{background:none;border:1px solid #3a3a36;color:#c9c5b9;padding:6px 14px;font-size:13px;
+                cursor:pointer;border-radius:3px;}
+  header button:hover{border-color:#6b675d;color:#fff;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:26px;padding:32px;}
+  .card{background:#232320;border:1px solid #2e2e2a;border-radius:4px;overflow:hidden;cursor:zoom-in;
+        transition:border-color .15s, transform .15s;}
+  .card:hover{border-color:#6b675d;transform:translateY(-2px);}
+  .card img{display:block;width:100%;height:auto;background:#EDECE7;}
+  .cap{display:flex;align-items:baseline;gap:10px;padding:12px 14px;font-size:13px;color:#b8b4a8;}
+  .cap .n{color:#6f6b61;font-variant-numeric:tabular-nums;}
+  .cap .t{color:#e8e5dc;}
+  /* lightbox */
+  #lb{position:fixed;inset:0;background:#0a0a09;display:none;flex-direction:column;z-index:100;}
+  #lb.on{display:flex;}
+  #lb .top{display:flex;align-items:center;gap:18px;padding:16px 26px;font-size:13px;color:#b8b4a8;background:#141413;border-bottom:1px solid #2c2c29;}
+  #lb .top .spacer{flex:1;}
+  #lb .stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:0 26px 18px;}
+  #lb img{max-height:100%;max-width:100%;box-shadow:0 10px 40px rgba(0,0,0,.6);}
+  #lb.real img{max-height:none;max-width:1080px;width:1080px;}
+  #lb .nav{position:absolute;top:50%;transform:translateY(-50%);font-size:30px;color:#8a867c;
+           background:none;border:0;cursor:pointer;padding:20px;}
+  #lb .nav:hover{color:#fff;}
+  #lb .prev{left:8px;} #lb .next{right:8px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>拾页 · UI 效果图</h1>
+  <span class="meta" id="count"></span>
+  <span class="spacer"></span>
+  <button id="toggleReal">1:1 实际尺寸</button>
+</header>
+<main class="grid" id="grid"></main>
+
+<div id="lb">
+  <div class="top"><span id="lbTitle"></span><span class="spacer"></span><span id="lbHint">← → 切换　Esc 关闭</span></div>
+  <button class="nav prev" id="prev">‹</button>
+  <div class="stage"><img id="lbImg" alt=""></div>
+  <button class="nav next" id="next">›</button>
+</div>
+
+<script>
+const DATA = [{"id": "f1", "name": "开机", "src": "out/f1.png"}, {"id": "f2", "name": "书架", "src": "out/f2.png"}, {"id": "f3", "name": "微信读书", "src": "out/f3.png"}, {"id": "f4", "name": "导出中", "src": "out/f4.png"}, {"id": "f5", "name": "微信书阅读", "src": "out/f5.png"}, {"id": "f6", "name": "划线", "src": "out/f6.png"}, {"id": "f7", "name": "笔记", "src": "out/f7.png"}, {"id": "f8", "name": "本地书 + 词典", "src": "out/f8.png"}, {"id": "f9", "name": "目录", "src": "out/f9.png"}, {"id": "f10", "name": "单词卡", "src": "out/f10.png"}, {"id": "f11", "name": "图鉴", "src": "out/f11.png"}, {"id": "f12", "name": "设置", "src": "out/f12.png"}, {"id": "f13", "name": "单词本", "src": "out/f13.png"}, {"id": "f14", "name": "生词本", "src": "out/f14.png"}, {"id": "f15", "name": "词条详情", "src": "out/f15.png"}, {"id": "f16", "name": "今日", "src": "out/f16.png"}, {"id": "f17", "name": "词书", "src": "out/f17.png"}, {"id": "f18", "name": "造句", "src": "out/f18.png"}, {"id": "f19", "name": "复习", "src": "out/f19.png"}, {"id": "f20", "name": "统计", "src": "out/f20.png"}, {"id": "f21", "name": "全局搜索", "src": "out/f21.png"}, {"id": "f22", "name": "微信未连接", "src": "out/f22.png"}, {"id": "f23", "name": "阅读待同步", "src": "out/f23.png"}, {"id": "f24", "name": "生词搜索", "src": "out/f24.png"}, {"id": "f25", "name": "书内搜索", "src": "out/f25.png"}];
+let cur = 0, real = false;
+const grid = document.getElementById('grid');
+document.getElementById('count').textContent = DATA.length + ' 屏　·　1080 × 1430　·　2x 渲染';
+
+DATA.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `<img loading="lazy" src="${s.src}" alt="${s.name}">
+    <div class="cap"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${s.name}</span></div>`;
+  el.onclick = () => open(i);
+  grid.appendChild(el);
+});
+
+const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbTitle = document.getElementById('lbTitle');
+function open(i){
+  cur = i; lbImg.src = DATA[i].src; lbTitle.textContent = String(i+1).padStart(2,'0') + '　' + DATA[i].name;
+  lb.classList.add('on');
+}
+function close(){ lb.classList.remove('on'); }
+function step(d){ open((cur + d + DATA.length) % DATA.length); }
+document.getElementById('prev').onclick = e => { e.stopPropagation(); step(-1); };
+document.getElementById('next').onclick = e => { e.stopPropagation(); step(1); };
+lb.onclick = e => { if (e.target === lb) close(); };
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('on')) return;
+  if (e.key === 'Escape') close();
+  if (e.key === 'ArrowLeft') step(-1);
+  if (e.key === 'ArrowRight') step(1);
+});
+document.getElementById('toggleReal').onclick = () => {
+  real = !real; lb.classList.toggle('real', real);
+  document.getElementById('toggleReal').textContent = real ? '适应窗口' : '1:1 实际尺寸';
+};
+</script>
+</body>
+</html>
