@@ -35,11 +35,21 @@ weread-bridge/        微信读书 → EPUB / OPDS 桥接原型
 tools/fetch_fonts.sh  取霞鹜文楷（demo 渲染用，不入库）
 ```
 
-## 看设计稿
+## 跑交互原型（推荐先看这个）
+
+```bash
+./tools/fetch_fonts.sh          # 首次：取霞鹜文楷（约 30MB，不入库）
+cd demo && python3 -m http.server 8765
+# 浏览器打开 http://127.0.0.1:8765/prototype/index.html
+```
+
+原型是**可点的**，不是截图：开机 → 书架 → 打开书 → 翻页 → 划词高亮/笔记 →
+目录 → 单词今日/卡片/评分/单词本/造句批改 → 设置里调字号行距（实时生效）→
+「模拟断网」看微信离线态。数据是假的，交互是真的。
 
 ```bash
 cd demo && python3 -m http.server 8765
-# 浏览器打开 http://127.0.0.1:8765/gallery.html
+# 静态设计稿：http://127.0.0.1:8765/gallery.html
 ```
 
 25 屏覆盖：开机、书架、微信云端书架、导出、两类阅读、划线、笔记、目录、

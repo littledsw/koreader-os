@@ -23,7 +23,7 @@ try:
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome", headless=True, args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": 1080, "height": 1430}, device_scale_factor=2)
-        PAGE = sys.argv[1] if len(sys.argv) > 1 else "flow2.html"
+        PAGE = sys.argv[1] if len(sys.argv) > 1 else "flow.html"
         pg.goto(f"http://127.0.0.1:{PORT}/{PAGE}", wait_until="networkidle")
         pg.evaluate("() => document.fonts.ready")
         pg.wait_for_timeout(2500)
