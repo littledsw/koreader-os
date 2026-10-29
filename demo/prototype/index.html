@@ -2,8 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>拾页 · 交互原型</title>
+<title>拾页 · 交互原型 v2</title>
 <link rel="stylesheet" href="../fonts/package/lxgwwenkai-regular.css">
 <link rel="stylesheet" href="../fonts/package/lxgwwenkai-bold.css">
 <style>
@@ -11,29 +10,27 @@
   --paper:#F4F1E8; --ink:#23231F; --sub:#6F6C63; --faint:#A9A69B;
   --rule:#D6D2C4; --wash:#E8E3D5; --hl:#F0E2B4;
   --red:#B14A3B; --green:#4F6B4A; --amber:#9A6A2F;
-  --fs:27px; --lh:1.92;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:#1b1b19;overflow:hidden;}
 body{display:flex;align-items:center;justify-content:center;font-family:Arial,"LXGW WenKai",sans-serif;}
-
 #device{width:1080px;height:1430px;background:var(--paper);position:relative;overflow:hidden;
         transform-origin:center center;color:var(--ink);}
-.screen{position:absolute;inset:0;background:var(--paper);}
-.pad{padding:64px 84px;}
+.screen{position:absolute;inset:0;background:var(--paper);overflow-y:auto;overflow-x:hidden;}
+.screen::-webkit-scrollbar{width:0;}
+.pad{padding:60px 84px 140px;}
 
-.kai{font-family:"LXGW WenKai",Arial,serif;}
 .rule{height:1px;background:var(--rule);} .rule-strong{height:2px;background:var(--ink);}
-.topbar{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;}
-.brand{font-family:"LXGW WenKai",serif;font-size:38px;letter-spacing:.12em;}
-.status{display:flex;align-items:center;gap:16px;font-size:22px;color:var(--sub);letter-spacing:.06em;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.brand{font-family:"LXGW WenKai",serif;font-size:38px;letter-spacing:.1em;display:flex;align-items:center;gap:16px;}
+.back{font-family:Arial,sans-serif;font-size:34px;color:var(--sub);cursor:pointer;line-height:1;padding:0 4px;}
+.status{display:flex;align-items:center;gap:13px;font-size:21px;color:var(--sub);}
+.icon{width:44px;height:44px;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;cursor:pointer;}
 
-/* boot */
-.boot{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;cursor:pointer;}
+.boot{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;cursor:pointer;overflow:hidden;}
 .boot .foot{position:absolute;bottom:70px;font-size:18px;color:var(--faint);letter-spacing:.16em;}
 
-/* home */
-.hero{display:flex;gap:40px;margin-top:44px;cursor:pointer;}
+.hero{display:flex;gap:40px;margin-top:34px;cursor:pointer;}
 .cover{width:186px;height:262px;border:1px solid var(--ink);display:flex;flex:none;align-items:center;justify-content:center;position:relative;overflow:hidden;}
 .cover:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--red);}
 .cover.wx:before{background:var(--green);}
@@ -42,11 +39,11 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 .kicker{font-size:20px;color:var(--red);letter-spacing:.22em;}
 .hero-info h1{font-family:"LXGW WenKai",serif;font-size:38px;font-weight:400;margin:14px 0 8px;}
 .author{font-size:22px;color:var(--sub);}
-.progress{height:4px;background:var(--wash);margin:26px 0 12px;}
+.progress{height:4px;background:var(--wash);margin:24px 0 12px;}
 .progress i{display:block;height:4px;background:var(--red);}
 .progress.wx i{background:var(--green);}
 .meta{font-size:20px;color:var(--sub);}
-.tabs{display:flex;gap:36px;align-items:baseline;margin:34px 0 4px;border-bottom:1px solid var(--rule);}
+.tabs{display:flex;gap:36px;align-items:baseline;margin:28px 0 4px;border-bottom:1px solid var(--rule);}
 .tabs span{font-family:"LXGW WenKai",serif;font-size:25px;color:var(--faint);padding-bottom:14px;cursor:pointer;}
 .tabs span.on{color:var(--ink);border-bottom:2px solid var(--red);}
 .tabs .count{margin-left:auto;font-size:19px;color:var(--faint);}
@@ -59,119 +56,110 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 .row .n{font-family:"LXGW WenKai",serif;font-size:26px;}
 .row .m{font-size:17px;color:var(--faint);margin-top:5px;}
 .row .p{font-size:20px;color:var(--sub);width:62px;text-align:right;}
-.shelf-stat{margin-top:22px;font-size:19px;color:var(--faint);letter-spacing:.08em;}
-.tabbar{position:absolute;left:84px;right:84px;bottom:46px;display:flex;justify-content:space-between;
-        padding-top:26px;border-top:1px solid var(--rule);font-family:"LXGW WenKai",serif;font-size:24px;color:var(--faint);}
+.shelf-stat{margin-top:20px;font-size:19px;color:var(--faint);letter-spacing:.06em;}
+.tabbar{position:absolute;left:84px;right:84px;bottom:44px;display:flex;justify-content:space-between;
+        padding-top:24px;border-top:1px solid var(--rule);font-family:"LXGW WenKai",serif;font-size:24px;color:var(--faint);
+        background:var(--paper);z-index:15;}
 .tabbar span{cursor:pointer;}
 .tabbar .on{color:var(--ink);border-bottom:2px solid var(--red);padding-bottom:8px;}
 
-/* reader */
-.reader{padding:52px 128px 40px;height:100%;display:flex;flex-direction:column;}
-.read-top{display:flex;justify-content:space-between;align-items:center;font-size:20px;color:var(--sub);margin-bottom:14px;}
-.page-wrap{flex:1;overflow:hidden;margin-top:40px;}
-.page-text{font-family:"LXGW WenKai",serif;font-size:var(--fs);line-height:var(--lh);text-align:justify;
-           column-width:824px;column-gap:104px;height:100%;}
+.reader{padding:44px 0 0;overflow:hidden;}
+.reader .inner{padding:0 128px;display:flex;flex-direction:column;height:100%;}
+.read-top{display:flex;align-items:center;font-size:20px;color:var(--sub);margin-bottom:12px;gap:8px;}
+.page-wrap{flex:1;overflow:hidden;margin-top:26px;}
+.page-text{font-family:"LXGW WenKai",serif;text-align:justify;column-width:824px;column-gap:104px;height:100%;transition:transform .18s;}
 .page-text p{text-indent:2em;margin-bottom:.5em;}
 .page-text mark{background:var(--hl);}
-.read-foot{display:flex;justify-content:space-between;align-items:baseline;font-size:19px;color:var(--sub);padding-top:18px;}
-.tapzone{position:absolute;top:0;bottom:0;width:26%;cursor:pointer;z-index:5;}
-.tapzone.left{left:0;} .tapzone.right{right:0;}
+.read-foot{display:flex;justify-content:space-between;align-items:baseline;font-size:19px;color:var(--sub);padding:14px 0 30px;}
 .selbar{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--ink);
-        padding:28px 84px;display:none;z-index:20;}
+        padding:26px 84px;display:none;z-index:60;}
 .selbar.on{display:block;}
 .sel-quote{font-family:"LXGW WenKai",serif;font-size:20px;color:var(--sub);line-height:1.7;max-height:2.6em;overflow:hidden;}
-.sel-acts{display:flex;border:1px solid var(--ink);margin-top:20px;}
+.sel-acts{display:flex;border:1px solid var(--ink);margin-top:16px;}
 .sel-acts div{flex:1;text-align:center;padding:18px 0;font-family:"LXGW WenKai",serif;font-size:23px;border-right:1px solid var(--rule);cursor:pointer;}
 .sel-acts div:last-child{border-right:0;}
 .sel-acts div.on{background:var(--ink);color:var(--paper);}
 
-/* sheet / panel */
-.mask{position:absolute;inset:0;background:rgba(35,35,31,.25);display:none;z-index:30;}
+.mask{position:absolute;inset:0;background:rgba(35,35,31,.28);display:none;z-index:65;}
 .mask.on{display:block;}
 .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--ink);
-       padding:38px 84px 44px;height:520px;transform:translateY(100%);transition:transform .22s;z-index:40;}
-.sheet.on{transform:none;}
-.sheet-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;}
+       padding:36px 84px 40px;height:500px;z-index:70;}
+.sheet-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
 .sheet-head .t{font-family:"LXGW WenKai",serif;font-size:28px;}
-.sheet-head .s{font-size:19px;color:var(--sub);}
-textarea{width:100%;height:232px;border:1px solid var(--rule);padding:22px;font-family:"LXGW WenKai",serif;
+textarea{width:100%;height:210px;border:1px solid var(--rule);padding:20px;font-family:"LXGW WenKai",serif;
          font-size:24px;line-height:1.85;background:transparent;resize:none;outline:none;color:var(--ink);}
-.sheet-foot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
-.btn{padding:13px 38px;border:1px solid var(--ink);font-family:"LXGW WenKai",serif;font-size:24px;background:none;cursor:pointer;color:var(--ink);}
+.sheet-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
+.btn{padding:12px 36px;border:1px solid var(--ink);font-family:"LXGW WenKai",serif;font-size:24px;background:none;cursor:pointer;color:var(--ink);}
 .btn.primary{background:var(--ink);color:var(--paper);}
 .btn.ghost{border-color:var(--rule);color:var(--sub);}
-.panel{position:absolute;right:0;top:0;bottom:0;width:680px;background:var(--paper);border-left:2px solid var(--ink);
-       padding:56px 54px;transform:translateX(100%);transition:transform .22s;z-index:40;}
-.panel.on{transform:none;}
-.panel .hd{display:flex;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--rule);}
+
+.panel{position:absolute;inset:0;background:var(--paper);z-index:55;padding:56px 84px;display:none;overflow-y:auto;}
+.panel.on{display:block;}
+.panel .hd{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--rule);}
 .panel .hd .t{font-family:"LXGW WenKai",serif;font-size:30px;}
 .toc-list{list-style:none;margin-top:6px;}
-.toc-list li{display:flex;gap:14px;padding:16px 0;font-family:"LXGW WenKai",serif;font-size:23px;color:var(--sub);cursor:pointer;}
+.toc-list li{display:flex;gap:14px;padding:15px 0;font-family:"LXGW WenKai",serif;font-size:23px;color:var(--sub);cursor:pointer;}
 .toc-list li.on{color:var(--ink);}
 .toc-list li.on:before{content:"";width:4px;background:var(--red);}
 
-/* words */
-.chiprow{display:flex;gap:14px;margin-top:26px;}
-.chiprow span{border:1px solid var(--rule);padding:9px 20px;font-size:19px;color:var(--sub);cursor:pointer;}
-.chiprow span.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
-.card-word{font-family:Arial,sans-serif;font-size:76px;font-weight:700;margin:30px 0 4px;}
-.ipa{font-size:25px;color:var(--sub);}
+.card-word{font-family:Arial,sans-serif;font-size:70px;font-weight:700;margin:24px 0 4px;}
+.ipa{font-size:24px;color:var(--sub);}
 .pos{font-size:21px;color:var(--sub);margin-left:12px;}
-.def{font-size:26px;line-height:1.6;margin:18px 0 20px;}
-.roots{display:flex;gap:16px;padding:22px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:22px;}
+.def{font-size:25px;line-height:1.6;margin:14px 0 16px;}
+.roots{display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:22px;}
 .roots b{font-family:Arial,sans-serif;}
 .roots span{color:var(--sub);}
-.story{font-family:"LXGW WenKai",serif;font-size:22px;line-height:1.9;margin:20px 0 14px;text-align:justify;}
+.story{font-family:"LXGW WenKai",serif;font-size:22px;line-height:1.9;margin:16px 0 10px;text-align:justify;}
 .family{font-size:20px;color:var(--sub);line-height:1.85;}
 .family em{font-style:normal;color:var(--ink);}
-.ex{margin-top:14px;font-size:21px;line-height:1.7;}
+.ex{margin-top:10px;font-size:21px;line-height:1.7;}
 .ex .zh{font-family:"LXGW WenKai",serif;color:var(--sub);font-size:20px;}
-.acts{display:flex;gap:18px;position:absolute;left:84px;right:84px;bottom:44px;}
-.acts div{flex:1;height:88px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;
-          font-family:"LXGW WenKai",serif;font-size:26px;cursor:pointer;}
+.acts{display:flex;gap:18px;position:absolute;left:84px;right:84px;bottom:42px;background:var(--paper);padding-top:12px;}
+.acts div{flex:1;height:84px;border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;
+          font-family:"LXGW WenKai",serif;font-size:25px;cursor:pointer;}
 .acts div.dim{border-color:var(--rule);color:var(--sub);}
 .acts div.good{background:var(--ink);color:var(--paper);}
 
-/* list rows (wordbook) */
-.entry{padding:24px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
+.entry{padding:20px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
 .entry .hd{display:flex;align-items:baseline;gap:12px;}
-.entry .hd .w{font-family:Arial,sans-serif;font-size:30px;font-weight:700;}
-.entry .hd .pos{font-size:19px;}
+.entry .hd .w{font-family:Arial,sans-serif;font-size:29px;font-weight:700;}
 .entry .src{font-family:"LXGW WenKai",serif;font-size:19px;color:var(--sub);margin-top:6px;}
-.entry .quote{font-size:19px;color:#3b3b36;margin-top:8px;line-height:1.6;}
+.entry .quote{font-size:19px;color:#3b3b36;margin-top:6px;line-height:1.6;}
 .entry .quote mark{background:var(--hl);}
 
-/* misc */
-.searchbar{display:flex;align-items:center;gap:14px;margin-top:30px;border:1px solid var(--ink);padding:18px 22px;}
-.searchbar input{flex:1;border:0;background:none;outline:none;font-family:Arial,sans-serif;font-size:26px;color:var(--ink);}
-.searchbar .scope{font-size:18px;color:var(--sub);border-left:1px solid var(--rule);padding-left:16px;}
-.res-group{margin-top:28px;font-size:19px;color:var(--faint);letter-spacing:.2em;}
-.res{padding:18px 0;border-bottom:1px solid var(--rule);font-size:23px;cursor:pointer;}
+.searchbar{display:flex;align-items:center;gap:14px;margin-top:24px;border:1px solid var(--ink);padding:16px 20px;cursor:text;}
+.searchbar input{flex:1;border:0;background:none;outline:none;font-family:Arial,sans-serif;font-size:25px;color:var(--ink);}
+.searchbar .scope{font-size:18px;color:var(--sub);border-left:1px solid var(--rule);padding-left:14px;}
+.res-group{margin-top:24px;font-size:19px;color:var(--faint);letter-spacing:.2em;}
+.res{padding:16px 0;border-bottom:1px solid var(--rule);font-size:22px;cursor:pointer;}
 .res .s{font-size:18px;color:var(--sub);margin-top:6px;}
-.hidden{display:none !important;}
-.banner{margin-top:28px;border:1px solid var(--amber);padding:24px 26px;}
+.banner{margin-top:24px;border:1px solid var(--amber);padding:22px 24px;}
 .banner .t{font-family:"LXGW WenKai",serif;font-size:24px;color:var(--amber);}
 .banner .d{font-size:18px;color:var(--sub);margin-top:8px;line-height:1.7;}
 .banner .b{display:flex;gap:14px;margin-top:16px;}
 .banner .b span{border:1px solid var(--amber);color:var(--amber);padding:8px 22px;font-size:19px;cursor:pointer;}
-.cloud-row{display:flex;align-items:center;gap:18px;padding:24px 0;border-bottom:1px solid var(--rule);}
+.cloud-row{display:flex;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid var(--rule);cursor:pointer;}
 .cloud-row .ct{flex:1;}
-.cloud-row .n{font-family:"LXGW WenKai",serif;font-size:26px;}
+.cloud-row .n{font-family:"LXGW WenKai",serif;font-size:25px;}
 .cloud-row .m{font-size:17px;color:var(--faint);margin-top:4px;}
-.cloud-row .act{border:1px solid var(--ink);padding:8px 18px;font-size:18px;cursor:pointer;}
-.cloud-row .act.dis{border-color:var(--rule);color:var(--faint);cursor:default;}
-.setrow{display:flex;align-items:center;justify-content:space-between;padding:26px 0;border-bottom:1px solid var(--rule);}
-.setrow .k{font-family:"LXGW WenKai",serif;font-size:25px;}
-.setrow .v{font-size:21px;color:var(--sub);}
-input[type=range]{width:340px;accent-color:#23231F;}
-.stat4{display:flex;margin-top:34px;border:1px solid var(--rule);}
-.stat4 div{flex:1;text-align:center;padding:28px 0;border-right:1px solid var(--rule);}
+.cloud-row .act{border:1px solid var(--ink);padding:8px 18px;font-size:18px;}
+.cloud-row .act.dis{border-color:var(--rule);color:var(--faint);}
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--rule);}
+.setrow .k{font-family:"LXGW WenKai",serif;font-size:24px;}
+.setrow .v{font-size:20px;color:var(--sub);}
+input[type=range]{width:300px;accent-color:#23231F;}
+.stat4{display:flex;margin-top:28px;border:1px solid var(--rule);}
+.stat4 div{flex:1;text-align:center;padding:24px 0;border-right:1px solid var(--rule);cursor:pointer;}
 .stat4 div:last-child{border-right:0;}
-.stat4 b{display:block;font-family:Arial,sans-serif;font-size:44px;}
+.stat4 b{display:block;font-family:Arial,sans-serif;font-size:42px;}
 .stat4 span{font-size:18px;color:var(--sub);}
-.toast{position:absolute;left:50%;bottom:140px;transform:translateX(-50%);background:var(--ink);color:var(--paper);
-       padding:16px 30px;font-size:20px;border-radius:2px;opacity:0;transition:opacity .2s;z-index:90;pointer-events:none;}
+.toast{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);background:var(--ink);color:var(--paper);
+       padding:14px 26px;font-size:20px;opacity:0;transition:opacity .2s;z-index:95;pointer-events:none;white-space:nowrap;}
 .toast.on{opacity:1;}
+.empty{font-size:20px;color:var(--faint);padding:36px 0;text-align:center;line-height:1.8;}
+.chiprow{display:flex;gap:12px;margin-top:20px;}
+.chiprow span{border:1px solid var(--rule);padding:8px 18px;font-size:18px;color:var(--sub);cursor:pointer;}
+.chiprow span.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 </style>
 </head>
 <body>
@@ -179,14 +167,14 @@ input[type=range]{width:340px;accent-color:#23231F;}
 <div class="toast" id="toast"></div>
 
 <script>
-/* ---------------- 数据（原型用假数据） ---------------- */
+/* ============ 数据 ============ */
 const BOOKS = [
-  {id:'guns',  t:'枪炮、病菌与钢铁', a:'贾雷德·戴蒙德', src:'wx', p:37,  ch:'第 8 章', cache:true},
+  {id:'guns',  t:'枪炮、病菌与钢铁', a:'贾雷德·戴蒙德', src:'wx',    p:37, ch:'第 8 章', cache:true},
   {id:'sapiens',t:'人类简史',       a:'尤瓦尔·赫拉利', src:'local', p:62, ch:'第 12 章'},
-  {id:'courage',t:'被讨厌的勇气',   a:'岸见一郎',      src:'wx', p:18,  ch:'第 2 章', cache:true},
-  {id:'rural',  t:'乡土中国',       a:'费孝通',        src:'local', p:100, ch:'第 3 章'},
-  {id:'inside', t:'置身事内',       a:'兰小欢',        src:'wx', p:54,  ch:'第 2 章', cache:false},
-  {id:'klara',  t:'克拉拉与太阳',   a:'石黑一雄',      src:'wx', p:12,  ch:'第 1 章', cache:true},
+  {id:'courage',t:'被讨厌的勇气',   a:'岸见一郎',      src:'wx',    p:18, ch:'第 2 章', cache:true},
+  {id:'rural',  t:'乡土中国',       a:'费孝通',        src:'local', p:100,ch:'第 3 章'},
+  {id:'inside', t:'置身事内',       a:'兰小欢',        src:'wx',    p:54, ch:'第 2 章', cache:false},
+  {id:'klara',  t:'克拉拉与太阳',   a:'石黑一雄',      src:'wx',    p:12, ch:'第 1 章', cache:true},
 ];
 const CHAPTERS = ['前言　为什么说世界历史就像洋葱一样？','开场白　亚力的问题','第 1 章　人类社会的起跑线',
   '第 7 章　杏仁的前世今生','第 8 章　是苹果的问题，还是印第安人的问题？','第 9 章　斑马、不幸的婚姻和安娜卡列尼娜原则','第 10 章　辽阔的天空与偏斜的轴线'];
@@ -197,433 +185,446 @@ const TEXT = [
 '植物研究则不可能用这种方式。植物物种数量极为庞大，会开花的野生植物就多达 20 万种。这些野生植物是陆地植物的主流，几乎涵盖作物的全部。植物多如繁星，无法一一详加研究。',
 '听到有这么多种会开花的野生植物，人们的第一反应可能是：地球上既然有这么多种野生植物，那么一个地方只要气候条件良好，能驯化成作物的物种就一定多得不得了。',
 '但是，我们不得不说，绝大多数的野生植物用处不大，原因很明显：大多数是木本植物，没有可供食用的果实，也没有可食的叶子和块根。在 20 万种野生植物中，只有几千种可供人类食用。',
-'然而，我们还是无法解释清楚为何有些地区就是无法驯化野生植物。最让人百思莫解的是，有几种植物在某地被驯化了，却无法在另一个地方被驯化。若已知某种植物确实可发展成有用的作物，为什么偏偏在一些地区无法发展？',
+'然而，我们还是无法解释清楚为何有些地区就是无法驯化野生植物。最让人百思莫解的是，有几种植物在某地被驯化了，却无法在另一个地方被驯化。',
 '这个问题把我们带回本书的主线：不是人种的高低，而是环境的差异。可驯化的动植物资源，在地球上的分布极不均匀，而这种不均匀，又通过粮食剩余、人口密度、社会分工，层层放大成了文明之间的差距。',
-'换句话说，历史的走向并不是由某个民族的聪明或勤奋决定的，而是由他们脚下那块土地能提供什么决定的。这个结论听起来冷酷，却比任何文化优越论都更经得起推敲。',
-'我们将在后面的章节里，逐一检验这条线索：从病菌的演化，到文字的传播，再到技术与制度的扩散。每一条线索都会指向同一个方向——地理，而不是人。',
-'当然，这个解释也有它的边界。它无法说明为什么同一片土地上，不同时期会出现截然不同的社会形态；也无法说明个人的选择在历史中的作用。但它至少提供了一个可以检验的起点。',
 ];
-const WORD = {
-  w:'ambiguous', ipa:'/æmˈbɪɡjuəs/', pos:'adj.',
-  def:'having more than one possible meaning, so it is not clear which one is intended',
+const WORDS = [
+ {w:'ambiguous', ipa:'/æmˈbɪɡjuəs/', pos:'adj.', def:'having more than one possible meaning, so it is not clear which one is intended',
   roots:[['ambi-','both'],['ag-','to drive'],['-ous','adj.']],
   story:'拉丁语 ambigere 原义是「把……往两边赶」。牧人挥鞭，羊群一半往左一半往右，队伍就散了——一个说法被同时推向两个方向，听的人自然抓不住落点。',
   family:'ambivalent　ambidextrous　ambition　agent　agenda',
-  ex:["The contract's wording is deliberately ambiguous.",'Its conclusion was ambiguous: neither a promise nor a refusal.'],
-  syn:'vague　·　equivocal　·　unclear', ant:'explicit　·　unambiguous　·　clear'
-};
-const WORDBOOK = [
-  {w:'ambiguous', pos:'adj.', src:'《枪炮、病菌与钢铁》第 8 章', q:'…deliberately %ambiguous%, leaving room for both sides…'},
-  {w:'susceptible', pos:'adj.', src:'《乡土中国》第 3 章', q:'…villages were %susceptible% to drought…'},
-  {w:'inevitable', pos:'adj.', src:'《置身事内》第 2 章', q:'…centralisation was %inevitable% once…'},
-  {w:'consensus', pos:'n.', src:'雅思核心 3500 · 社会', q:'There is a growing %consensus% that the policy has failed.'},
-  {w:'erode', pos:'v.', src:'雅思核心 3500 · 环境', q:'Coastal land is being %eroded% at an alarming rate.'},
+  ex:["The contract's wording is deliberately ambiguous.",'Its conclusion was ambiguous: neither a promise nor a refusal.']},
+ {w:'susceptible', ipa:'/səˈseptəbl/', pos:'adj.', def:'easily affected or influenced by something',
+  roots:[['sus-','under'],['cept-','to take'],['-ible','able to']],
+  story:'suscipio 是「从下面接住」。接得住，就容易被落下来的东西影响——于是 susceptible 既是「易受影响的」，也是「易感的」。',
+  family:'accept　receive　capture　concept',
+  ex:['Villages were susceptible to drought and to the whims of the market.','Children are more susceptible to infection.']},
+ {w:'inevitable', ipa:'/ɪnˈevɪtəbl/', pos:'adj.', def:'certain to happen; impossible to avoid',
+  roots:[['in-','not'],['evit-','to avoid'],['-able','able to']],
+  story:'evitare 是「躲开」。躲不开的，就是 inevitable。同族的 evitable 反而很少用——因为值得说的，总是躲不开的那件事。',
+  family:'evitable　inevitability',
+  ex:['Some degree of centralisation was inevitable once the tax system collapsed.','War seemed inevitable.']},
+ {w:'consensus', ipa:'/kənˈsensəs/', pos:'n.', def:'an opinion that everyone in a group agrees with',
+  roots:[['con-','together'],['sens-','to feel'],['-us','noun']],
+  story:'拉丁 consensus 原是「共同感觉」——不是投票投出来的，是大家感觉到一块儿去了。',
+  family:'consent　dissent　resent　sentiment',
+  ex:['There is a growing consensus that the policy has failed.','The committee reached a consensus.']},
+ {w:'erode', ipa:'/ɪˈrəʊd/', pos:'v.', def:'to wear away gradually',
+  roots:[['e-','out'],['rod-','to gnaw'],['-e','verb']],
+  story:'rodere 是「啃」。水一点点啃掉岸，信任一点点被啃掉，都是 erode。',
+  family:'erosion　corrode　rodent',
+  ex:['Coastal land is being eroded at an alarming rate.','Confidence in the system has eroded.']},
+];
+const ANIMALS = [
+  {slug:'giant-panda', zh:'大熊猫', en:'Giant panda', latin:'Ailuropoda melanoleuca', cr:'摄 · @chrisdt · CC BY 4.0',
+   traits:['A bear that lives almost entirely on bamboo.','It spends up to 14 hours a day eating.'], words:'bamboo · habitat · endangered'},
+  {slug:'chinese-pangolin', zh:'中华穿山甲', en:'Chinese pangolin', latin:'Manis pentadactyla', cr:'摄 · @weitingliu · CC BY 4.0',
+   traits:['A scaly anteater that feeds on ants and termites.','It curls into a ball when threatened.'], words:'scales · termite · trafficked'},
+  {slug:'crested-ibis', zh:'朱鹮', en:'Crested ibis', latin:'Nipponia nippon', cr:'摄 · @stevestevens · CC0',
+   traits:['A wading bird once thought extinct in the wild.','Its plumage turns grey during breeding season.'], words:'wetland · plumage · endemic'},
 ];
 
-/* ---------------- 状态 ---------------- */
+/* ============ 状态 ============ */
 const S = {
-  screen:'boot', prev:[], tab:'全部', font:27, lh:1.92, offline:false, logged:true,
-  page:0, pages:1, book:null, selText:'', highlights:[], toastTimer:null,
-  wordIdx:0, reviewLeft:35, noteDraft:'', search:'', searchScoped:false,
-  wechatSynced:'09:38', pending:2
+  screen:'boot', stack:[], tab:'home',
+  shelfTab:'全部', font:28, lh:1.92,
+  offline:false, pending:2,
+  page:0, pages:1, book:null,
+  selText:'', selRange:null,
+  notes:[], highlights:[],
+  search:'', scope:'all',
+  wordQueue:[], wordIdx:0, todayDone:12, reviewLeft:35, reviewMode:false, knowCount:0,
+  animalIdx:0
 };
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on');
-  clearTimeout(S.toastTimer); S.toastTimer=setTimeout(()=>t.classList.remove('on'),1400); }
-
-/* ---------------- 主题 / 缩放 ---------------- */
-function fit(){
-  const d=$('#device'), pad=40;
-  const k=Math.min((innerWidth-pad)/1080,(innerHeight-pad)/1430);
-  d.style.transform=`scale(${k})`;
-}
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(S.tt);S.tt=setTimeout(()=>t.classList.remove('on'),1300);}
+function fit(){const k=Math.min((innerWidth-40)/1080,(innerHeight-40)/1430);$('#device').style.transform=`scale(${k})`;}
 addEventListener('resize',fit);
 
-/* ---------------- 通用部件 ---------------- */
-const battery = `<svg width="30" height="26" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg>`;
-const wifi = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg>`;
+/* ============ 组件 ============ */
+const bat=`<svg width="28" height="24" viewBox="0 0 30 24" fill="none" stroke="#6F6C63" stroke-width="1.7"><rect x="2" y="7" width="21" height="10" rx="1.5"/><path d="M25.5 10.5 v3"/><rect x="4.5" y="9.5" width="13" height="5" fill="#6F6C63" stroke="none"/></svg>`;
+const wifi=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg>`;
+const mag=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="1.9"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>`;
+const noteIcon=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="1.9"><path d="M5 3h9l5 5v13H5z"/><path d="M8 12h8M8 16h5"/></svg>`;
 
-function statusBar(txt){
-  const net = S.offline ? '' : wifi;
-  return `<div class="status"><span>${txt||'09:41'}</span>${net}${battery}<span>78%</span></div>`;
+function st(extra){ return `<div class="status">${extra?`<span>${extra}</span>`:''}${S.offline?'':wifi}${bat}<span>78%</span></div>`; }
+function bar(title,{back=false,right='',icons=''}={}){
+  return `<div class="topbar"><div class="brand">${back?'<span class="back" data-back="1">←</span>':''}${title}</div>
+    <div style="display:flex;align-items:center;gap:12px">${icons}${st(right)}</div></div><div class="rule-strong"></div>`;
 }
-function tabbar(active){
+function tabs(active){
   const items=[['home','书架'],['wechat','微信读书'],['today','单词'],['settings','设置']];
   return `<nav class="tabbar">${items.map(([k,n])=>
-    `<span class="${active===k?'on':''}" data-go="${k}">${n}</span>`).join('')}</nav>`;
+    `<span class="${active===k?'on':''}" data-tab2="${k}">${n}</span>`).join('')}</nav>`;
 }
 
-/* ---------------- 屏：开机 ---------------- */
-function sBoot(){
-  return `<section class="screen boot" data-go="home">
-    <svg width="156" height="156" viewBox="0 0 200 200" style="margin-bottom:38px">
-      <g fill="#23231F"><rect x="58" y="56" width="15" height="86"/><rect x="80" y="74" width="15" height="68"/>
-      <rect x="102" y="90" width="15" height="52"/><rect x="124" y="74" width="15" height="68"/><rect x="146" y="56" width="15" height="86"/></g>
-      <path d="M50 142 C50 168 160 168 160 142" stroke="#23231F" stroke-width="10" fill="none" stroke-linecap="round"/>
-    </svg>
-    <div class="kai" style="font-size:66px;letter-spacing:.42em;text-indent:.42em">拾页</div>
-    <div style="margin-top:18px;font-size:20px;color:var(--faint);letter-spacing:.34em">READ SLOWLY</div>
-    <div class="foot">轻点屏幕进入　·　KOBO AURA H2O</div>
-  </section>`;
-}
+/* ============ 屏 ============ */
+const V = {};
 
-/* ---------------- 屏：书架 ---------------- */
-function sHome(){
+V.boot = ()=> `<section class="screen boot" data-go="home">
+  <svg width="150" height="150" viewBox="0 0 200 200" style="margin-bottom:34px">
+    <g fill="#23231F"><rect x="58" y="56" width="15" height="86"/><rect x="80" y="74" width="15" height="68"/>
+    <rect x="102" y="90" width="15" height="52"/><rect x="124" y="74" width="15" height="68"/><rect x="146" y="56" width="15" height="86"/></g>
+    <path d="M50 142 C50 168 160 168 160 142" stroke="#23231F" stroke-width="10" fill="none" stroke-linecap="round"/></svg>
+  <div style="font-family:'LXGW WenKai',serif;font-size:64px;letter-spacing:.4em;text-indent:.4em">拾页</div>
+  <div style="margin-top:16px;font-size:19px;color:var(--faint);letter-spacing:.32em">READ SLOWLY</div>
+  <div class="foot">轻点屏幕进入</div></section>`;
+
+V.home = ()=>{
   const b=BOOKS[0];
-  const list = S.tab==='最近' ? BOOKS.slice(0,4) : BOOKS;
+  const list = S.shelfTab==='最近' ? BOOKS.slice(0,4) : BOOKS;
   return `<section class="screen pad">
-    <div class="topbar"><div class="brand">书架</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div class="hero" data-open="${b.id}">
+    ${bar('书架',{icons:`<div class="icon" data-search="1">${mag}</div><div class="icon" data-go="notes">${noteIcon}</div>`})}
+    <div class="hero" data-open="guns">
       <div class="cover wx"><span>枪炮、<br>病菌<br>与钢铁</span></div>
-      <div class="hero-info">
-        <div class="kicker">继续阅读</div>
-        <h1>${b.t}</h1><div class="author">${b.a}</div>
+      <div class="hero-info"><div class="kicker">继续阅读</div><h1>${b.t}</h1><div class="author">${b.a}</div>
         <div class="progress wx"><i style="width:${b.p}%"></i></div>
-        <div class="meta">${b.ch}　·　${b.p}%<span style="color:var(--green);margin-left:18px">● 微信读书 · 已缓存</span></div>
-      </div>
-    </div>
-    <div class="tabs">
-      <span class="${S.tab==='全部'?'on':''}" data-tab="全部">全部</span>
-      <span class="${S.tab==='最近'?'on':''}" data-tab="最近">最近</span>
-      <span class="count">${BOOKS.length} 本</span>
-    </div>
+        <div class="meta">${b.ch} · ${b.p}%　<span style="color:var(--green)">● 微信读书</span></div></div></div>
+    <div class="tabs"><span class="${S.shelfTab==='全部'?'on':''}" data-shelftab="全部">全部</span>
+      <span class="${S.shelfTab==='最近'?'on':''}" data-shelftab="最近">最近</span>
+      <span class="count">${BOOKS.length} 本</span></div>
     ${list.map(x=>`<div class="row" data-open="${x.id}">
       <div class="mini ${x.src==='wx'?'wx':''}"><span>${x.t.slice(0,6)}</span></div>
-      <div class="info"><div class="n">${x.t}</div>
-        <div class="m">${x.a}　·　${x.src==='wx'?'微信读书':'本地 EPUB'}　·　${x.p===100?'已读完':x.p+'%'}</div></div>
+      <div class="info"><div class="n">${x.t}</div><div class="m">${x.a} · ${x.src==='wx'?'微信读书':'本地 EPUB'}${x.src==='wx'&&!x.cache?' · 未缓存':''}</div></div>
       <div class="p">${x.p}%</div></div>`).join('')}
-    <div class="shelf-stat">本地 3 本　·　微信读书 12 本　·　生词 128 个</div>
-    ${tabbar('home')}
-  </section>`;
-}
+    <div class="shelf-stat">本地 3 本 · 微信读书 12 本 · 生词 128 个 · 笔记 ${S.notes.length}</div>
+    ${tabs('home')}</section>`;
+};
 
-/* ---------------- 屏：微信读书 ---------------- */
-function sWechat(){
-  const rows = [
-    ['人类简史','已缓存 8.2 MB · 读完 62%',62,true],
-    ['枪炮、病菌与钢铁','已缓存 12.4 MB · 读到第 8 章',37,true],
-    ['置身事内','未缓存 · 约 9.7 MB',null,false],
-    ['额尔古纳河右岸','未缓存 · 约 11.2 MB',null,false],
-    ['平凡的世界','已缓存 15.8 MB · 读到第 3 章',28,true],
-  ];
+V.wechat = ()=>{
+  const rows=[['人类简史','8.2 MB · 62%',62,true],['枪炮、病菌与钢铁','12.4 MB · 第 8 章',37,true],
+    ['置身事内','未缓存 · 9.7 MB',null,false],['额尔古纳河右岸','未缓存 · 11.2 MB',null,false],['平凡的世界','15.8 MB · 第 3 章',28,true]];
   return `<section class="screen pad">
-    <div class="topbar"><div class="brand">微信读书</div>
-      ${S.offline ? `<div class="meta" style="color:var(--amber)">● 未连接</div>`
-                  : `<div class="meta" style="color:var(--green)">● 已同步 ${S.wechatSynced}</div>`}</div>
-    <div class="rule-strong"></div>
-    ${S.offline ? `<div class="banner"><div class="t">家庭服务器未连接</div>
-      <div class="d">已缓存的书照常可读；未缓存的需要联网，或把服务器打开。</div>
+    ${bar('微信读书',{icons:`<div class="icon" data-search="1">${mag}</div>`,right:S.offline?'● 未连接':'● 已同步 09:38'})}
+    ${S.offline?`<div class="banner"><div class="t">家庭服务器未连接</div>
+      <div class="d">已缓存的书照常可读；未缓存的需要联网。</div>
       <div class="b"><span data-act="retry">重试</span><span data-go="settings">检查服务</span></div></div>`
-      : `<div class="shelf-stat" style="margin-top:26px">账号已连接　·　云端 12 本　·　本周在读 3 本</div>`}
-    ${rows.map(([t,m,p,cached])=>`<div class="cloud-row ${(!cached&&S.offline)?'hidden':''}">
+      :`<div class="shelf-stat" style="margin-top:20px">账号已连接 · 云端 12 本 · 本周在读 3 本</div>`}
+    ${rows.map(([t,m,p,c])=>`<div class="cloud-row">
       <div class="ct"><div class="n">${t}</div><div class="m">${m}</div></div>
       ${p!==null?`<div class="meta">${p}%</div>`:''}
-      ${cached?`<div class="act dis">已缓存</div>`
-              :`<div class="act ${S.offline?'dis':''}" data-act="download">下载</div>`}</div>`).join('')}
-    <div class="meta" style="margin-top:30px;display:flex;justify-content:space-between">
-      <span>${S.offline?'离线可读 3 本':'服务 · 家庭服务器 在线'}</span><span>缓存 2.1 GB / 3.6 GB</span></div>
-    ${tabbar('wechat')}
-  </section>`;
-}
+      ${c?`<div class="act dis">已缓存</div>`:`<div class="act ${S.offline?'dis':''}" data-act="download">下载</div>`}</div>`).join('')}
+    <div class="meta" style="margin-top:22px;display:flex;justify-content:space-between">
+      <span>${S.offline?'离线可读 3 本':'服务 · 家庭服务器 在线'}</span><span>缓存 2.1 / 3.6 GB</span></div>
+    ${tabs('wechat')}</section>`;
+};
 
-/* ---------------- 屏：阅读 ---------------- */
-function sReader(){
-  const b=S.book||BOOKS[0];
-  const wx = b.src==='wx';
+V.reader = ()=>{
+  const b=S.book||BOOKS[0], wx=b.src==='wx';
   return `<section class="screen reader">
-    <div class="read-top"><span>${b.ch}　是苹果的问题，还是印第安人的问题？</span>
-      <span>${wx?'09:41':'09:41'} ${battery}</span></div>
-    <div class="rule"></div>
-    <div class="page-wrap" id="wrap">
-      <div class="page-text" id="pages" style="--fs:${S.font}px;--lh:${S.lh}">
-        ${TEXT.map(t=>`<p>${t}</p>`).join('')}
-      </div>
-    </div>
-    <div class="read-foot">
-      <span>09:41</span><span id="pageno">1 / 1</span>
-      <span style="color:${wx?(S.pending?'var(--amber)':'var(--green)'):'var(--sub)'}">
-        ${wx?(S.pending?'● 微信读书 · 待同步 '+S.pending+' 处':'● 微信读书 · 已同步'):'● 本地 · EPUB'}</span>
+    <div class="inner">
+      <div class="read-top"><span class="back" data-back="1">←</span>
+        <span style="flex:1">${b.ch}　是苹果的问题，还是印第安人的问题？</span>${st()}</div>
+      <div class="rule"></div>
+      <div class="page-wrap"><div class="page-text" id="pages" style="font-size:${S.font}px;line-height:${S.lh}">
+        ${TEXT.map(t=>`<p>${t}</p>`).join('')}</div></div>
+      <div class="read-foot"><span>09:41</span><span id="pageno">1 / 1</span>
+        <span style="color:${wx?(S.pending?'var(--amber)':'var(--green)'):'var(--sub)'}">
+          ${wx?(S.pending?'● 微信读书 · 待同步 '+S.pending+' 处':'● 微信读书 · 已同步'):'● 本地 · EPUB'}</span></div>
     </div>
     <div class="selbar" id="selbar"></div>
-    <div class="chrome" id="chrome" style="display:none"></div>
+    <div class="panel" id="panel"></div>
   </section>`;
-}
+};
 
-function paginate(){
-  const wrap=$('#wrap'), inner=$('#pages');
-  setTimeout(()=>{
-    if(!wrap||!inner) return;
-    const total = inner.scrollWidth, step = 824+104;
-    S.pages = Math.max(1, Math.round(total/step));
-    $('#pageno').textContent = `${S.page+1} / ${S.pages}`;
-    inner.style.transform = `translateX(${-S.page*step}px)`;
-    inner.style.transition = 'transform .18s';
-  },30);
-}
+V.notes = ()=> `<section class="screen pad">
+  ${bar('笔记与划线',{back:true})}
+  <div class="chiprow"><span class="on">全部 ${S.notes.length}</span><span>笔记 ${S.notes.length}</span><span>划线 ${S.highlights.length}</span></div>
+  ${S.notes.length? S.notes.map(n=>`<div class="entry">
+      <div class="src">${n.book} · ${n.chapter}　·　${n.time}</div>
+      <div class="quote">「${esc(n.quote||'')}」</div>
+      <div style="font-family:'LXGW WenKai',serif;font-size:21px;margin-top:6px">${esc(n.text)}</div></div>`).join('')
+    : `<div class="empty">还没有笔记。<br>读书时选中文字，点「笔记」就会存到这里。</div>`}
+  ${S.highlights.length?`<div class="res-group">划线</div>
+    ${S.highlights.map(h=>`<div class="entry"><div class="quote">「${esc(h)}」</div>
+      <div class="src">枪炮、病菌与钢铁 · 第 8 章</div></div>`).join('')}`:''}
+</section>`;
 
-/* ---------------- 屏：单词 ---------------- */
-function sToday(){
-  const done=12, goal=20;
+V.search = ()=>{
+  const q=S.search.trim().toLowerCase();
+  const scoped=S.scope==='module';
+  const ws=WORDS.filter(w=>!q||w.w.includes(q)||w.def.includes(q));
+  const bs=scoped?[]:BOOKS.filter(b=>!q||b.t.includes(q)||b.a.includes(q));
   return `<section class="screen pad">
-    <div class="topbar"><div class="brand">今日</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div class="stat4">
-      <div><b>${done}</b><span>今日新词</span></div>
-      <div><b>${S.reviewLeft}</b><span>待复习</span></div>
-      <div><b>12</b><span>连续天数</span></div>
-    </div>
-    <div style="margin-top:32px">
-      <div style="display:flex;justify-content:space-between;font-size:21px;color:var(--sub)">
-        <span>今日目标 ${goal} 词</span><span>${done} / ${goal}</span></div>
-      <div class="progress" style="margin-top:14px"><i style="width:${done/goal*100}%"></i></div>
-      <div class="meta" style="font-size:18px;color:var(--faint);margin-top:12px">再学 ${goal-done} 个就达标　·　已用 18 分钟</div>
-    </div>
-    <div class="btn primary" style="width:100%;margin-top:40px;padding:26px" data-go="review">开始复习 · ${S.reviewLeft} 词</div>
-    <div class="btn" style="width:100%;margin-top:16px;padding:22px" data-go="card">继续学新词</div>
-    ${tabbar('today')}
+    ${bar('搜索',{back:true})}
+    <div class="searchbar">${mag}
+      <input id="q" value="${esc(S.search)}" placeholder="搜索${scoped?'本模块':''}单词、书籍、笔记">
+      <span class="scope">${scoped?'本模块':'全部'}</span></div>
+    <div class="res-group">单词 ${ws.length}</div>
+    ${ws.length?ws.map(w=>`<div class="res" data-word="${w.w}"><div>${w.w}</div>
+      <div class="s">${esc(w.def.slice(0,46))}…</div></div>`).join(''):'<div class="empty">没有匹配的单词</div>'}
+    ${bs.length?`<div class="res-group">书籍 ${bs.length}</div>${bs.map(b=>`<div class="res" data-open="${b.id}">
+      <div>《${b.t}》</div><div class="s">${b.a} · ${b.p}% · ${b.src==='wx'?'微信读书':'本地'}</div></div>`).join('')}`:''}
+    <div class="res-group">笔记与划线</div>
+    <div class="res" data-go="notes"><div>全部笔记 ${S.notes.length} 条 · 划线 ${S.highlights.length} 条</div>
+      <div class="s">按时间倒序</div></div>
+    <div class="shelf-stat">搜索范围：${scoped?'生词本 128 词':'本地 3 本 · 微信 12 本 · 生词 128 · 笔记 '+S.notes.length}</div>
   </section>`;
-}
+};
 
-function sCard(){
-  const w=WORD;
+V.today = ()=> `<section class="screen pad">
+  ${bar('今日',{icons:`<div class="icon" data-search="1">${mag}</div>`})}
+  <div class="stat4">
+    <div data-act="go-card"><b>${S.todayDone}</b><span>今日新词</span></div>
+    <div data-go="review"><b>${S.reviewLeft}</b><span>待复习</span></div>
+    <div data-go="wordbook"><b>12</b><span>连续天数</span></div>
+  </div>
+  <div style="margin-top:26px"><div style="display:flex;justify-content:space-between;font-size:21px;color:var(--sub)">
+    <span>今日目标 20 词</span><span>${S.todayDone} / 20</span></div>
+    <div class="progress" style="margin-top:14px"><i style="width:${S.todayDone/20*100}%"></i></div></div>
+  <div class="btn primary" style="width:100%;margin-top:30px;padding:24px" data-go="review">开始复习 · ${S.reviewLeft} 词</div>
+  <div class="btn" style="width:100%;margin-top:14px;padding:20px" data-act="go-card">继续学新词</div>
+  <div class="res-group">词书</div>
+  <div class="cloud-row" data-go="books"><div class="ct"><div class="n">雅思核心 3500 · 用英语讲中国 · 动物图鉴</div>
+    <div class="m">3 本词书 · 已学 412 词</div></div><div class="act">打开</div></div>
+  ${tabs('today')}</section>`;
+
+V.books = ()=> `<section class="screen pad">
+  ${bar('词书',{back:true})}
+  ${[['雅思核心 3500','按话题分 12 册 · 已学 412 词','card',12],
+     ['用英语讲中国','历史 · 名胜 · 文化 · 当代 · 120 个单元','china',3],
+     ['动物图鉴 300','哺乳 · 鸟 · 鱼 · 爬行 · 昆虫 · 已看 37 种','atlas',12]]
+   .map(([t,m,go,p])=>`<div class="cloud-row" data-go="${go}">
+     <div class="ct"><div class="n">${t}</div><div class="m">${m}</div>
+       <div class="progress" style="margin:10px 0 0"><i style="width:${p}%"></i></div></div>
+     <div class="meta">${p}%</div></div>`).join('')}
+</section>`;
+
+V.china = ()=> `<section class="screen pad">
+  ${bar('用英语讲中国',{back:true})}
+  <div class="res-group">历史</div>
+  <div class="entry" data-go="card"><div class="hd"><span class="w">Silk Road</span></div>
+    <div class="src">Unit 3 · 20 个主题词 + 一篇 250 词范文</div></div>
+  <div class="entry" data-go="card"><div class="hd"><span class="w">Zheng He</span></div>
+    <div class="src">Unit 5 · 20 个主题词 + 一篇 250 词范文</div></div>
+  <div class="res-group">名胜</div>
+  <div class="entry" data-go="card"><div class="hd"><span class="w">Mount Huang</span></div>
+    <div class="src">Unit 9 · 18 个主题词 + 一篇 250 词范文</div></div>
+  <div class="res-group">文化</div>
+  <div class="entry" data-go="card"><div class="hd"><span class="w">Spring Festival</span></div>
+    <div class="src">Unit 14 · 22 个主题词 + 一篇 250 词范文</div></div>
+</section>`;
+
+V.atlas = ()=>{
+  const a=ANIMALS[S.animalIdx];
   return `<section class="screen pad">
-    <div class="topbar"><div class="brand" style="font-size:28px">雅思 · 核心词</div>
-      <div class="status"><span>今日 12 / 20</span>${battery}</div></div>
-    <div class="rule-strong"></div>
+    ${bar('图鉴 · 动物',{back:true})}
+    <div style="margin-top:18px;height:450px;overflow:hidden">
+      <img src="../assets/animals/${a.slug}.png" style="width:100%;height:100%;object-fit:cover"></div>
+    <div class="meta" style="text-align:right;font-size:16px;color:var(--faint);margin-top:8px">${a.cr} · iNaturalist</div>
+    <div style="display:flex;align-items:baseline;gap:16px;margin-top:14px">
+      <div style="font-family:'LXGW WenKai',serif;font-size:42px">${a.zh}</div><div class="meta">${a.en}</div></div>
+    <div style="font-style:italic;font-size:20px;color:var(--sub)">${a.latin}</div>
+    <div style="margin-top:12px;font-size:21px;line-height:1.8">${a.traits.map(t=>`<div>· ${t}</div>`).join('')}</div>
+    <div class="meta" style="margin-top:12px">相关词　${a.words}</div>
+    <div style="display:flex;justify-content:space-between;margin-top:22px;border-top:1px solid var(--rule);padding-top:18px">
+      <span style="font-size:20px;color:var(--sub);cursor:pointer" data-animal="-1">← 上一张</span>
+      <span class="meta">${String(S.animalIdx+1).padStart(3,'0')} / 300</span>
+      <span style="font-size:20px;color:var(--sub);cursor:pointer" data-animal="1">下一张 →</span></div>
+  </section>`;
+};
+
+V.card = ()=>{
+  const q=S.wordQueue.length?S.wordQueue:[0];
+  const w=WORDS[q[Math.min(S.wordIdx,q.length-1)]];
+  return `<section class="screen pad">
+    ${bar(S.reviewMode?'复习':'新词',{back:true,right:`第 ${S.wordIdx+1} / ${q.length}`})}
     <div class="card-word">${w.w}</div>
     <div><span class="ipa">${w.ipa}</span><span class="pos">${w.pos}</span></div>
     <div class="def">${w.def}</div>
     <div class="roots">${w.roots.map(([r,g])=>`<div><b>${r}</b> <span>${g}</span></div>`).join('')}</div>
     <div class="story">${w.story}</div>
     <div class="family">同根　<em>${w.family}</em></div>
-    <div class="ex"><div>${w.ex[0]}</div><div class="zh" style="color:var(--sub);font-size:20px">${w.ex[1]}</div></div>
-    <div class="acts">
-      <div class="dim" data-rate="forget">忘记</div>
-      <div class="dim" data-rate="vague">模糊</div>
-      <div class="good" data-rate="know">认识</div>
-    </div>
+    <div class="ex"><div>${w.ex[0]}</div><div class="zh" style="font-size:20px">${w.ex[1]}</div></div>
+    <div class="acts"><div class="dim" data-rate="forget">忘记</div>
+      <div class="dim" data-rate="vague">模糊</div><div class="good" data-rate="know">认识</div></div>
   </section>`;
-}
+};
 
-function sWordbook(){
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand">单词本</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div class="stat4"><div><b>128</b><span>生词</span></div><div><b>32</b><span>错词</span></div>
-      <div><b>410</b><span>已掌握</span></div><div><b>46</b><span>我的例句</span></div></div>
-    <div class="searchbar" style="margin-top:26px">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>
-      <input placeholder="搜索单词、出处或笔记" data-nav="wsearch">
-    </div>
-    <div class="res-group">最近收录</div>
-    ${WORDBOOK.slice(0,3).map(x=>`<div class="entry" data-word="${x.w}">
-      <div class="hd"><span class="w">${x.w}</span><span class="pos">${x.pos}</span></div>
-      <div class="src">${x.src}</div></div>`).join('')}
-    <div class="btn" style="width:100%;margin-top:26px;padding:20px" data-act="export">导出为 Markdown / CSV / Anki</div>
-    ${tabbar('today')}
-  </section>`;
-}
+V.worddone = ()=> `<section class="screen pad">
+  ${bar('完成',{back:true})}
+  <div style="margin-top:110px;text-align:center">
+    <div style="font-family:'LXGW WenKai',serif;font-size:40px">这一组学完了</div>
+    <div class="meta" style="margin-top:12px">${S.wordQueue.length} 个词 · 认识 ${S.knowCount} 个</div></div>
+  <div class="btn primary" style="width:100%;margin-top:56px;padding:24px" data-go="today">回到今日</div>
+  <div class="btn" style="width:100%;margin-top:14px;padding:20px" data-act="go-card">再来一组</div>
+</section>`;
 
-function sWordDetail(){
-  const x=WORDBOOK.find(v=>v.w===S.book) || WORDBOOK[0];
+V.review = ()=> `<section class="screen pad">
+  ${bar('复习',{back:true,right:S.reviewLeft+' 词'})}
+  ${[['12','新词复习','昨天学的，今天第一次复现'],['15','错词重练','错过的词单独成组'],['8','长间隔','7 天以上没见，容易忘']]
+   .map(([n,t,d])=>`<div class="cloud-row" data-act="start-review">
+     <div style="font-family:Arial,sans-serif;font-size:36px;font-weight:700;width:56px">${n}</div>
+     <div class="ct"><div class="n">${t}</div><div class="m">${d}</div></div>
+     <div class="act">开始</div></div>`).join('')}
+</section>`;
+
+V.wordbook = ()=> `<section class="screen pad">
+  ${bar('单词本',{back:true})}
+  <div class="stat4"><div><b>128</b><span>生词</span></div><div><b>32</b><span>错词</span></div>
+    <div><b>410</b><span>已掌握</span></div><div><b>46</b><span>我的例句</span></div></div>
+  <div class="searchbar" data-search="module">${mag}<input placeholder="搜索生词、出处或笔记" readonly>
+    <span class="scope">本模块</span></div>
+  <div class="res-group">最近收录</div>
+  ${WORDS.map(x=>`<div class="entry" data-word="${x.w}">
+    <div class="hd"><span class="w">${x.w}</span><span class="pos">${x.pos}</span></div>
+    <div class="src">《枪炮、病菌与钢铁》第 8 章</div></div>`).join('')}
+  <div class="btn" style="width:100%;margin-top:20px;padding:18px" data-act="export">导出 Markdown / CSV / Anki</div>
+</section>`;
+
+V.word = ()=>{
+  const w=WORDS.find(x=>x.w===S.book)||WORDS[0];
   return `<section class="screen pad">
-    <div class="topbar"><div class="brand" style="font-size:28px">生词本</div>${statusBar('生词 · 第 12 个')}</div>
-    <div class="rule-strong"></div>
-    <div style="font-family:Arial,sans-serif;font-size:54px;font-weight:700;margin-top:30px">${x.w}</div>
-    <div class="def" style="font-size:22px;color:var(--sub)">${WORD.def}</div>
+    ${bar('词条',{back:true,right:'生词'})}
+    <div style="font-family:Arial,sans-serif;font-size:50px;font-weight:700;margin-top:20px">${w.w}</div>
+    <div class="def" style="font-size:22px;color:var(--sub)">${w.def}</div>
     <div class="res-group">出处</div>
-    <div style="border-left:3px solid var(--red);padding-left:22px;margin-top:12px">
-      <div class="src" style="font-family:'LXGW WenKai',serif;font-size:20px;color:var(--sub)">${x.src}</div>
-      <div style="font-size:21px;line-height:1.65;margin-top:8px">${x.q.replace(/%(.*?)%/g,'<mark>$1</mark>')}</div>
-    </div>
-    <div class="res-group">笔记</div>
-    <div style="font-size:21px;margin-top:10px">戴蒙德这里的这个词不是含混，是拒绝站队。</div>
-    <div class="acts"><div class="dim" data-go="wordbook">移出生词本</div><div class="good" data-go="review">加入今日复习</div></div>
+    <div style="border-left:3px solid var(--red);padding-left:20px;margin-top:10px">
+      <div class="src" style="font-size:19px;color:var(--sub)">《枪炮、病菌与钢铁》第 8 章</div>
+      <div style="font-size:21px;line-height:1.6;margin-top:6px">…deliberately <mark>${w.w}</mark>, leaving room for both sides…</div></div>
+    <div class="res-group">我的例句</div>
+    <div style="font-size:21px;margin-top:8px">His answer was ${w.w}: neither a promise nor a refusal.</div>
+    <div class="acts"><div class="dim" data-act="remove-word">移出生词本</div><div class="good" data-go="review">加入今日复习</div></div>
   </section>`;
+};
+
+V.compose = ()=> `<section class="screen pad">
+  ${bar('造句',{back:true,right:'雅思 · 0412'})}
+  <div style="font-family:Arial,sans-serif;font-size:44px;font-weight:700;margin-top:20px">ambiguous</div>
+  <div class="meta">用这个词写一句，写完可以联网批改</div>
+  <textarea id="compose" style="margin-top:18px;height:160px" placeholder="His answer was ambiguous, and I could not tell whether he…"></textarea>
+  <div class="btn primary" style="margin-top:14px" data-act="grade">批改</div>
+  <div id="gradeslot"></div>
+</section>`;
+
+V.settings = ()=> `<section class="screen pad">
+  ${bar('设置')}
+  <div class="res-group">排版</div>
+  <div class="setrow"><div class="k">中文字体</div><div class="v">霞鹜文楷 / 宋体</div></div>
+  <div class="setrow"><div class="k">字号</div><input type="range" min="22" max="34" value="${S.font}" id="fs"></div>
+  <div class="setrow"><div class="k">行距</div><input type="range" min="160" max="220" value="${S.lh*100}" id="lh"></div>
+  <div class="res-group">微信读书</div>
+  <div class="setrow"><div class="k">服务</div><div class="v">192.168.1.20:8080　<span style="color:${S.offline?'var(--amber)':'var(--green)'}">${S.offline?'离线':'在线'}</span></div></div>
+  <div class="setrow"><div class="k">模拟断网</div><div class="v"><span style="border:1px solid var(--ink);padding:6px 16px;cursor:pointer" data-act="toggle-offline">${S.offline?'已断开':'未断开'}</span></div></div>
+  <div class="setrow"><div class="k">待回写</div><div class="v">${S.pending} 条　<span style="color:var(--green);cursor:pointer" data-act="flush">立即同步</span></div></div>
+  <div class="res-group">数据</div>
+  <div class="setrow"><div class="k">笔记与划线</div><div class="v"><span style="cursor:pointer" data-go="notes">${S.notes.length} 条笔记 · ${S.highlights.length} 条划线 →</span></div></div>
+  ${tabs('settings')}</section>`;
+
+/* ============ 路由 ============ */
+const SCREENS = V;
+function go(name, params={}){
+  if(name!==S.screen) S.stack.push({name:S.screen, params:{book:S.book, page:S.page, scope:S.scope}});
+  S.screen=name; Object.assign(S, params); render();
 }
-
-function sReview(){
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand">复习</div>${statusBar(S.reviewLeft+' 词待复习')}</div>
-    <div class="rule-strong"></div>
-    ${[['12','新词复习','昨天学的，今天第一次复现'],['15','错词重练','错过的词单独成组'],['8','长间隔','7 天以上没见，容易忘']]
-      .map(([n,t,d])=>`<div class="cloud-row" data-go="card">
-        <div style="font-family:Arial,sans-serif;font-size:38px;font-weight:700;width:60px">${n}</div>
-        <div class="ct"><div class="n">${t}</div><div class="m">${d}</div></div>
-        <div class="act">开始</div></div>`).join('')}
-    ${tabbar('today')}
-  </section>`;
+function back(){
+  const prev=S.stack.pop();
+  if(!prev){ S.screen='home'; return render(); }
+  S.screen=prev.name; Object.assign(S, prev.params||{}); render();
 }
-
-function sCompose(){
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand">造句</div>${statusBar('雅思 · 0412')}</div>
-    <div class="rule-strong"></div>
-    <div style="font-family:Arial,sans-serif;font-size:44px;font-weight:700;margin-top:30px">ambiguous</div>
-    <div class="meta" style="margin-top:6px">用这个词写一句，写完可以联网批改</div>
-    <textarea id="compose" style="margin-top:24px;height:170px" placeholder="His answer was ambiguous, and I could not tell whether he…"></textarea>
-    <div class="btn primary" style="margin-top:18px" data-act="grade">批改</div>
-    <div id="gradeslot"></div>
-    <div class="acts"><div class="dim" data-act="save">保存草稿</div><div class="good" data-act="save">存入我的例句</div></div>
-  </section>`;
-}
-
-function sSearch(){
-  const q=S.search.trim();
-  const rows=WORDBOOK.filter(x=>x.w.toLowerCase().includes(q.toLowerCase())||q==='');
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand">搜索</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div class="searchbar">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>
-      <input id="q" value="${esc(q)}" placeholder="搜索书籍、单词、笔记" autofocus>
-      <span class="scope">${S.searchScoped?'本模块':'全部'}</span>
-    </div>
-    <div class="res-group">单词 ${rows.length}</div>
-    ${rows.slice(0,4).map(x=>`<div class="res" data-word="${x.w}"><div>${x.w}</div><div class="s">${WORD.def.slice(0,46)}…</div></div>`).join('')}
-    <div class="res-group">书籍</div>
-    <div class="res" data-open="guns"><div>《枪炮、病菌与钢铁》</div><div class="s">贾雷德·戴蒙德 · 37% · 微信读书</div></div>
-    <div class="res-group">笔记与划线</div>
-    <div class="res"><div>戴蒙德的答案是“环境”，不是“人种”</div><div class="s">《枪炮、病菌与钢铁》第 8 章 · 2 小时前</div></div>
-    <div class="shelf-stat">搜索范围：本地 3 本　·　微信 12 本　·　生词 128　·　笔记 ${S.highlights.length+3}</div>
-  </section>`;
-}
-
-function sAtlas(){
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand" style="font-size:26px">图鉴 · 哺乳纲</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div style="margin-top:26px;height:500px;overflow:hidden">
-      <img src="../assets/animals/giant-panda.png" style="width:100%;height:100%;object-fit:cover">
-    </div>
-    <div class="meta" style="text-align:right;font-size:16px;color:var(--faint);margin-top:10px">摄 · @chrisdt　·　CC BY 4.0　·　iNaturalist</div>
-    <div style="display:flex;align-items:baseline;gap:18px;margin-top:20px">
-      <div class="kai" style="font-size:46px">大熊猫</div><div class="meta">Giant panda</div></div>
-    <div style="font-style:italic;font-size:20px;color:var(--sub);margin-top:4px">Ailuropoda melanoleuca</div>
-    <div style="margin-top:16px;font-size:22px;line-height:1.8">
-      <div>· A bear that lives almost entirely on bamboo.</div>
-      <div>· It spends up to 14 hours a day eating.</div></div>
-    <div class="meta" style="margin-top:16px">相关词　bamboo　·　habitat　·　endangered</div>
-  </section>`;
-}
-
-function sSettings(){
-  return `<section class="screen pad">
-    <div class="topbar"><div class="brand">设置</div>${statusBar()}</div>
-    <div class="rule-strong"></div>
-    <div class="res-group">排版</div>
-    <div class="setrow"><div class="k">中文字体</div><div class="v"><em style="font-style:normal;color:var(--red)">霞鹜文楷</em> / 宋体</div></div>
-    <div class="setrow"><div class="k">英文字体</div><div class="v"><em style="font-style:normal;color:var(--red)">Arial</em> / Georgia</div></div>
-    <div class="setrow"><div class="k">字号</div><input type="range" min="22" max="34" value="${S.font}" id="fs"></div>
-    <div class="setrow"><div class="k">行距</div><input type="range" min="160" max="220" value="${S.lh*100}" id="lh"></div>
-    <div class="res-group">微信读书</div>
-    <div class="setrow"><div class="k">服务</div><div class="v">192.168.1.20:8080　<em style="font-style:normal;color:${S.offline?'var(--amber)':'var(--green)'}">${S.offline?'离线':'在线'}</em></div></div>
-    <div class="setrow"><div class="k">模拟断网</div><div class="v"><span class="chip" data-act="toggle-offline" style="border:1px solid var(--ink);padding:6px 18px;cursor:pointer">${S.offline?'已断开':'未断开'}</span></div></div>
-    <div class="setrow"><div class="k">待回写</div><div class="v">${S.pending} 条　·　<span data-act="flush" style="color:var(--green);cursor:pointer">立即同步</span></div></div>
-    ${tabbar('settings')}
-  </section>`;
-}
-
-/* ---------------- 路由 ---------------- */
-const SCREENS = {boot:sBoot, home:sHome, wechat:sWechat, reader:sReader, today:sToday, card:sCard,
-  wordbook:sWordbook, word:sWordDetail, review:sReview, compose:sCompose, search:sSearch, atlas:sAtlas, settings:sSettings};
-
-function go(name, opts={}){
-  if(S.screen!==name) S.prev.push(S.screen);
-  S.screen=name; Object.assign(S,opts); render();
-}
-function back(){ const p=S.prev.pop()||'home'; S.screen=p; render(); }
-
 function render(){
-  const html=(SCREENS[S.screen]||sHome)();
-  $('#device').innerHTML=html;
+  const fn=SCREENS[S.screen]||V.home;
+  $('#device').innerHTML=fn();
   if(S.screen==='reader') paginate();
 }
 
-/* ---------------- 事件 ---------------- */
+/* ============ 阅读分页 ============ */
+function paginate(){
+  setTimeout(()=>{
+    const inner=$('#pages'); if(!inner) return;
+    const step=928;
+    S.pages=Math.max(1,Math.round(inner.scrollWidth/step));
+    if(S.page>=S.pages) S.page=S.pages-1;
+    const no=$('#pageno'); if(no) no.textContent=`${S.page+1} / ${S.pages}`;
+    inner.style.transform=`translateX(${-S.page*step}px)`;
+  },30);
+}
+function turn(d){
+  const n=S.page+d;
+  if(n<0){ toast('已经是第一页'); return; }
+  if(n>=S.pages){ toast('本章读完，下一章待实现'); return; }
+  S.page=n;
+  $('#pages').style.transform=`translateX(${-S.page*928}px)`;
+  $('#pageno').textContent=`${S.page+1} / ${S.pages}`;
+}
+
+/* ============ 单词流程 ============ */
+function startQueue(mode){
+  S.reviewMode = mode==='review';
+  S.wordQueue = mode==='review' ? [0,1,2,3,4] : [0,1,2];
+  S.wordIdx=0; S.knowCount=0;
+  go('card');
+}
+function rate(k){
+  if(k==='know') S.knowCount++;
+  if(!S.reviewMode) S.todayDone=Math.min(20,S.todayDone+1);
+  else S.reviewLeft=Math.max(0,S.reviewLeft-1);
+  S.wordIdx++;
+  if(S.wordIdx>=S.wordQueue.length){ S.screen='worddone'; return render(); }
+  render();
+}
+
+/* ============ 交互 ============ */
 document.addEventListener('click', e=>{
-  if(S.screen==='reader' && !e.target.closest('.selbar') && !e.target.closest('.panel') && !e.target.closest('.sheet') && !e.target.closest('.mask')){
-    if(String(getSelection()).trim()) return;      // 有选区时不翻页
+  const t=e.target;
+  if(t.closest('[data-panel-close]')){ const pn=$('#panel'); if(pn) pn.classList.remove('on'); return; }
+  if(t.closest('[data-back]')) return back();
+  if(S.screen==='reader' && !t.closest('.selbar') && !t.closest('.panel') && !t.closest('.sheet')
+     && !t.closest('.mask') && !t.closest('.read-top') && !t.closest('.read-foot')){
+    if(String(getSelection()).trim()) return;
     const r=$('#device').getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width;
-    if(x<0.28){ stepPage(-1); return; }
-    if(x>0.72){ stepPage(1); return; }
-    toggleChrome(); return;
+    if(x<0.28) return turn(-1);
+    if(x>0.72) return turn(1);
+    return openPanel();
   }
-  const t=e.target;
-  const goEl=t.closest('[data-go]'); if(goEl){ return go(goEl.dataset.go); }
-  const tab=t.closest('[data-tab]'); if(tab){ S.tab=tab.dataset.tab; return render(); }
-  const open=t.closest('[data-open]'); if(open){ S.book=BOOKS.find(b=>b.id===open.dataset.open); S.page=0; return go('reader'); }
-  const act=t.closest('[data-act]'); if(act){ return action(act.dataset.act); }
-  const rate=t.closest('[data-rate]'); if(rate){ return rateWord(rate.dataset.rate); }
+  const g=t.closest('[data-go]'); if(g) return go(g.dataset.go);
+  const tb=t.closest('[data-tab2]'); if(tb) return go(tb.dataset.tab2);
+  const sh=t.closest('[data-shelftab]'); if(sh){ S.shelfTab=sh.dataset.shelftab; return render(); }
+  const se=t.closest('[data-search]'); if(se){ return go('search',{scope:se.dataset.search==='module'?'module':'all',search:''}); }
+  const o=t.closest('[data-open]'); if(o){ S.book=BOOKS.find(x=>x.id===o.dataset.open); S.page=0; return go('reader'); }
   const w=t.closest('[data-word]'); if(w){ S.book=w.dataset.word; return go('word'); }
+  const a=t.closest('[data-animal]'); if(a){ S.animalIdx=(S.animalIdx+ +a.dataset.animal + ANIMALS.length)%ANIMALS.length; return render(); }
+  const r=t.closest('[data-rate]'); if(r) return rate(r.dataset.rate);
+  const act=t.closest('[data-act]'); if(act) return doAct(act.dataset.act);
 });
 
-function stepPage(d){
-  const next=S.page+d;
-  if(next<0){ toast('已经是第一页'); return; }
-  if(next>=S.pages){ toast('本章读完，下一章待实现'); return; }
-  S.page=next;
-  const inner=$('#pages'); if(inner) inner.style.transform=`translateX(${-S.page*934}px)`;
-  const no=$('#pageno'); if(no) no.textContent=`${S.page+1} / ${S.pages}`;
-  if(S.book&&S.book.src==='wx'){ S.pending=Math.min(9,S.pending+1); }
-}
-
-function toggleChrome(){
-  let c=$('#chrome'); if(!c) return;
-  if(c.style.display==='none'||!c.style.display){
-    c.innerHTML=`<div class="panel on" style="width:100%;transform:none;border-left:0;padding:60px 84px">
-      <div class="hd"><div class="t">${S.book?S.book.t:''}</div><div class="meta">${S.page+1} / ${S.pages}</div></div>
-      <div class="toc-list">
-        ${CHAPTERS.map((x,i)=>`<li class="${i===4?'on':''}" data-chapter="${i}"><span>${x}</span></li>`).join('')}
-      </div>
-      <div style="position:absolute;left:84px;right:84px;bottom:50px;display:flex;gap:16px">
-        <div class="btn" style="flex:1;text-align:center" data-go="wordbook">生词本</div>
-        <div class="btn" style="flex:1;text-align:center" data-go="home">回到书架</div>
-      </div></div>`;
-    c.style.display='block';
-  } else { c.style.display='none'; c.innerHTML=''; }
-}
-
-function action(a){
+function doAct(a){
   if(a==='retry'){ S.offline=false; toast('已重新连接'); return render(); }
-  if(a==='download'){ toast('原型里下载是模拟的'); return; }
+  if(a==='download'){ toast('原型：下载是模拟的'); return; }
   if(a==='toggle-offline'){ S.offline=!S.offline; toast(S.offline?'已模拟断网':'已恢复连接'); return render(); }
   if(a==='flush'){ S.pending=0; toast('进度已回写'); return render(); }
   if(a==='export'){ toast('原型：导出 Markdown / CSV / Anki'); return; }
-  if(a==='save'){ toast('已保存'); return; }
+  if(a==='go-card'){ return startQueue('new'); }
+  if(a==='start-review'){ return startQueue('review'); }
+  if(a==='remove-word'){ toast('已移出生词本'); return back(); }
   if(a==='grade'){ return grade(); }
 }
-function rateWord(k){
-  const map={forget:'忘了，明天再来',vague:'有点模糊，后天再见',know:'认识，间隔拉长'};
-  toast(map[k]); S.wordIdx++;
-  S.reviewLeft=Math.max(0,S.reviewLeft-1);
-  setTimeout(()=>go('today'),700);
-}
-function grade(){
-  const txt=($('#compose')||{}).value||'';
-  if(txt.trim().length<6){ toast('多写几个词再批改'); return; }
-  $('#gradeslot').innerHTML=`
-    <div class="res-group">批改</div>
-    <div style="border:1px solid var(--rule);padding:22px 24px;margin-top:12px">
-      <div style="display:flex;justify-content:space-between;font-size:20px">
-        <span style="color:var(--green)">语法没有问题</span><span style="border:1px solid var(--ink);padding:3px 12px">预估 6.0</span></div>
-      <div style="font-size:19px;line-height:1.7;margin-top:12px">用词　<b>could not tell</b> 建议改成 <b>couldn't tell</b>，口语更自然</div>
-      <div style="font-size:19px;line-height:1.7;margin-top:8px">搭配　句尾可补 <b>agreed or not</b>，让“含糊”落到具体的事上</div>
-      <div style="color:var(--green);font-size:19px;margin-top:12px">建议句：${esc(txt)} — and I couldn't tell whether he agreed or not.</div>
-    </div>`;
+
+function openPanel(){
+  const p=$('#panel'); if(!p) return;
+  p.innerHTML=`<div class="hd"><div class="t">目录</div><span class="back" data-panel-close="1">✕</span></div>
+    <div class="toc-list">${CHAPTERS.map((c,i)=>`<li class="${i===4?'on':''}">${c}</li>`).join('')}</div>
+    <div style="display:flex;gap:14px;margin-top:24px">
+      <div class="btn" style="flex:1;text-align:center" data-go="search">本书搜索</div>
+      <div class="btn" style="flex:1;text-align:center" data-go="notes">笔记 (${S.notes.length})</div></div>
+    <div class="res-group">跳转</div>
+    <div style="display:flex;gap:12px;margin-top:12px">
+      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="home">书架</div>
+      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="wechat">微信读书</div>
+      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="today">单词</div></div>`;
+  p.classList.add('on');
 }
 
-/* 划线：选中文字后出现工具条 */
+/* 划词 */
 document.addEventListener('mouseup', ()=>{
   if(S.screen!=='reader') return;
-  const gs=window.getSelection();
-  const sel=String(gs);
+  const gs=window.getSelection(), sel=String(gs);
   if(sel.trim().length<2) return;
   S.selText=sel.trim().slice(0,60);
-  S.selRange=gs.rangeCount? gs.getRangeAt(0).cloneRange(): null;
+  S.selRange=gs.rangeCount?gs.getRangeAt(0).cloneRange():null;
   const bar=$('#selbar');
   bar.innerHTML=`<div class="sel-quote">「${esc(S.selText)}」　已选 ${sel.trim().length} 字</div>
     <div class="sel-acts"><div class="on" data-hl="1">高亮</div><div data-hl="note">笔记</div>
@@ -636,44 +637,63 @@ document.addEventListener('mousedown', e=>{
   const k=hl.dataset.hl;
   if(k==='close'){ $('#selbar').classList.remove('on'); getSelection().removeAllRanges(); return; }
   if(k==='copy'){ navigator.clipboard?.writeText(S.selText); toast('已复制'); }
-  if(k==='trans'){ toast('原型：翻译走本地词典'); }
+  if(k==='trans'){ toast('原型：走本地词典'); }
   if(k==='note'){ openNote(); }
   if(k==='1'){
-    if(S.selRange){
-      const m=document.createElement('mark');
-      try{ S.selRange.surroundContents(m); }
-      catch(_){ try{ m.appendChild(S.selRange.extractContents()); S.selRange.insertNode(m); }catch(__){} }
-    }
-    S.highlights.push(S.selText); toast('已高亮');
+    if(S.selRange){ const m=document.createElement('mark');
+      try{ S.selRange.surroundContents(m); }catch(_){ try{ m.appendChild(S.selRange.extractContents()); S.selRange.insertNode(m);}catch(__){} } }
+    S.highlights.push(S.selText); toast(`已高亮 · 共 ${S.highlights.length} 条，可在笔记页查看`);
   }
   $('#selbar').classList.remove('on');
 }, true);
 
 function openNote(){
-  const d=$('#device');
-  d.insertAdjacentHTML('beforeend', `<div class="mask on" id="m"></div>
-    <div class="sheet on" id="noteSheet">
-      <div class="sheet-head"><div class="t">笔记</div><div class="s">第 8 章 · 本机已存 3 条</div></div>
-      <textarea id="notetext" placeholder="写下你的想法…"></textarea>
+  $('#device').insertAdjacentHTML('beforeend', `<div class="mask on" id="m"></div>
+    <div class="sheet" id="ns">
+      <div class="sheet-head"><div class="t">笔记</div><div class="s">${S.book?S.book.ch:'第 8 章'}</div></div>
+      <textarea id="nt" placeholder="写下你的想法…">${esc(S.selText)}：</textarea>
       <div class="sheet-foot"><div class="meta" style="color:var(--green)">● 本机保存，不会同步回微信读书</div>
-        <div style="display:flex;gap:16px"><button class="btn ghost" id="ncancel">取消</button>
-        <button class="btn primary" id="nsave">保存</button></div></div></div>`);
-  $('#ncancel').onclick=()=>{ $('#m').remove(); $('#noteSheet').remove(); };
-  $('#nsave').onclick=()=>{ $('#m').remove(); $('#noteSheet').remove(); toast('笔记已保存'); };
+        <div style="display:flex;gap:12px"><button class="btn ghost" id="nc">取消</button>
+        <button class="btn primary" id="nv">保存</button></div></div></div>`);
+  $('#m').onclick=()=>{ $('#m').remove(); $('#ns').remove(); };
+  $('#nc').onclick=()=>{ $('#m').remove(); $('#ns').remove(); };
+  $('#nv').onclick=()=>{
+    const text=($('#nt').value||'').trim();
+    if(!text){ toast('写点什么再保存'); return; }
+    S.notes.unshift({id:Date.now(),text,quote:S.selText,book:S.book?S.book.t:'枪炮、病菌与钢铁',
+      chapter:S.book?S.book.ch:'第 8 章',time:'刚刚'});
+    $('#m').remove(); $('#ns').remove(); toast(`已保存，共 ${S.notes.length} 条笔记`);
+  };
 }
 
 /* 搜索输入 */
 document.addEventListener('input', e=>{
-  if(e.target.id==='q'){ S.search=e.target.value; const pos=e.target.selectionStart; render();
-    const q=$('#q'); if(q){ q.focus(); q.setSelectionRange(pos,pos); } }
-  if(e.target.id==='fs'){ S.font=+e.target.value; }
-  if(e.target.id==='lh'){ S.lh=+e.target.value/100; }
-});
-document.addEventListener('change', e=>{
-  if(e.target.id==='fs'||e.target.id==='lh'){ toast('已应用，回到阅读查看'); }
+  if(e.target.id==='q'){
+    S.search=e.target.value; const pos=e.target.selectionStart; render();
+    const q=$('#q'); if(q){ q.focus(); q.setSelectionRange(pos,pos); }
+  }
+  if(e.target.id==='fs') S.font=+e.target.value;
+  if(e.target.id==='lh') S.lh=+e.target.value/100;
 });
 
-fit(); render();
+function grade(){
+  const v=($('#compose')||{}).value||'';
+  if(v.trim().length<6){ toast('多写几个词再批改'); return; }
+  $('#gradeslot').innerHTML=`<div class="res-group">批改</div>
+    <div style="border:1px solid var(--rule);padding:20px 22px;margin-top:10px">
+      <div style="display:flex;justify-content:space-between;font-size:20px">
+        <span style="color:var(--green)">语法没有问题</span><span style="border:1px solid var(--ink);padding:3px 12px">预估 6.0</span></div>
+      <div style="font-size:19px;line-height:1.7;margin-top:12px">用词　<b>could not tell</b> 建议改成 <b>couldn't tell</b>，口语更自然</div>
+      <div style="font-size:19px;line-height:1.7;margin-top:8px">搭配　句尾可补 <b>agreed or not</b>，让“含糊”落到具体的事上</div>
+      <div style="color:var(--green);font-size:19px;margin-top:12px">建议句：${esc(v)} — and I couldn't tell whether he agreed or not.</div></div>`;
+}
+
+/* 启动 */
+fit();
+S.notes.push({id:1,text:'戴蒙德的答案是“环境”，不是“人种”。',
+  quote:'有两种不同的解释：一是问题出在当地人的身上，二是问题出在当地既有的野生植物上。',
+  book:'枪炮、病菌与钢铁',chapter:'第 8 章',time:'2 小时前'});
+render();
 </script>
 </body>
 </html>
