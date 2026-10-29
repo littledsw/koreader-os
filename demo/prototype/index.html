@@ -99,8 +99,9 @@ textarea{width:100%;height:210px;border:1px solid var(--rule);padding:20px;font-
 .pclose{width:52px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:-14px;}
 .pgroup{margin-top:22px;border-top:1px solid var(--rule);}
 .prow{display:flex;align-items:center;padding:22px 0;border-bottom:1px solid var(--rule);font-family:"LXGW WenKai",serif;font-size:23px;cursor:pointer;}
-.prow .chev{margin-left:auto;display:flex;align-items:center;margin-right:4px;}
-.prow .pnum{color:var(--faint);font-size:19px;margin-left:auto;margin-right:12px;}
+.prow > span:first-child{flex:1;min-width:0;}
+.prow .chev{display:flex;align-items:center;margin-left:6px;margin-right:2px;flex:none;}
+.prow .pnum{color:var(--faint);font-size:19px;margin-left:auto;margin-right:10px;flex:none;text-align:right;}
 .toc-list li:last-child{border-bottom:1px solid var(--rule);padding-bottom:18px;}
 .chart{display:flex;align-items:flex-end;gap:16px;height:200px;margin:18px 0 6px;}
 .chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
