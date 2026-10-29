@@ -23,9 +23,9 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 .rule{height:1px;background:var(--rule);} .rule-strong{height:2px;background:var(--ink);}
 .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
 .brand{font-family:"LXGW WenKai",serif;font-size:38px;letter-spacing:.1em;display:flex;align-items:center;gap:16px;}
-.back{font-family:Arial,sans-serif;font-size:34px;color:var(--sub);cursor:pointer;line-height:1;padding:0 4px;}
+.back{width:52px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-14px;}
 .status{display:flex;align-items:center;gap:13px;font-size:21px;color:var(--sub);}
-.icon{width:44px;height:44px;border:1px solid var(--rule);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:-10px;}
 
 .boot{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;cursor:pointer;overflow:hidden;}
 .boot .foot{position:absolute;bottom:70px;font-size:18px;color:var(--faint);letter-spacing:.16em;}
@@ -93,7 +93,22 @@ textarea{width:100%;height:210px;border:1px solid var(--rule);padding:20px;font-
 .btn.primary{background:var(--ink);color:var(--paper);}
 .btn.ghost{border-color:var(--rule);color:var(--sub);}
 
-.panel{position:absolute;inset:0;background:var(--paper);z-index:55;padding:56px 84px;display:none;overflow-y:auto;}
+.panel{position:absolute;inset:0;background:var(--paper);z-index:55;padding:48px 84px 120px;display:none;overflow-y:auto;}
+.phd{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+.phd .t{font-family:"LXGW WenKai",serif;font-size:30px;}
+.pclose{width:52px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-right:-14px;}
+.pgroup{margin-top:22px;border-top:1px solid var(--rule);}
+.prow{display:flex;align-items:center;padding:22px 0;border-bottom:1px solid var(--rule);font-family:"LXGW WenKai",serif;font-size:23px;cursor:pointer;}
+.prow .chev{margin-left:auto;display:flex;align-items:center;margin-right:4px;}
+.prow .pnum{color:var(--faint);font-size:19px;margin-left:auto;margin-right:12px;}
+.toc-list li:last-child{border-bottom:1px solid var(--rule);padding-bottom:18px;}
+.chart{display:flex;align-items:flex-end;gap:16px;height:200px;margin:18px 0 6px;}
+.chart .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
+.chart .col i{width:100%;background:var(--wash);display:block;}
+.chart .col.on i{background:var(--red);}
+.chart .col span{font-size:16px;color:var(--faint);margin-top:8px;}
+.dist{display:flex;align-items:center;gap:16px;margin-top:18px;font-size:20px;color:var(--sub);}
+.dist .progress{margin:0;}
 .panel.on{display:block;}
 .panel .hd{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--rule);}
 .panel .hd .t{font-family:"LXGW WenKai",serif;font-size:30px;}
@@ -127,7 +142,7 @@ textarea{width:100%;height:210px;border:1px solid var(--rule);padding:20px;font-
 .entry .quote{font-size:19px;color:#3b3b36;margin-top:6px;line-height:1.6;}
 .entry .quote mark{background:var(--hl);}
 
-.searchbar{display:flex;align-items:center;gap:14px;margin-top:24px;border:1px solid var(--ink);padding:16px 20px;cursor:text;}
+.searchbar{display:flex;align-items:center;gap:12px;margin-top:22px;background:var(--wash);border:0;border-radius:2px;padding:14px 18px;cursor:text;}
 .searchbar input{flex:1;border:0;background:none;outline:none;font-family:Arial,sans-serif;font-size:25px;color:var(--ink);}
 .searchbar .scope{font-size:18px;color:var(--sub);border-left:1px solid var(--rule);padding-left:14px;}
 .res-group{margin-top:24px;font-size:19px;color:var(--faint);letter-spacing:.2em;}
@@ -248,10 +263,13 @@ const bat=`<svg width="28" height="24" viewBox="0 0 30 24" fill="none" stroke="#
 const wifi=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><path d="M5.6 12.2 C8.4 9.4 15.6 9.4 18.4 12.2"/><path d="M8.7 15.7 C10.4 14 13.6 14 15.3 15.7"/><circle cx="12" cy="19.2" r="1.5" fill="#6F6C63" stroke="none"/></svg>`;
 const mag=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="1.9"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16 L21 21" stroke-linecap="round"/></svg>`;
 const noteIcon=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="1.9"><path d="M5 3h9l5 5v13H5z"/><path d="M8 12h8M8 16h5"/></svg>`;
+const chevL=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 L7 12 L15 20"/></svg>`;
+const chevR=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9A69B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 L17 12 L9 20"/></svg>`;
+const closeX=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.9" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>`;
 
 function st(extra){ return `<div class="status">${extra?`<span>${extra}</span>`:''}${S.offline?'':wifi}${bat}<span>78%</span></div>`; }
 function bar(title,{back=false,right='',icons=''}={}){
-  return `<div class="topbar"><div class="brand">${back?'<span class="back" data-back="1">←</span>':''}${title}</div>
+  return `<div class="topbar"><div class="brand">${back?`<span class="back" data-back="1">${chevL}</span>`:''}${title}</div>
     <div style="display:flex;align-items:center;gap:12px">${icons}${st(right)}</div></div><div class="rule-strong"></div>`;
 }
 function tabs(active){
@@ -315,7 +333,7 @@ V.reader = ()=>{
   const b=S.book||BOOKS[0], wx=b.src==='wx';
   return `<section class="screen reader">
     <div class="inner">
-      <div class="read-top"><span class="back" data-back="1">←</span>
+      <div class="read-top"><span class="back" data-back="1">${chevL}</span>
         <span style="flex:1">${b.ch}　是苹果的问题，还是印第安人的问题？</span>${st()}</div>
       <div class="rule"></div>
       <div class="page-wrap"><div class="page-text" id="pages" style="font-size:${S.font}px;line-height:${S.lh}">
@@ -369,7 +387,7 @@ V.today = ()=> `<section class="screen pad">
   <div class="stat4">
     <div data-act="go-card"><b>${S.todayDone}</b><span>今日新词</span></div>
     <div data-go="review"><b>${S.reviewLeft}</b><span>待复习</span></div>
-    <div data-go="wordbook"><b>12</b><span>连续天数</span></div>
+    <div data-go="stats"><b>12</b><span>连续天数</span></div>
   </div>
   <div style="margin-top:26px"><div style="display:flex;justify-content:space-between;font-size:21px;color:var(--sub)">
     <span>今日目标 20 词</span><span>${S.todayDone} / 20</span></div>
@@ -377,8 +395,9 @@ V.today = ()=> `<section class="screen pad">
   <div class="btn primary" style="width:100%;margin-top:30px;padding:24px" data-go="review">开始复习 · ${S.reviewLeft} 词</div>
   <div class="btn" style="width:100%;margin-top:14px;padding:20px" data-act="go-card">继续学新词</div>
   <div class="res-group">词书</div>
-  <div class="cloud-row" data-go="books"><div class="ct"><div class="n">雅思核心 3500 · 用英语讲中国 · 动物图鉴</div>
-    <div class="m">3 本词书 · 已学 412 词</div></div><div class="act">打开</div></div>
+  <div class="prow" data-go="books"><span>雅思核心 3500 · 用英语讲中国 · 动物图鉴</span><span class="pnum">3 本</span><span class="chev">${chevR}</span></div>
+  <div class="prow" data-go="wordbook"><span>单词本</span><span class="pnum">128 生词</span><span class="chev">${chevR}</span></div>
+  <div class="prow" data-go="stats"><span>学习统计</span><span class="pnum">连续 12 天</span><span class="chev">${chevR}</span></div>
   ${tabs('today')}</section>`;
 
 V.books = ()=> `<section class="screen pad">
@@ -499,6 +518,20 @@ V.compose = ()=> `<section class="screen pad">
   <div id="gradeslot"></div>
 </section>`;
 
+V.stats = ()=> `<section class="screen pad">
+  ${bar('统计',{back:true})}
+  <div class="stat4" style="margin-top:26px">
+    <div><b>412</b><span>累计词数</span></div><div><b>82%</b><span>正确率</span></div><div><b>12</b><span>连续天数</span></div>
+  </div>
+  <div class="res-group">每日新增</div>
+  <div class="chart">${[38,62,45,80,28,60,0].map((h,i)=>`<div class="col ${i===5?'on':''}"><i style="height:${h}%"></i>
+    <span>${['一','二','三','四','五','六','日'][i]}</span></div>`).join('')}</div>
+  <div class="res-group">词汇分布</div>
+  ${[['雅思核心',62,256],['中国专题',22,89],['动物图鉴',17,67]].map(([n,p,c])=>
+    `<div class="dist"><span>${n}</span><div class="progress" style="flex:1;margin:0"><i style="width:${p}%"></i></div>
+     <b style="width:56px;text-align:right;font-family:Arial,sans-serif">${c}</b></div>`).join('')}
+</section>`;
+
 V.settings = ()=> `<section class="screen pad">
   ${bar('设置')}
   <div class="res-group">排版</div>
@@ -605,16 +638,16 @@ function doAct(a){
 
 function openPanel(){
   const p=$('#panel'); if(!p) return;
-  p.innerHTML=`<div class="hd"><div class="t">目录</div><span class="back" data-panel-close="1">✕</span></div>
+  p.innerHTML=`
+    <div class="phd"><div class="t">目录</div><div class="pclose" data-panel-close="1">${closeX}</div></div>
     <div class="toc-list">${CHAPTERS.map((c,i)=>`<li class="${i===4?'on':''}">${c}</li>`).join('')}</div>
-    <div style="display:flex;gap:14px;margin-top:24px">
-      <div class="btn" style="flex:1;text-align:center" data-go="search">本书搜索</div>
-      <div class="btn" style="flex:1;text-align:center" data-go="notes">笔记 (${S.notes.length})</div></div>
-    <div class="res-group">跳转</div>
-    <div style="display:flex;gap:12px;margin-top:12px">
-      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="home">书架</div>
-      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="wechat">微信读书</div>
-      <div class="btn" style="flex:1;text-align:center;padding:12px 0" data-go="today">单词</div></div>`;
+    <div class="pgroup">
+      <div class="prow" data-go="search"><span>本书搜索</span><span class="chev">${chevR}</span></div>
+      <div class="prow" data-go="notes"><span>笔记与划线</span><span class="pnum">${S.notes.length} 条</span><span class="chev">${chevR}</span></div>
+    </div>
+    <nav class="tabbar" style="left:84px;right:84px">
+      <span data-go="home">书架</span><span data-go="wechat">微信读书</span>
+      <span data-go="today">单词</span><span data-go="settings">设置</span></nav>`;
   p.classList.add('on');
 }
 
