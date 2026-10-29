@@ -65,7 +65,9 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 
 .reader{padding:44px 0 0;overflow:hidden;}
 .reader .inner{padding:0 128px;display:flex;flex-direction:column;height:100%;}
-.read-top{display:flex;align-items:center;font-size:20px;color:var(--sub);margin-bottom:12px;gap:8px;}
+.read-top{display:flex;align-items:center;font-size:20px;color:var(--sub);margin-bottom:12px;gap:6px;}
+.rt-title{flex:1;display:flex;align-items:center;gap:6px;cursor:pointer;}
+.rt-chev{display:inline-flex;align-items:center;margin-top:2px;}
 .page-wrap{flex:1;overflow:hidden;margin-top:26px;}
 .page-text{font-family:"LXGW WenKai",serif;text-align:justify;column-width:824px;column-gap:104px;height:100%;transition:transform .18s;}
 .page-text p{text-indent:2em;margin-bottom:.5em;}
@@ -266,6 +268,7 @@ const mag=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#
 const noteIcon=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="1.9"><path d="M5 3h9l5 5v13H5z"/><path d="M8 12h8M8 16h5"/></svg>`;
 const chevL=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 L7 12 L15 20"/></svg>`;
 const chevR=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9A69B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 L17 12 L9 20"/></svg>`;
+const chevD=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9 L12 16 L19 9"/></svg>`;
 const closeX=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.9" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>`;
 
 function st(extra){ return `<div class="status">${extra?`<span>${extra}</span>`:''}${S.offline?'':wifi}${bat}<span>78%</span></div>`; }
@@ -335,7 +338,7 @@ V.reader = ()=>{
   return `<section class="screen reader">
     <div class="inner">
       <div class="read-top"><span class="back" data-back="1">${chevL}</span>
-        <span style="flex:1">${b.ch}　是苹果的问题，还是印第安人的问题？</span>${st()}</div>
+        <span class="rt-title" data-panel-btn="1">${b.ch}　是苹果的问题…<span class="rt-chev">${chevD}</span></span>${st()}</div>
       <div class="rule"></div>
       <div class="page-wrap"><div class="page-text" id="pages" style="font-size:${S.font}px;line-height:${S.lh}">
         ${TEXT.map(t=>`<p>${t}</p>`).join('')}</div></div>
@@ -385,6 +388,7 @@ V.search = ()=>{
 
 V.today = ()=> `<section class="screen pad">
   ${bar('今日',{icons:`<div class="icon" data-search="1">${mag}</div>`})}
+  <div class="searchbar" data-search="1">${mag}<input placeholder="搜索单词、生词、笔记" readonly><span class="scope">单词</span></div>
   <div class="stat4">
     <div data-act="go-card"><b>${S.todayDone}</b><span>今日新词</span></div>
     <div data-go="review"><b>${S.reviewLeft}</b><span>待复习</span></div>
@@ -605,6 +609,7 @@ document.addEventListener('click', e=>{
   const t=e.target;
   if(t.closest('[data-panel-close]')){ const pn=$('#panel'); if(pn) pn.classList.remove('on'); return; }
   if(t.closest('[data-back]')) return back();
+  if(t.closest('[data-panel-btn]')) return openPanel();
   if(S.screen==='reader' && !t.closest('.selbar') && !t.closest('.panel') && !t.closest('.sheet')
      && !t.closest('.mask') && !t.closest('.read-top') && !t.closest('.read-foot')){
     if(String(getSelection()).trim()) return;
