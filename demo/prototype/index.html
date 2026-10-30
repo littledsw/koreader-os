@@ -69,7 +69,7 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 .rt-title{flex:1;display:flex;align-items:center;gap:6px;cursor:pointer;}
 .rt-chev{display:inline-flex;align-items:center;margin-top:2px;}
 .page-wrap{flex:1;overflow:hidden;margin-top:26px;}
-.page-text{font-family:"LXGW WenKai",serif;text-align:justify;column-width:824px;column-gap:104px;height:100%;transition:transform .18s;}
+.page-text{position:relative;font-family:"LXGW WenKai",serif;text-align:justify;column-width:824px;column-gap:104px;height:100%;transition:transform .18s;}
 .page-text p{text-indent:2em;margin-bottom:.5em;}
 .page-text mark{background:var(--hl);}
 .read-foot{display:flex;justify-content:space-between;align-items:baseline;font-size:19px;color:var(--sub);padding:14px 0 30px;}
@@ -169,6 +169,8 @@ input[type=range]{width:300px;accent-color:#23231F;}
 .stat4{display:flex;margin-top:28px;border:1px solid var(--rule);}
 .stat4 div{flex:1;text-align:center;padding:24px 0;border-right:1px solid var(--rule);cursor:pointer;}
 .stat4 div:last-child{border-right:0;}
+.stat4 div.sel{background:var(--ink);}
+.stat4 div.sel b,.stat4 div.sel span{color:var(--paper);}
 .stat4 b{display:block;font-family:Arial,sans-serif;font-size:42px;}
 .stat4 span{font-size:18px;color:var(--sub);}
 .toast{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);background:var(--ink);color:var(--paper);
@@ -252,7 +254,7 @@ const S = {
   notes:[], highlights:[],
   search:'', scope:'all',
   wordQueue:[], wordIdx:0, todayDone:12, reviewLeft:35, reviewMode:false, knowCount:0,
-  animalIdx:0
+  animalIdx:0, wb:'生词'
 };
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -271,6 +273,12 @@ const chevR=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke=
 const chevD=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9 L12 16 L19 9"/></svg>`;
 const closeX=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.9" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>`;
 
+function wbList(){
+  if(S.wb==='错词') return WORDS.filter(w=>['susceptible','erode'].includes(w.w)).map(w=>({...w,src:'错 2 次'}));
+  if(S.wb==='已掌握') return WORDS.filter(w=>['ambiguous','consensus'].includes(w.w)).map(w=>({...w,src:'复习 5 次'}));
+  if(S.wb==='我的例句') return WORDS.filter(w=>w.w==='ambiguous').map(w=>({...w,src:'我的例句 · 已批改',sent:'His answer was ambiguous: neither a promise nor a refusal.'}));
+  return WORDS.map(w=>({...w,src:'《枪炮、病菌与钢铁》第 8 章'}));
+}
 function st(extra){ return `<div class="status">${extra?`<span>${extra}</span>`:''}${S.offline?'':wifi}${bat}<span>78%</span></div>`; }
 function bar(title,{back=false,right='',icons=''}={}){
   return `<div class="topbar"><div class="brand">${back?`<span class="back" data-back="1">${chevL}</span>`:''}${title}</div>
@@ -343,7 +351,8 @@ V.reader = ()=>{
       <div class="page-wrap"><div class="page-text" id="pages" style="font-size:${S.font}px;line-height:${S.lh}">
         ${TEXT.map(t=>`<p>${t}</p>`).join('')}</div></div>
       <div class="read-foot"><span>09:41</span><span id="pageno">1 / 1</span>
-        <span style="color:${wx?(S.pending?'var(--amber)':'var(--green)'):'var(--sub)'}">
+        <span style="color:${wx?(S.pending?'var(--amber)':'var(--green)'):'var(--sub)'}"
+              ${wx&&S.pending?'data-go="pending"':''}>
           ${wx?(S.pending?'● 微信读书 · 待同步 '+S.pending+' 处':'● 微信读书 · 已同步'):'● 本地 · EPUB'}</span></div>
     </div>
     <div class="selbar" id="selbar"></div>
@@ -487,15 +496,19 @@ V.review = ()=> `<section class="screen pad">
 
 V.wordbook = ()=> `<section class="screen pad">
   ${bar('单词本',{back:true})}
-  <div class="stat4"><div><b>128</b><span>生词</span></div><div><b>32</b><span>错词</span></div>
-    <div><b>410</b><span>已掌握</span></div><div><b>46</b><span>我的例句</span></div></div>
+  <div class="stat4">
+    <div data-wb="生词" class="${S.wb==='生词'?'sel':''}"><b>128</b><span>生词</span></div>
+    <div data-wb="错词" class="${S.wb==='错词'?'sel':''}"><b>32</b><span>错词</span></div>
+    <div data-wb="已掌握" class="${S.wb==='已掌握'?'sel':''}"><b>410</b><span>已掌握</span></div>
+    <div data-wb="我的例句" class="${S.wb==='我的例句'?'sel':''}"><b>46</b><span>我的例句</span></div></div>
   <div class="searchbar" data-search="module">${mag}<input placeholder="搜索生词、出处或笔记" readonly>
     <span class="scope">本模块</span></div>
-  <div class="res-group">最近收录</div>
-  ${WORDS.map(x=>`<div class="entry" data-word="${x.w}">
+  <div class="res-group">${S.wb}　${wbList().length} 条</div>
+  ${wbList().map(x=>`<div class="entry" data-word="${x.w}">
     <div class="hd"><span class="w">${x.w}</span><span class="pos">${x.pos}</span></div>
-    <div class="src">《枪炮、病菌与钢铁》第 8 章</div></div>`).join('')}
-  <div class="btn" style="width:100%;margin-top:20px;padding:18px" data-act="export">导出 Markdown / CSV / Anki</div>
+    <div class="src">${x.src}</div>
+    ${x.sent?`<div class="quote">${x.sent}</div>`:''}</div>`).join('')||'<div class="empty">这一类还是空的</div>'}
+  <div class="prow" data-act="export"><span>导出为 Markdown / CSV / Anki</span><span class="chev">${chevR}</span></div>
 </section>`;
 
 V.word = ()=>{
@@ -537,6 +550,17 @@ V.stats = ()=> `<section class="screen pad">
      <b style="width:56px;text-align:right;font-family:Arial,sans-serif">${c}</b></div>`).join('')}
 </section>`;
 
+V.pending = ()=> `<section class="screen pad">
+  ${bar('待同步',{back:true,right:S.pending+' 项'})}
+  <div class="res-group">阅读进度</div>
+  <div class="prow"><span>第 8 章 · 读到 42%</span><span class="pnum">刚刚</span></div>
+  <div class="res-group">笔记</div>
+  <div class="prow"><span>「有两种不同的解释…」：这里的关键是环境决定论</span><span class="pnum">2 小时前</span></div>
+  <div class="prow"><span>划线：deliberately ambiguous, leaving room</span><span class="pnum">2 小时前</span></div>
+  <div class="btn primary" style="width:100%;margin-top:36px;padding:22px" data-act="sync-all">全部同步</div>
+  <div class="meta" style="margin-top:16px;text-align:center;color:var(--faint)">同步失败时会保留在本机，下次联网重试</div>
+</section>`;
+
 V.settings = ()=> `<section class="screen pad">
   ${bar('设置')}
   <div class="res-group">排版</div>
@@ -573,7 +597,9 @@ function paginate(){
   setTimeout(()=>{
     const inner=$('#pages'); if(!inner) return;
     const step=928;
-    S.pages=Math.max(1,Math.round(inner.scrollWidth/step));
+    let maxLeft=0;
+    inner.querySelectorAll('p').forEach(el=>{ maxLeft=Math.max(maxLeft, el.offsetLeft); });
+    S.pages=Math.max(1, Math.floor(maxLeft/step)+1);
     if(S.page>=S.pages) S.page=S.pages-1;
     const no=$('#pageno'); if(no) no.textContent=`${S.page+1} / ${S.pages}`;
     inner.style.transform=`translateX(${-S.page*step}px)`;
@@ -622,6 +648,7 @@ document.addEventListener('click', e=>{
   const g=t.closest('[data-go]'); if(g) return go(g.dataset.go);
   const tb=t.closest('[data-tab2]'); if(tb) return go(tb.dataset.tab2);
   const sh=t.closest('[data-shelftab]'); if(sh){ S.shelfTab=sh.dataset.shelftab; return render(); }
+  const wb=t.closest('[data-wb]'); if(wb){ S.wb=wb.dataset.wb; return render(); }
   const se=t.closest('[data-search]'); if(se){ return go('search',{scope:se.dataset.search==='module'?'module':'all',search:''}); }
   const o=t.closest('[data-open]'); if(o){ S.book=BOOKS.find(x=>x.id===o.dataset.open); S.page=0; return go('reader'); }
   const w=t.closest('[data-word]'); if(w){ S.book=w.dataset.word; return go('word'); }
@@ -640,6 +667,7 @@ function doAct(a){
   if(a==='start-review'){ return startQueue('review'); }
   if(a==='remove-word'){ toast('已移出生词本'); return back(); }
   if(a==='grade'){ return grade(); }
+  if(a==='sync-all'){ S.pending=0; toast('已全部同步'); return back(); }
 }
 
 function openPanel(){
