@@ -263,7 +263,8 @@ const S = {
   notes:[], highlights:[],
   search:'', scope:'all',
   wordQueue:[], wordIdx:0, todayDone:12, reviewLeft:35, reviewMode:false, knowCount:0,
-  animalIdx:0, wb:'生词'
+  animalIdx:0, wb:'生词',
+  wifi:{on:true, ssid:'', connecting:false}
 };
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -280,15 +281,25 @@ const noteIcon=`<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stro
 const chevL=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#23231F" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4 L7 12 L15 20"/></svg>`;
 const chevR=`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A9A69B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 L17 12 L9 20"/></svg>`;
 const chevD=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9 L12 16 L19 9"/></svg>`;
+const lockIcon=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9A69B" stroke-width="2" style="vertical-align:-2px"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10 V7 a4 4 0 0 1 8 0 v3"/></svg>`;
 const closeX=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6F6C63" stroke-width="1.9" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>`;
 
+function sigBar(lv){
+  const n = lv==='strong'?3:lv==='mid'?2:1;
+  return `<svg width="26" height="22" viewBox="0 0 26 22" fill="none" stroke="#6F6C63" stroke-width="2" stroke-linecap="round">
+    ${[0,1,2].map(i=>`<path d="M${4+i*8} 18 V${14-i*5}" ${i<n?'stroke="#23231F"':'stroke="#D6D2C4"'}/>`).join('')}</svg>`;
+}
 function wbList(){
   if(S.wb==='错词') return WORDS.filter(w=>['susceptible','erode'].includes(w.w)).map(w=>({...w,src:'错 2 次'}));
   if(S.wb==='已掌握') return WORDS.filter(w=>['ambiguous','consensus'].includes(w.w)).map(w=>({...w,src:'复习 5 次'}));
   if(S.wb==='我的例句') return WORDS.filter(w=>w.w==='ambiguous').map(w=>({...w,src:'我的例句 · 已批改',sent:'His answer was ambiguous: neither a promise nor a refusal.'}));
   return WORDS.map(w=>({...w,src:'《枪炮、病菌与钢铁》第 8 章'}));
 }
-function st(extra){ return `<div class="status">${extra?`<span>${extra}</span>`:''}${S.offline?'':wifi}${bat}<span>78%</span></div>`; }
+const wifiOff=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#A9A69B" stroke-width="1.7" stroke-linecap="round"><path d="M2.6 8.6 C6.4 4.8 17.6 4.8 21.4 8.6"/><circle cx="12" cy="19.2" r="1.5" fill="#A9A69B" stroke="none"/></svg>`;
+function st(extra){
+  const net = !S.wifi.on ? '' : (S.wifi.ssid ? wifi : wifiOff);
+  return `<div class="status">${extra?`<span>${extra}</span>`:''}${net}${bat}<span>78%</span></div>`;
+}
 function bar(title,{back=false,right='',icons=''}={}){
   return `<div class="topbar"><div class="brand">${back?`<span class="back" data-back="1">${chevL}</span>`:''}${title}</div>
     <div style="display:flex;align-items:center;gap:12px">${icons}${st(right)}</div></div><div class="rule-strong"></div>`;
@@ -545,6 +556,46 @@ V.compose = ()=> `<section class="screen pad">
   <div id="gradeslot"></div>
 </section>`;
 
+V.wifi = ()=>{
+  const nets=[['书房-5G','strong',true,false],['HOMEWIFI','strong',false,true],['Kobo-Free','mid',false,false],['CMCC-8f2a','weak',false,false]];
+  return `<section class="screen pad">
+    ${bar('无线网络',{back:true})}
+    <div class="setrow"><div class="k">Wi-Fi</div>
+      <div class="v"><span style="border:1px solid var(--ink);padding:6px 16px;cursor:pointer" data-act="wifi-toggle">${S.wifi.on?'开启':'关闭'}</span></div></div>
+    ${S.wifi.on?`
+      <div class="res-group">可用网络</div>
+      ${nets.map(([n,sig,lock,saved])=>`<div class="prow" data-net="${n}">
+        <span>${n}${lock?' '+lockIcon:''}</span>
+        <span class="pnum">${S.wifi.ssid===n?'已连接':(saved?'已保存':'')}</span>
+        <span class="chev">${sigBar(sig)}</span></div>`).join('')}
+      ${S.wifi.ssid?`<div class="btn ghost" style="width:100%;margin-top:24px;padding:18px" data-act="wifi-forget">断开「${S.wifi.ssid}」</div>`:''}
+      <div class="meta" style="margin-top:16px;color:var(--faint);font-size:17px">原型：连接为模拟，真实连接走 wpa_supplicant</div>
+    `:`<div class="empty">Wi-Fi 已关闭</div>`}
+  </section>`;
+};
+
+V.about = ()=> `<section class="screen pad">
+  ${bar('关于本机',{back:true})}
+  <div style="text-align:center;margin-top:26px">
+    <svg width="96" height="96" viewBox="0 0 200 200">
+      <g fill="#23231F"><rect x="58" y="56" width="15" height="86"/><rect x="80" y="74" width="15" height="68"/>
+      <rect x="102" y="90" width="15" height="52"/><rect x="124" y="74" width="15" height="68"/><rect x="146" y="56" width="15" height="86"/></g>
+      <path d="M50 142 C50 168 160 168 160 142" stroke="#23231F" stroke-width="10" fill="none" stroke-linecap="round"/></svg>
+    <div style="font-family:'LXGW WenKai',serif;font-size:34px;letter-spacing:.2em;margin-top:14px">拾页 1.0</div>
+    <div class="meta" style="margin-top:4px">Kobo Aura H2O</div>
+  </div>
+  <div class="pgroup">
+    ${[['型号','Kobo Aura H2O（2014）'],['屏幕','6.8" E Ink Carta · 1080×1430'],
+       ['系统','拾页 1.0（基于 Linux 3.0.35）'],['存储','2.1 GB / 3.6 GB'],
+       ['序列号','N249xxxxxxxxx'],['固件','原厂 4.38.21908']]
+      .map(([k,v])=>`<div class="prow"><span>${k}</span><span class="pnum">${v}</span></div>`).join('')}
+  </div>
+  <div class="pgroup">
+    <div class="prow" data-act="check-update"><span>检查更新</span><span class="chev">${chevR}</span></div>
+    <div class="prow" data-act="licenses"><span>开源许可</span><span class="pnum">KOReader · LVGL · LXGW WenKai</span><span class="chev">${chevR}</span></div>
+  </div>
+</section>`;
+
 V.stats = ()=> `<section class="screen pad">
   ${bar('统计',{back:true})}
   <div class="stat4" style="margin-top:26px">
@@ -565,6 +616,11 @@ V.settings = ()=> `<section class="screen pad">
   <div class="setrow"><div class="k">中文字体</div><div class="v">霞鹜文楷 / 宋体</div></div>
   <div class="setrow"><div class="k">字号</div><input type="range" min="22" max="34" value="${S.font}" id="fs"></div>
   <div class="setrow"><div class="k">行距</div><input type="range" min="160" max="220" value="${S.lh*100}" id="lh"></div>
+  <div class="res-group">系统</div>
+  <div class="prow" data-go="wifi"><span>无线网络</span>
+    <span class="pnum">${S.wifi.ssid||'未连接'}</span><span class="chev">${chevR}</span></div>
+  <div class="prow" data-go="about"><span>关于本机</span>
+    <span class="pnum">拾页 1.0</span><span class="chev">${chevR}</span></div>
   <div class="res-group">微信读书</div>
   <div class="setrow"><div class="k">服务</div><div class="v">192.168.1.20:8080　<span style="color:${S.offline?'var(--amber)':'var(--green)'}">${S.offline?'离线':'在线'}</span></div></div>
   <div class="setrow"><div class="k">模拟断网</div><div class="v"><span style="border:1px solid var(--ink);padding:6px 16px;cursor:pointer" data-act="toggle-offline">${S.offline?'已断开':'未断开'}</span></div></div>
@@ -646,6 +702,7 @@ document.addEventListener('click', e=>{
   const g=t.closest('[data-go]'); if(g) return go(g.dataset.go);
   const tb=t.closest('[data-tab2]'); if(tb) return go(tb.dataset.tab2);
   const sh=t.closest('[data-shelftab]'); if(sh){ S.shelfTab=sh.dataset.shelftab; return render(); }
+  const net=t.closest('[data-net]'); if(net){ return wifiSheet(net.dataset.net); }
   const wb=t.closest('[data-wb]'); if(wb){ S.wb=wb.dataset.wb; return render(); }
   const se=t.closest('[data-search]'); if(se){ return go('search',{scope:se.dataset.search==='module'?'module':'all',search:''}); }
   const o=t.closest('[data-open]'); if(o){ S.book=BOOKS.find(x=>x.id===o.dataset.open); S.page=0; return go('reader'); }
@@ -666,6 +723,11 @@ function doAct(a){
   if(a==='remove-word'){ toast('已移出生词本'); return back(); }
   if(a==='grade'){ return grade(); }
   if(a==='open-pending'){ return openPending(); }
+  if(a==='wifi-toggle'){ S.wifi.on=!S.wifi.on; if(!S.wifi.on) S.wifi.ssid=''; return render(); }
+  if(a==='wifi-forget'){ S.wifi.ssid=''; toast('已断开'); return render(); }
+  if(a==='wifi-connect'){ return wifiConnect(); }
+  if(a==='check-update'){ toast('已是最新版本'); return; }
+  if(a==='licenses'){ toast('KOReader · LVGL · 霞鹜文楷（OFL）'); return; }
   if(a==='sync-all'){ S.pending=0; closePending(); render(); toast('已全部同步'); return; }
 }
 
@@ -683,6 +745,22 @@ function openPanel(){
       <span data-go="today">单词</span><span data-go="settings">设置</span></nav>`;
   p.classList.add('on');
 }
+
+function wifiSheet(name){
+  $('#device').insertAdjacentHTML('beforeend', `
+    <div class="mask on" id="wm"></div>
+    <div class="sheet" id="ws" style="height:auto;padding:34px 84px 40px">
+      <div class="sheet-head"><div class="t">${name}</div><div class="pclose" id="wc">${closeX}</div></div>
+      <input id="wp" placeholder="输入密码" style="width:100%;border:1px solid var(--rule);padding:18px 20px;font-size:23px;background:none;outline:none;font-family:'LXGW WenKai',serif">
+      <div class="btn primary" style="width:100%;margin-top:20px;padding:20px;text-align:center" data-net2="${name}">连接</div>
+      <div class="meta" style="margin-top:12px;color:var(--faint);font-size:17px;text-align:center">原型：任意密码都能连上</div>
+    </div>`);
+  $('#wc').onclick=closeWifi; $('#wm').onclick=closeWifi;
+  $('#ws').querySelector('[data-net2]').onclick=()=>{
+    closeWifi(); S.wifi.ssid=name; S.wifi.connecting=false; render(); toast(`已连接 ${name}`);
+  };
+}
+function closeWifi(){ const a=$('#wm'), b=$('#ws'); if(a)a.remove(); if(b)b.remove(); }
 
 /* 待同步：底部半屏，看完划走 */
 function openPending(){
