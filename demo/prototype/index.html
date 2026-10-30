@@ -86,6 +86,15 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,"L
 .mask.on{display:block;}
 .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-top:2px solid var(--ink);
        padding:36px 84px 40px;height:500px;z-index:70;}
+.psheet{height:auto;max-height:78%;padding:0 84px 40px;border-radius:14px 14px 0 0;border-top:1px solid var(--rule);
+        box-shadow:0 -12px 40px rgba(0,0,0,.10);will-change:transform;}
+.grab{height:34px;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none;}
+.grab i{width:64px;height:5px;border-radius:3px;background:var(--rule);display:block;}
+.psheet .sheet-head{padding:0 0 16px;border-bottom:1px solid var(--rule);margin-bottom:6px;}
+.psheet .prow{padding:20px 0;font-size:22px;}
+.psheet .prow .t{font-family:"LXGW WenKai",serif;}
+.psheet .prow .m{font-size:17px;color:var(--faint);margin-top:4px;}
+.psheet .btn{width:100%;margin-top:26px;padding:20px;text-align:center;}
 .sheet-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;}
 .sheet-head .t{font-family:"LXGW WenKai",serif;font-size:28px;}
 textarea{width:100%;height:210px;border:1px solid var(--rule);padding:20px;font-family:"LXGW WenKai",serif;
@@ -352,7 +361,7 @@ V.reader = ()=>{
         ${TEXT.map(t=>`<p>${t}</p>`).join('')}</div></div>
       <div class="read-foot"><span>09:41</span><span id="pageno">1 / 1</span>
         <span style="color:${wx?(S.pending?'var(--amber)':'var(--green)'):'var(--sub)'}"
-              ${wx&&S.pending?'data-go="pending"':''}>
+              ${wx&&S.pending?'data-act="open-pending"':''}>
           ${wx?(S.pending?'● 微信读书 · 待同步 '+S.pending+' 处':'● 微信读书 · 已同步'):'● 本地 · EPUB'}</span></div>
     </div>
     <div class="selbar" id="selbar"></div>
@@ -550,17 +559,6 @@ V.stats = ()=> `<section class="screen pad">
      <b style="width:56px;text-align:right;font-family:Arial,sans-serif">${c}</b></div>`).join('')}
 </section>`;
 
-V.pending = ()=> `<section class="screen pad">
-  ${bar('待同步',{back:true,right:S.pending+' 项'})}
-  <div class="res-group">阅读进度</div>
-  <div class="prow"><span>第 8 章 · 读到 42%</span><span class="pnum">刚刚</span></div>
-  <div class="res-group">笔记</div>
-  <div class="prow"><span>「有两种不同的解释…」：这里的关键是环境决定论</span><span class="pnum">2 小时前</span></div>
-  <div class="prow"><span>划线：deliberately ambiguous, leaving room</span><span class="pnum">2 小时前</span></div>
-  <div class="btn primary" style="width:100%;margin-top:36px;padding:22px" data-act="sync-all">全部同步</div>
-  <div class="meta" style="margin-top:16px;text-align:center;color:var(--faint)">同步失败时会保留在本机，下次联网重试</div>
-</section>`;
-
 V.settings = ()=> `<section class="screen pad">
   ${bar('设置')}
   <div class="res-group">排版</div>
@@ -667,7 +665,8 @@ function doAct(a){
   if(a==='start-review'){ return startQueue('review'); }
   if(a==='remove-word'){ toast('已移出生词本'); return back(); }
   if(a==='grade'){ return grade(); }
-  if(a==='sync-all'){ S.pending=0; toast('已全部同步'); return back(); }
+  if(a==='open-pending'){ return openPending(); }
+  if(a==='sync-all'){ S.pending=0; closePending(); render(); toast('已全部同步'); return; }
 }
 
 function openPanel(){
@@ -683,6 +682,46 @@ function openPanel(){
       <span data-go="home">书架</span><span data-go="wechat">微信读书</span>
       <span data-go="today">单词</span><span data-go="settings">设置</span></nav>`;
   p.classList.add('on');
+}
+
+/* 待同步：底部半屏，看完划走 */
+function openPending(){
+  if($('#ps')) return;
+  $('#device').insertAdjacentHTML('beforeend', `
+    <div class="mask on" id="pm" style="z-index:64"></div>
+    <div class="sheet psheet" id="ps">
+      <div class="grab" id="pgrab"><i></i></div>
+      <div class="sheet-head"><div class="t">待同步 ${S.pending} 项</div>
+        <div class="pclose" data-pclose="1">${closeX}</div></div>
+      <div class="prow"><div><div class="t">第 8 章 · 读到 42%</div><div class="m">阅读进度</div></div>
+        <span class="pnum">刚刚</span></div>
+      <div class="prow"><div><div class="t">「有两种不同的解释…」：这里的关键是环境决定论</div>
+        <div class="m">笔记</div></div><span class="pnum">2 小时前</span></div>
+      <div class="prow"><div><div class="t">划线：deliberately ambiguous, leaving room</div>
+        <div class="m">划线</div></div><span class="pnum">2 小时前</span></div>
+      <div class="btn primary" data-act="sync-all">全部同步</div>
+      <div class="meta" style="margin-top:12px;text-align:center;color:var(--faint);font-size:17px">
+        同步失败会留在本机，下次联网重试</div>
+    </div>`);
+  $('#pm').onclick=closePending;
+  $('#ps').querySelector('[data-pclose]').onclick=closePending;
+  dragSheet($('#ps'));
+}
+function closePending(){ const a=$('#pm'), b=$('#ps'); if(a) a.remove(); if(b) b.remove(); }
+function dragSheet(el){
+  let sy=0, dy=0, on=false;
+  el.addEventListener('pointerdown', e=>{
+    if(e.target.closest('.btn')||e.target.closest('[data-pclose]')) return;
+    on=true; sy=e.clientY; dy=0; el.style.transition='none';
+  });
+  addEventListener('pointermove', e=>{
+    if(!on) return; dy=Math.max(0,e.clientY-sy); el.style.transform=`translateY(${dy}px)`;
+  });
+  addEventListener('pointerup', ()=>{
+    if(!on) return; on=false; el.style.transition='transform .2s';
+    if(dy>110) closePending(); else el.style.transform='';
+    dy=0;
+  });
 }
 
 /* 划词 */
